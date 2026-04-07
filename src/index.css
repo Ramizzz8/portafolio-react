@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('./assets/fonts/BebasNeue-Regular.woff2') format('woff2'),
+       url('./assets/fonts/BebasNeue-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tema negro (default) */
+:root {
+  --bg-main: #0a0a0a;
+  --bg-card: #1a1a1a;
+  --bg-hover: #242424;
+}
+
+/* Tema azul */
+[data-theme="blue"] {
+  --bg-main: #0d1b2a;
+  --bg-card: #1b273b;
+  --bg-hover: #243148;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  transition: background-color 0.4s ease;
+}
+
+.font-bebas {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e63946;
+  border-radius: 3px;
+}
