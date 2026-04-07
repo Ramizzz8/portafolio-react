@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { img } from '../utils/img'
+import { useLang } from '../context/LanguageContext'
 
 const skills = [
   { name: 'HTML', image: 'images/logo-de-html.png', level: 90 },
@@ -47,6 +48,7 @@ function SkillCard({ skill, index }) {
 }
 
 export default function Skills() {
+  const { t } = useLang()
   return (
     <section id="habilidades" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
@@ -57,7 +59,7 @@ export default function Skills() {
           transition={{ duration: 0.5 }}
           className="font-bebas text-5xl text-center mb-4 tracking-wide"
         >
-          STACK <span className="text-[#e63946]">TECNOLÓGICO</span>
+          {t.skills.title} <span className="text-[#e63946]">{t.skills.highlight}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -66,7 +68,7 @@ export default function Skills() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center text-white/50 mb-14"
         >
-          Tecnologías con las que trabajo día a día
+          {t.skills.subtitle}
         </motion.p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">

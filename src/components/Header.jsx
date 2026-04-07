@@ -1,22 +1,28 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { useLang } from '../context/LanguageContext'
 import { img } from '../utils/img'
-
-const navLinks = [
-  { label: 'Trabajos', href: '#trabajos' },
-  { label: 'Habilidades', href: '#habilidades' },
-  { label: 'Sobre mí', href: '#sobre-mi' },
-  { label: 'Contacto', href: '#contacto' },
-]
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
+  const [faded, setFaded] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const { lang, toggleLang, t } = useLang()
+
+  const navLinks = [
+    { label: t.nav.projects, href: '#trabajos' },
+    { label: t.nav.skills, href: '#habilidades' },
+    { label: t.nav.about, href: '#sobre-mi' },
+    { label: t.nav.contact, href: '#contacto' },
+  ]
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20)
+      setFaded(window.scrollY > 400)
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -26,8 +32,10 @@ export default function Header() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        faded
+          ? 'bg-[var(--bg-card)]/30 backdrop-blur-md shadow-none'
+          : scrolled
           ? 'bg-[var(--bg-card)]/95 backdrop-blur-sm shadow-lg shadow-black/20'
           : 'bg-[var(--bg-card)]'
       }`}
@@ -60,7 +68,17 @@ export default function Header() {
         </nav>
 
         {/* Controles derecha */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Toggle idioma */}
+          <button
+            onClick={toggleLang}
+            aria-label="Cambiar idioma"
+            title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110 font-mono text-xs font-bold text-white/70 hover:text-white"
+          >
+            {lang === 'es' ? 'EN' : 'ES'}
+          </button>
+
           {/* Toggle tema */}
           <button
             onClick={toggleTheme}
@@ -69,12 +87,10 @@ export default function Header() {
             className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110"
           >
             {theme === 'black' ? (
-              /* Icono azul (luna/oceano) */
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
             ) : (
-              /* Icono negro (sol) */
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />

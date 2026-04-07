@@ -1,24 +1,22 @@
 import { motion } from 'framer-motion'
 import { img } from '../utils/img'
+import { useLang } from '../context/LanguageContext'
 
-const stats = [
-  { value: '6+', label: 'Proyectos completados' },
-  { value: '5', label: 'Tecnologías dominadas' },
-]
+const statsValues = ['6+', '5']
 
 export default function About() {
+  const { t } = useLang()
+  const stats = [
+    { value: statsValues[0], label: t.about.stat1 },
+    { value: statsValues[1], label: t.about.stat2 },
+  ]
+
   return (
     <section id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
-      {/* Imagen de fondo lado derecho */}
       <div className="absolute inset-y-0 right-0 w-1/2 z-0 pointer-events-none hidden md:block">
-        <img
-          src={img('images/about.jpg')}
-          alt=""
-          className="w-full h-full object-cover opacity-15"
-        />
+        <img src={img('images/about.jpg')} alt="" className="w-full h-full object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-main)] via-[var(--bg-main)]/60 to-transparent" />
       </div>
-      {/* Fondo decorativo */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#3a86ff] rounded-full opacity-[0.04] blur-3xl pointer-events-none" />
 
@@ -30,11 +28,10 @@ export default function About() {
           transition={{ duration: 0.5 }}
           className="font-bebas text-5xl text-center mb-20 tracking-wide"
         >
-          SOBRE <span className="text-[#e63946]">MÍ</span>
+          {t.about.title} <span className="text-[#e63946]">{t.about.highlight}</span>
         </motion.h2>
 
         <div className="grid md:grid-cols-5 gap-12 items-center">
-          {/* Columna izquierda: foto + stats */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -42,24 +39,15 @@ export default function About() {
             transition={{ duration: 0.7 }}
             className="md:col-span-2 flex flex-col items-center gap-8"
           >
-            {/* Foto con decoración */}
             <div className="relative">
-              {/* Marco decorativo */}
               <div className="absolute -inset-3 rounded-2xl border border-[#e63946]/20" />
               <div className="absolute -inset-6 rounded-2xl border border-[#e63946]/08" />
-              {/* Punto decorativo */}
               <div className="absolute -top-2 -right-2 w-5 h-5 bg-[#e63946] rounded-full" />
               <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-[#3a86ff] rounded-full" />
-
-              <img
-                src={img('images/ajrg2.jpeg')}
-                alt="Andrés Ramírez"
-                className="relative w-52 h-52 object-cover rounded-2xl"
-              />
+              <img src={img('images/ajrg2.jpeg')} alt="Andrés Ramírez" className="relative w-52 h-52 object-cover rounded-2xl" />
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 md:grid-cols-1 gap-4 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-4 w-full">
               {stats.map((s, i) => (
                 <motion.div
                   key={s.label}
@@ -76,7 +64,6 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Columna derecha: texto */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -86,27 +73,24 @@ export default function About() {
           >
             <div className="flex flex-col gap-5 text-white/75 leading-relaxed text-lg">
               <p>
-                Soy desarrollador web con enfoque en construir soluciones{' '}
-                <span className="text-white font-semibold">prácticas, escalables y bien estructuradas</span>.
-                Me apasiona transformar ideas en productos digitales funcionales que resuelvan
-                problemas reales.
+                {t.about.p1_pre}{' '}
+                <span className="text-white font-semibold">{t.about.p1_highlight}</span>
+                {t.about.p1_post}
               </p>
               <p>
-                Trabajo con{' '}
-                <span className="text-[#e63946] font-medium">HTML, CSS y JavaScript</span> en el
-                front-end, y con{' '}
-                <span className="text-[#e63946] font-medium">Python, Flask y MySQL</span> en el
-                back-end, lo que me permite cubrir el ciclo completo de desarrollo de una aplicación
-                web.
+                {t.about.p2_pre}{' '}
+                <span className="text-[#e63946] font-medium">{t.about.p2_front}</span>{' '}
+                {t.about.p2_mid}{' '}
+                <span className="text-[#e63946] font-medium">{t.about.p2_back}</span>{' '}
+                {t.about.p2_post}
               </p>
               <p>
-                Destaco por mi capacidad de analizar problemas con criterio, proponer mejoras
-                continuas y mantener la responsabilidad en cada etapa —{' '}
-                <span className="text-white font-semibold">desde la idea hasta el producto final</span>.
+                {t.about.p3_pre}{' '}
+                <span className="text-white font-semibold">{t.about.p3_highlight}</span>
+                {t.about.p3_post}
               </p>
             </div>
 
-            {/* Skills inline */}
             <div className="flex flex-wrap gap-3 pt-2">
               {['HTML', 'CSS', 'JavaScript', 'Python', 'Flask', 'MySQL', 'Git'].map((skill) => (
                 <span
@@ -118,7 +102,6 @@ export default function About() {
               ))}
             </div>
 
-            {/* CTA */}
             <div className="pt-4">
               <a
                 href="https://ramizzz8.github.io/Curriculum/"
@@ -126,7 +109,7 @@ export default function About() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 border border-[#e63946] text-[#e63946] rounded-lg font-bold hover:bg-[#e63946] hover:text-white transition-all duration-300 hover:scale-105"
               >
-                Ver Currículum ↗
+                {t.about.cv}
               </a>
             </div>
           </motion.div>

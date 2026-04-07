@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
+import { useLang } from '../context/LanguageContext'
 
 function TechBadge({ tech, color }) {
   return (
@@ -18,6 +19,7 @@ function TechBadge({ tech, color }) {
 }
 
 function FeaturedCard({ project, index }) {
+  const { t } = useLang()
   const isEven = index % 2 === 0
 
   return (
@@ -63,7 +65,7 @@ function FeaturedCard({ project, index }) {
           className="text-xs font-bold tracking-widest uppercase mb-4 inline-block"
           style={{ color: project.color }}
         >
-          ★ Proyecto Destacado
+          {t.projects.featured_badge}
         </span>
 
         <p className="text-white/40 text-sm mb-1">{project.tagline}</p>
@@ -71,8 +73,8 @@ function FeaturedCard({ project, index }) {
         <p className="text-white/70 leading-relaxed mb-6 text-sm md:text-base">{project.description}</p>
 
         <div className="flex flex-wrap gap-2 mb-8">
-          {project.technologies.map((t) => (
-            <TechBadge key={t} tech={t} color={project.color} />
+          {project.technologies.map((tech) => (
+            <TechBadge key={tech} tech={tech} color={project.color} />
           ))}
         </div>
 
@@ -90,7 +92,7 @@ function FeaturedCard({ project, index }) {
               }}
             >
               <img src={img('images/github.png')} alt="" className="w-4 h-4 brightness-0 invert" />
-              Ver código
+              {t.projects.view_code}
             </a>
           )}
           {project.live && (
@@ -101,7 +103,7 @@ function FeaturedCard({ project, index }) {
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border transition-all duration-300 hover:scale-105"
               style={{ borderColor: project.color, color: project.color }}
             >
-              Ver demo ↗
+              {t.projects.view_demo}
             </a>
           )}
         </div>
@@ -111,6 +113,7 @@ function FeaturedCard({ project, index }) {
 }
 
 function OtherCard({ project, index }) {
+  const { t } = useLang()
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -133,22 +136,26 @@ function OtherCard({ project, index }) {
         <p className="text-white/50 text-xs leading-relaxed flex-1">{project.description}</p>
 
         <div className="flex flex-wrap gap-1.5">
-          {project.technologies.map((t) => (
-            <span key={t} className="text-[10px] px-2 py-0.5 bg-[var(--bg-main)] text-white/40 rounded-full">
-              {t}
+          {project.technologies.map((tech) => (
+            <span key={tech} className="text-[10px] px-2 py-0.5 bg-[var(--bg-main)] text-white/40 rounded-full">
+              {tech}
             </span>
           ))}
         </div>
 
-        {project.github && (
+        {project.github ? (
           <a
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-[#e63946] hover:underline font-medium mt-1"
           >
-            Ver repositorio →
+            {t.projects.view_repo}
           </a>
+        ) : (
+          <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 text-white/30 rounded-full mt-1 inline-block">
+            {t.projects.private_badge}
+          </span>
         )}
       </div>
     </motion.article>
@@ -156,6 +163,7 @@ function OtherCard({ project, index }) {
 }
 
 export default function Projects() {
+  const { t } = useLang()
   return (
     <section id="trabajos" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
@@ -166,7 +174,7 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="font-bebas text-5xl text-center mb-4 tracking-wide"
         >
-          MIS <span className="text-[#e63946]">PROYECTOS</span>
+          {t.projects.title} <span className="text-[#e63946]">{t.projects.highlight}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -175,7 +183,7 @@ export default function Projects() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center text-white/40 mb-16 text-sm"
         >
-          Algunos de los proyectos que he desarrollado
+          {t.projects.subtitle}
         </motion.p>
 
         {/* Proyectos destacados */}
@@ -188,7 +196,7 @@ export default function Projects() {
         {/* Divisor */}
         <div className="flex items-center gap-4 mb-12">
           <div className="flex-1 h-px bg-white/10" />
-          <span className="text-white/30 text-sm font-medium tracking-widest uppercase">Otros proyectos</span>
+          <span className="text-white/30 text-sm font-medium tracking-widest uppercase">{t.projects.others}</span>
           <div className="flex-1 h-px bg-white/10" />
         </div>
 
