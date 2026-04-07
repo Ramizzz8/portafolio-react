@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { featuredProjects, otherProjects } from '../data/projects'
+import { img } from '../utils/img'
 
 function TechBadge({ tech, color }) {
   return (
@@ -37,7 +38,7 @@ function FeaturedCard({ project, index }) {
       {/* Imagen */}
       <div className={`relative overflow-hidden h-64 md:h-auto ${isEven ? 'md:order-1' : 'md:order-2'}`}>
         <img
-          src={project.image}
+          src={img(project.image)}
           alt={project.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
@@ -88,7 +89,7 @@ function FeaturedCard({ project, index }) {
                 boxShadow: `0 0 20px ${project.color}30`,
               }}
             >
-              <img src="/images/github.png" alt="" className="w-4 h-4 brightness-0 invert" />
+              <img src={img('images/github.png')} alt="" className="w-4 h-4 brightness-0 invert" />
               Ver código
             </a>
           )}
@@ -120,7 +121,7 @@ function OtherCard({ project, index }) {
     >
       <div className="relative h-36 overflow-hidden">
         <img
-          src={project.image}
+          src={img(project.image)}
           alt={project.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
         />

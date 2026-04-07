@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
+import { img } from '../utils/img'
 
 const STATUS = { IDLE: 'idle', SENDING: 'sending', OK: 'ok', ERROR: 'error' }
 
@@ -9,21 +10,21 @@ const contactLinks = [
     label: 'LinkedIn',
     value: 'Andrés Ramírez',
     href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/',
-    icon: '/images/linkedin.png',
+    icon: 'images/linkedin.png',
     color: '#0a66c2',
   },
   {
     label: 'GitHub',
     value: '@Ramizzz8',
     href: 'https://github.com/Ramizzz8',
-    icon: '/images/github.png',
+    icon: 'images/github.png',
     color: '#ffffff',
   },
   {
     label: 'Email',
     value: 'ajulianrague@gmail.com',
     href: 'mailto:ajulianrague@gmail.com',
-    icon: '/images/mail.png',
+    icon: 'images/mail.png',
     color: '#e63946',
   },
 ]
@@ -106,7 +107,7 @@ export default function Contact() {
                   className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                   style={{ backgroundColor: `${link.color}15`, border: `1px solid ${link.color}30` }}
                 >
-                  <img src={link.icon} alt={link.label} className="w-5 h-5 object-contain" />
+                  <img src={img(link.icon)} alt={link.label} className="w-5 h-5 object-contain" />
                 </div>
                 <div>
                   <p className="text-white/40 text-xs">{link.label}</p>

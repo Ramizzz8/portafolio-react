@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { img } from '../utils/img'
 
 const navLinks = [
   { label: 'Trabajos', href: '#trabajos' },
@@ -35,13 +36,13 @@ export default function Header() {
         {/* Social links */}
         <nav className="flex items-center gap-3" aria-label="Redes sociales">
           <a href="https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="group">
-            <img src="/images/linkedin.png" alt="LinkedIn" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/linkedin.png')} alt="LinkedIn" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="https://github.com/Ramizzz8" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="group">
-            <img src="/images/github.png" alt="GitHub" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/github.png')} alt="GitHub" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="mailto:ajulianrague@gmail.com" aria-label="Correo" className="group">
-            <img src="/images/mail.png" alt="Email" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/mail.png')} alt="Email" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
         </nav>
 

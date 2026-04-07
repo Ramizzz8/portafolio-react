@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { img } from '../utils/img'
 
 const skills = [
-  { name: 'HTML', image: '/images/logo-de-html.png', level: 90 },
-  { name: 'CSS', image: '/images/css.png', level: 85 },
-  { name: 'JavaScript', image: '/images/javascript.png', level: 80 },
-  { name: 'Python', image: '/images/python-removebg-preview.png', level: 75 },
-  { name: 'SQL', image: '/images/sqlogo.png', level: 70 },
+  { name: 'HTML', image: 'images/logo-de-html.png', level: 90 },
+  { name: 'CSS', image: 'images/css.png', level: 85 },
+  { name: 'JavaScript', image: 'images/javascript.png', level: 80 },
+  { name: 'Python', image: 'images/python-removebg-preview.png', level: 75 },
+  { name: 'SQL', image: 'images/sqlogo.png', level: 70 },
 ]
 
 function SkillCard({ skill, index }) {
@@ -25,7 +26,7 @@ function SkillCard({ skill, index }) {
       <div className="relative">
         <div className="absolute inset-0 bg-[#e63946] rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
         <img
-          src={skill.image}
+          src={img(skill.image)}
           alt={skill.name}
           className="w-20 h-20 object-contain relative transition-transform duration-300 group-hover:scale-110"
         />

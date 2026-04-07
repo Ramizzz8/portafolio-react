@@ -6,7 +6,7 @@ export const featuredProjects = [
     description:
       'Sistema web completo para la gestión financiera de una empresa real. Incluye panel administrativo, gestión de clientes, generación de reportes y control de operaciones con autenticación por roles.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python', 'Flask', 'MySQL'],
-    image: '/images/Nova.PNG',
+    image: 'images/Nova.PNG',
     github: 'https://github.com/Ramizzz8/Novacapital-SAS',
     live: null,
     color: '#e63946',
@@ -18,7 +18,7 @@ export const featuredProjects = [
     description:
       'Plataforma web para la gestión de procesos migratorios. Permite a usuarios subir y administrar sus documentos, con un panel de administración para seguimiento de casos y validación documental.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python', 'Flask'],
-    image: '/images/moves-location.png',
+    image: 'images/moves-location.png',
     github: 'https://github.com/Ramizzz8/Moves-Location',
     live: null,
     color: '#3a86ff',
@@ -32,7 +32,7 @@ export const otherProjects = [
     description:
       'Ecommerce responsivo con carrito de compras y pasarela de pago.',
     technologies: ['HTML', 'CSS', 'JavaScript'],
-    image: '/images/tienda.PNG',
+    image: 'images/tienda.PNG',
     github: 'https://github.com/Ramizzz8/Tienda-Online',
   },
   {
@@ -41,7 +41,7 @@ export const otherProjects = [
     description:
       'Gestión completa de productos con Flask. Agregar, editar y eliminar inventario.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python', 'Flask'],
-    image: '/images/inventario.PNG',
+    image: 'images/inventario.PNG',
     github: null,
   },
   {
@@ -50,7 +50,7 @@ export const otherProjects = [
     description:
       'Publicación de noticias con panel de administración para redactores.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python'],
-    image: '/images/periodico.PNG',
+    image: 'images/periodico.PNG',
     github: null,
   },
   {
@@ -59,7 +59,7 @@ export const otherProjects = [
     description:
       'Buscador web propio con diseño minimalista y resultados optimizados.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python'],
-    image: '/images/RamiSearch.PNG',
+    image: 'images/RamiSearch.PNG',
     github: null,
   },
 ]

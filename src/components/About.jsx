@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { img } from '../utils/img'
 
 const stats = [
   { value: '6+', label: 'Proyectos completados' },
@@ -11,7 +12,7 @@ export default function About() {
       {/* Imagen de fondo lado derecho */}
       <div className="absolute inset-y-0 right-0 w-1/2 z-0 pointer-events-none hidden md:block">
         <img
-          src="/images/about.jpg"
+          src={img('images/about.jpg')}
           alt=""
           className="w-full h-full object-cover opacity-15"
         />
@@ -51,7 +52,7 @@ export default function About() {
               <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-[#3a86ff] rounded-full" />
 
               <img
-                src="/images/ajrg2.jpeg"
+                src={img('images/ajrg2.jpeg')}
                 alt="Andrés Ramírez"
                 className="relative w-52 h-52 object-cover rounded-2xl"
               />

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { img } from '../utils/img'
 
 const container = {
   hidden: {},
@@ -18,7 +19,7 @@ export default function Hero() {
       {/* Imagen de fondo con overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/hero.jpg"
+          src={img('images/hero.jpg')}
           alt=""
           className="w-full h-full object-cover opacity-25"
         />
@@ -35,7 +36,7 @@ export default function Hero() {
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-[#e63946] blur-2xl opacity-20 scale-110" />
             <img
-              src="/images/ajrg2.jpeg"
+              src={img('images/ajrg2.jpeg')}
               alt="Foto de perfil de Andrés Ramírez"
               className="relative w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-[#e63946]/40 shadow-xl shadow-black/40"
             />
