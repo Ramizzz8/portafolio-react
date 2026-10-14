@@ -1,24 +1,30 @@
 import { motion } from 'framer-motion'
+import { useRef } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
+import { useParallax } from '../hooks/useParallax'
 
 const statsValues = ['6+', '5']
 
 export default function About() {
   const { t } = useLang()
+  // Parallax: los brillos se mueven a distinta velocidad y en sentidos opuestos
+  const sectionRef = useRef(null)
+  const glowRedY = useParallax(sectionRef, 120)
+  const glowBlueY = useParallax(sectionRef, -80)
   const stats = [
     { value: statsValues[0], label: t.about.stat1 },
     { value: statsValues[1], label: t.about.stat2 },
   ]
 
   return (
-    <section id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
       <div className="absolute inset-y-0 right-0 w-1/2 z-0 pointer-events-none hidden md:block">
         <img src={img('images/about.webp')} alt="" className="w-full h-full object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-main)] via-[var(--bg-main)]/60 to-transparent" />
       </div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#3a86ff] rounded-full opacity-[0.04] blur-3xl pointer-events-none" />
+      <motion.div style={{ y: glowRedY }} className="absolute top-0 right-0 w-96 h-96 bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
+      <motion.div style={{ y: glowBlueY }} className="absolute bottom-0 left-0 w-64 h-64 bg-[#3a86ff] rounded-full opacity-[0.04] blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.h2

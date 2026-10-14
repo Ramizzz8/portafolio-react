@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 
@@ -54,22 +54,35 @@ function Typewriter({ roles }) {
 export default function Hero() {
   const { t } = useLang()
 
+  // Parallax: el fondo baja despacio, el contenido sube y se desvanece al hacer scroll
+  const sectionRef = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '30%'])
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120])
+  // Opacidades con función: framer-motion acelera los rangos de opacidad con el scroll
+  // de toda la página e ignora el offset de la sección
+  const contentOpacity = useTransform(scrollYProgress, (p) => (reduce ? 1 : Math.max(0, 1 - p / 0.7)))
+  const arrowOpacity = useTransform(scrollYProgress, (p) => Math.max(0, 1 - p / 0.15))
+
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+    <section ref={sectionRef} className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img
+        <motion.img
           src={img('images/hero.webp')}
           alt=""
-          className="w-full h-full object-cover opacity-25"
+          style={{ y: bgY }}
+          className="w-full h-full object-cover opacity-25 scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-main)]/40 via-[var(--bg-main)]/60 to-[var(--bg-main)]" />
       </div>
 
+      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10">
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 text-center px-6"
+        className="text-center px-6"
       >
         <motion.div variants={item} className="flex justify-center mb-8">
           <div className="relative">
@@ -111,6 +124,7 @@ export default function Hero() {
         <motion.div variants={item} className="mt-16 flex justify-center">
           <motion.div
             animate={{ y: [0, 10, 0] }}
+            style={{ opacity: arrowOpacity }}
             transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
             className="flex flex-col items-center gap-1 text-white/30 text-sm"
           >
@@ -120,6 +134,7 @@ export default function Hero() {
             </svg>
           </motion.div>
         </motion.div>
+      </motion.div>
       </motion.div>
     </section>
   )

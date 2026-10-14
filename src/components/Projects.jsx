@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
+import { useRef } from 'react'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
+import { useParallax } from '../hooks/useParallax'
 
 function TechBadge({ tech, color }) {
   return (
@@ -20,7 +22,8 @@ function TechBadge({ tech, color }) {
 
 // Portada del proyecto: usa la imagen diseñada si existe (cover: true);
 // si no, enmarca la captura en una ventana de navegador sobre fondo de marca.
-function ProjectCover({ project, compact = false }) {
+// `frameY`: desplazamiento extra (parallax) de la ventana sobre el fondo.
+function ProjectCover({ project, compact = false, frameY }) {
   if (project.cover) {
     return (
       <img
@@ -41,7 +44,8 @@ function ProjectCover({ project, compact = false }) {
     >
       <div className="absolute w-[130%] aspect-square -right-[75%] rounded-full border border-white/5" />
       <div className="absolute w-[95%] aspect-square -right-[55%] rounded-full border border-white/5" />
-      <div
+      <motion.div
+        style={{ y: frameY }}
         className={`relative rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-black/60 transition-transform duration-700 group-hover:scale-105 ${
           compact ? 'w-[86%] translate-y-5' : 'w-[80%]'
         }`}
@@ -57,7 +61,7 @@ function ProjectCover({ project, compact = false }) {
           loading="lazy"
           className="block w-full aspect-[16/10] object-cover object-top"
         />
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -66,8 +70,14 @@ function FeaturedCard({ project, index }) {
   const { t, lang } = useLang()
   const isEven = index % 2 === 0
 
+  // Parallax: la portada se mueve más lenta que la tarjeta y la ventana, en sentido contrario
+  const cardRef = useRef(null)
+  const coverY = useParallax(cardRef, 30)
+  const frameY = useParallax(cardRef, -20)
+
   return (
     <motion.article
+      ref={cardRef}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
@@ -83,7 +93,9 @@ function FeaturedCard({ project, index }) {
 
       {/* Imagen */}
       <div className={`relative overflow-hidden h-64 md:h-auto md:min-h-[380px] ${isEven ? 'md:order-1' : 'md:order-2'}`}>
-        <ProjectCover project={project} />
+        <motion.div style={{ y: coverY }} className="absolute inset-x-0 -inset-y-10">
+          <ProjectCover project={project} frameY={frameY} />
+        </motion.div>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
