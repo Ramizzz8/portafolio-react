@@ -4,6 +4,7 @@ import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
+import BgWord from './BgWord'
 
 function TechBadge({ tech, color }) {
   return (
@@ -213,8 +214,9 @@ function OtherCard({ project, index }) {
 export default function Projects() {
   const { t } = useLang()
   return (
-    <section id="trabajos" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section id="trabajos" className="py-24 px-6 relative overflow-hidden">
+      <BgWord word={t.projects.bg_word} />
+      <div className="max-w-6xl mx-auto relative">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

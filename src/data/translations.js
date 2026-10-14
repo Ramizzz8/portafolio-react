@@ -14,6 +14,7 @@ export const translations = {
     projects: {
       title: 'MIS',
       highlight: 'PROYECTOS',
+      bg_word: 'PROYECTOS',
       subtitle: 'Algunos de los proyectos que he desarrollado',
       featured_badge: '★ Proyecto Destacado',
       view_code: 'Ver código',
@@ -25,6 +26,7 @@ export const translations = {
     skills: {
       title: 'STACK',
       highlight: 'TECNOLÓGICO',
+      bg_word: 'STACK',
       subtitle: 'Tecnologías con las que trabajo día a día',
       categories: {
         frontend: 'Frontend',
@@ -36,6 +38,7 @@ export const translations = {
     about: {
       title: 'SOBRE',
       highlight: 'MÍ',
+      bg_word: 'SOBRE MÍ',
       stat1: 'Proyectos completados',
       stat2: 'Tecnologías dominadas',
       p1_pre: 'Soy desarrollador web con enfoque en construir soluciones',
@@ -54,6 +57,7 @@ export const translations = {
     contact: {
       title: 'TRABAJEMOS',
       highlight: 'JUNTOS',
+      bg_word: 'CONTACTO',
       subtitle: '¿Tienes un proyecto en mente? Escríbeme, estoy disponible.',
       direct_title: 'CONTACTO DIRECTO',
       direct_subtitle: 'Respondo en menos de 24 horas por cualquiera de estos canales.',
@@ -89,6 +93,7 @@ export const translations = {
     projects: {
       title: 'MY',
       highlight: 'PROJECTS',
+      bg_word: 'PROJECTS',
       subtitle: 'Some of the projects I have built',
       featured_badge: '★ Featured Project',
       view_code: 'View code',
@@ -100,6 +105,7 @@ export const translations = {
     skills: {
       title: 'TECH',
       highlight: 'STACK',
+      bg_word: 'STACK',
       subtitle: 'Technologies I work with every day',
       categories: {
         frontend: 'Frontend',
@@ -111,6 +117,7 @@ export const translations = {
     about: {
       title: 'ABOUT',
       highlight: 'ME',
+      bg_word: 'ABOUT ME',
       stat1: 'Completed projects',
       stat2: 'Technologies mastered',
       p1_pre: 'I am a web developer focused on building',
@@ -129,6 +136,7 @@ export const translations = {
     contact: {
       title: "LET'S",
       highlight: 'COLLABORATE',
+      bg_word: 'CONTACT',
       subtitle: 'Have a project in mind? Write to me, I am available.',
       direct_title: 'DIRECT CONTACT',
       direct_subtitle: 'I respond within 24 hours through any of these channels.',

@@ -4,6 +4,7 @@ import emailjs from '@emailjs/browser'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
+import BgWord from './BgWord'
 
 const STATUS = { IDLE: 'idle', SENDING: 'sending', OK: 'ok', ERROR: 'error' }
 
@@ -36,7 +37,8 @@ export default function Contact() {
     <section ref={sectionRef} id="contacto" className="py-24 px-6 relative overflow-hidden">
       <motion.div style={{ y: glowY }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto">
+      <BgWord word={t.contact.bg_word} direction={-1} />
+      <div className="max-w-6xl mx-auto relative">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

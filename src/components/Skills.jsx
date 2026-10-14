@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
+import BgWord from './BgWord'
 
 // Cada categoría usa la clave de traducción de t.skills.categories
 const categories = [
@@ -53,8 +54,9 @@ function SkillChip({ item }) {
 export default function Skills() {
   const { t } = useLang()
   return (
-    <section id="habilidades" className="py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="habilidades" className="py-24 px-6 relative overflow-hidden">
+      <BgWord word={t.skills.bg_word} direction={-1} />
+      <div className="max-w-5xl mx-auto relative">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
