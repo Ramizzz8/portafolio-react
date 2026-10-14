@@ -3,10 +3,11 @@ import { useRef } from 'react'
 import { useParallax } from '../hooks/useParallax'
 
 // Palabra gigante y casi transparente detrás del título de una sección.
-// Se desplaza en horizontal con el scroll; `direction` (1 o -1) alterna el sentido.
+// Entra desplazada en horizontal y se detiene centrada al llegar a la mitad de la pantalla;
+// `direction` (1 o -1) alterna el lado desde el que entra.
 export default function BgWord({ word, direction = 1 }) {
   const ref = useRef(null)
-  const x = useParallax(ref, 120 * direction)
+  const x = useParallax(ref, 200 * direction, { settle: true })
 
   return (
     <div
