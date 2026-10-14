@@ -18,8 +18,52 @@ function TechBadge({ tech, color }) {
   )
 }
 
+// Portada del proyecto: usa la imagen diseñada si existe (cover: true);
+// si no, enmarca la captura en una ventana de navegador sobre fondo de marca.
+function ProjectCover({ project, compact = false }) {
+  if (project.cover) {
+    return (
+      <img
+        src={img(project.image)}
+        alt={project.title}
+        loading="lazy"
+        style={{ objectPosition: project.imagePosition }}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    )
+  }
+
+  const color = project.color ?? '#e63946'
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center overflow-hidden"
+      style={{ background: `radial-gradient(circle at 25% 15%, ${color}40, transparent 60%), #0d1b2a` }}
+    >
+      <div className="absolute w-[130%] aspect-square -right-[75%] rounded-full border border-white/5" />
+      <div className="absolute w-[95%] aspect-square -right-[55%] rounded-full border border-white/5" />
+      <div
+        className={`relative rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-black/60 transition-transform duration-700 group-hover:scale-105 ${
+          compact ? 'w-[86%] translate-y-5' : 'w-[80%]'
+        }`}
+      >
+        <div className="flex gap-1 px-2.5 py-1.5 bg-[#1b273b]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#febc2e]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#28c840]" />
+        </div>
+        <img
+          src={img(project.image)}
+          alt={project.title}
+          loading="lazy"
+          className="block w-full aspect-[16/10] object-cover object-top"
+        />
+      </div>
+    </div>
+  )
+}
+
 function FeaturedCard({ project, index }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const isEven = index % 2 === 0
 
   return (
@@ -38,14 +82,10 @@ function FeaturedCard({ project, index }) {
       />
 
       {/* Imagen */}
-      <div className={`relative overflow-hidden h-64 md:h-auto ${isEven ? 'md:order-1' : 'md:order-2'}`}>
-        <img
-          src={img(project.image)}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+      <div className={`relative overflow-hidden h-64 md:h-auto md:min-h-[380px] ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+        <ProjectCover project={project} />
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background: isEven
               ? `linear-gradient(to right, transparent 60%, var(--bg-main))`
@@ -68,9 +108,9 @@ function FeaturedCard({ project, index }) {
           {t.projects.featured_badge}
         </span>
 
-        <p className="text-white/40 text-sm mb-1">{project.tagline}</p>
+        <p className="text-white/40 text-sm mb-1">{project.tagline[lang]}</p>
         <h3 className="font-bebas text-4xl md:text-5xl mb-4 leading-tight">{project.title}</h3>
-        <p className="text-white/70 leading-relaxed mb-6 text-sm md:text-base">{project.description}</p>
+        <p className="text-white/70 leading-relaxed mb-6 text-sm md:text-base">{project.description[lang]}</p>
 
         <div className="flex flex-wrap gap-2 mb-8">
           {project.technologies.map((tech) => (
@@ -91,7 +131,7 @@ function FeaturedCard({ project, index }) {
                 boxShadow: `0 0 20px ${project.color}30`,
               }}
             >
-              <img src={img('images/github.png')} alt="" className="w-4 h-4 brightness-0 invert" />
+              <img src={img('images/github.webp')} alt="" className="w-4 h-4 brightness-0 invert" />
               {t.projects.view_code}
             </a>
           )}
@@ -113,7 +153,7 @@ function FeaturedCard({ project, index }) {
 }
 
 function OtherCard({ project, index }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -123,17 +163,13 @@ function OtherCard({ project, index }) {
       className="group flex flex-col bg-[var(--bg-card)]/60 border border-white/5 rounded-xl overflow-hidden hover:border-[#e63946]/30 hover:-translate-y-1 transition-all duration-300"
     >
       <div className="relative h-36 overflow-hidden">
-        <img
-          src={img(project.image)}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent" />
+        <ProjectCover project={project} compact />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent pointer-events-none" />
       </div>
 
       <div className="p-5 flex flex-col flex-1 gap-3">
         <h3 className="font-bebas text-xl tracking-wide">{project.title}</h3>
-        <p className="text-white/50 text-xs leading-relaxed flex-1">{project.description}</p>
+        <p className="text-white/50 text-xs leading-relaxed flex-1">{project.description[lang]}</p>
 
         <div className="flex flex-wrap gap-1.5">
           {project.technologies.map((tech) => (

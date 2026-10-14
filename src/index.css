@@ -35,6 +35,15 @@ body {
   transition: background-color 0.4s ease;
 }
 
+/* Cursor personalizado: oculta el nativo salvo en campos de texto */
+body.custom-cursor {
+  cursor: none;
+}
+
+body.custom-cursor :is(input, textarea) {
+  cursor: text;
+}
+
 .font-bebas {
   font-family: 'Bebas Neue', sans-serif;
 }

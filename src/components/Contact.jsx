@@ -7,9 +7,9 @@ import { useLang } from '../context/LanguageContext'
 const STATUS = { IDLE: 'idle', SENDING: 'sending', OK: 'ok', ERROR: 'error' }
 
 const contactLinks = [
-  { label: 'LinkedIn', value: 'Andrés Ramírez', href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/', icon: 'images/linkedin.png', color: '#0a66c2' },
-  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', icon: 'images/github.png', color: '#ffffff' },
-  { label: 'Email', value: 'ajulianrague@gmail.com', href: 'mailto:ajulianrague@gmail.com', icon: 'images/mail.png', color: '#e63946' },
+  { label: 'LinkedIn', value: 'Andrés Ramírez', href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/', icon: 'images/linkedin.webp', color: '#0a66c2' },
+  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', icon: 'images/github.webp', color: '#ffffff' },
+  { label: 'Email', value: 'ajulianrague@gmail.com', href: 'mailto:ajulianrague@gmail.com', icon: 'images/mail.webp', color: '#e63946' },
 ]
 
 export default function Contact() {

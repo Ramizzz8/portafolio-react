@@ -1,49 +1,52 @@
 import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useRef } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 
-const skills = [
-  { name: 'HTML', image: 'images/logo-de-html.png', level: 90 },
-  { name: 'CSS', image: 'images/css.png', level: 85 },
-  { name: 'JavaScript', image: 'images/javascript.png', level: 80 },
-  { name: 'Python', image: 'images/python-removebg-preview.png', level: 75 },
-  { name: 'SQL', image: 'images/sqlogo.png', level: 70 },
+// Cada categoría usa la clave de traducción de t.skills.categories
+const categories = [
+  {
+    key: 'frontend',
+    items: [
+      { name: 'HTML', icon: 'images/logo-de-html.webp' },
+      { name: 'CSS', icon: 'images/css.webp' },
+      { name: 'JavaScript', icon: 'images/javascript.webp' },
+      { name: 'React', color: '#61dafb' },
+      { name: 'Tailwind CSS', color: '#38bdf8' },
+    ],
+  },
+  {
+    key: 'backend',
+    items: [
+      { name: 'Python', icon: 'images/python.webp' },
+      { name: 'Flask', color: '#ffffff' },
+    ],
+  },
+  {
+    key: 'databases',
+    items: [
+      { name: 'MySQL', icon: 'images/sqlogo.webp' },
+    ],
+  },
+  {
+    key: 'tools',
+    items: [
+      { name: 'Git', color: '#f05032' },
+      { name: 'GitHub', icon: 'images/github.webp' },
+      { name: 'Vite', color: '#a855f7' },
+    ],
+  },
 ]
 
-function SkillCard({ skill, index }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-50px' })
-
+function SkillChip({ item }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-[var(--bg-card)] rounded-xl p-6 flex flex-col items-center gap-4 hover:bg-[var(--bg-hover)] transition-all duration-300 hover:-translate-y-1 group"
-    >
-      <div className="relative">
-        <div className="absolute inset-0 bg-[#e63946] rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-        <img
-          src={img(skill.image)}
-          alt={skill.name}
-          className="w-20 h-20 object-contain relative transition-transform duration-300 group-hover:scale-110"
-        />
-      </div>
-      <span className="font-bebas text-2xl tracking-wide">{skill.name}</span>
-      {/* Barra de nivel */}
-      <div className="w-full bg-[var(--bg-main)] rounded-full h-1.5 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${skill.level}%` } : {}}
-          transition={{ duration: 1, delay: index * 0.1 + 0.3, ease: 'easeOut' }}
-          className="h-full bg-[#e63946] rounded-full"
-        />
-      </div>
-      <span className="text-white/50 text-sm">{skill.level}%</span>
-    </motion.div>
+    <li className="flex items-center gap-2.5 px-3 py-2 bg-[var(--bg-main)] border border-white/5 rounded-lg text-sm text-white/80 hover:border-[#e63946]/40 hover:text-white transition-all duration-200">
+      {item.icon ? (
+        <img src={img(item.icon)} alt="" className="w-5 h-5 object-contain" />
+      ) : (
+        <span className="w-2.5 h-2.5 mx-[5px] rounded-full" style={{ backgroundColor: item.color }} />
+      )}
+      {item.name}
+    </li>
   )
 }
 
@@ -71,9 +74,26 @@ export default function Skills() {
           {t.skills.subtitle}
         </motion.p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-          {skills.map((skill, i) => (
-            <SkillCard key={skill.name} skill={skill} index={i} />
+        <div className="grid sm:grid-cols-2 gap-6">
+          {categories.map((cat, i) => (
+            <motion.div
+              key={cat.key}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="bg-[var(--bg-card)] rounded-xl p-6 border border-white/5 hover:border-white/10 transition-colors duration-300"
+            >
+              <h3 className="font-bebas text-2xl tracking-wide mb-4">
+                <span className="text-[#e63946] mr-2">0{i + 1}</span>
+                {t.skills.categories[cat.key]}
+              </h3>
+              <ul className="flex flex-wrap gap-2.5">
+                {cat.items.map((item) => (
+                  <SkillChip key={item.name} item={item} />
+                ))}
+              </ul>
+            </motion.div>
           ))}
         </div>
       </div>

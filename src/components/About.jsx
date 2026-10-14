@@ -14,7 +14,7 @@ export default function About() {
   return (
     <section id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
       <div className="absolute inset-y-0 right-0 w-1/2 z-0 pointer-events-none hidden md:block">
-        <img src={img('images/about.jpg')} alt="" className="w-full h-full object-cover opacity-15" />
+        <img src={img('images/about.webp')} alt="" className="w-full h-full object-cover opacity-15" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-main)] via-[var(--bg-main)]/60 to-transparent" />
       </div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
@@ -44,7 +44,7 @@ export default function About() {
               <div className="absolute -inset-6 rounded-2xl border border-[#e63946]/08" />
               <div className="absolute -top-2 -right-2 w-5 h-5 bg-[#e63946] rounded-full" />
               <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-[#3a86ff] rounded-full" />
-              <img src={img('images/ajrg2.jpeg')} alt="Andrés Ramírez" className="relative w-52 h-52 object-cover rounded-2xl" />
+              <img src={img('images/ajrg2.webp')} alt="Andrés Ramírez" className="relative w-52 h-52 object-cover rounded-2xl" />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-1 gap-4 w-full">
@@ -92,7 +92,7 @@ export default function About() {
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              {['HTML', 'CSS', 'JavaScript', 'Python', 'Flask', 'MySQL', 'Git'].map((skill) => (
+              {['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'Python', 'Flask', 'MySQL', 'Git'].map((skill) => (
                 <span
                   key={skill}
                   className="px-3 py-1.5 bg-[var(--bg-card)] border border-white/10 rounded-lg text-sm text-white/70 hover:border-[#e63946]/40 hover:text-white transition-all duration-200 cursor-default"

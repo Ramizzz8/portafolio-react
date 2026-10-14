@@ -5,8 +5,8 @@ export default function CustomCursor() {
   const ringRef = useRef(null)
 
   useEffect(() => {
-    // Solo en dispositivos con mouse
-    if (window.matchMedia('(hover: none)').matches) return
+    // Solo en dispositivos con mouse y sin preferencia de movimiento reducido
+    if (window.matchMedia('(hover: none), (prefers-reduced-motion: reduce)').matches) return
 
     const dot = dotRef.current
     const ring = ringRef.current
@@ -14,7 +14,7 @@ export default function CustomCursor() {
     let ringX = -100, ringY = -100
     let frame
 
-    document.body.style.cursor = 'none'
+    document.body.classList.add('custom-cursor')
 
     const onMouseMove = (e) => {
       mouseX = e.clientX
@@ -54,7 +54,7 @@ export default function CustomCursor() {
     frame = requestAnimationFrame(animate)
 
     return () => {
-      document.body.style.cursor = ''
+      document.body.classList.remove('custom-cursor')
       window.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseover', onMouseOver)
       document.removeEventListener('mouseout', onMouseOut)

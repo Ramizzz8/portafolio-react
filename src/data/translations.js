@@ -26,6 +26,12 @@ export const translations = {
       title: 'STACK',
       highlight: 'TECNOLÓGICO',
       subtitle: 'Tecnologías con las que trabajo día a día',
+      categories: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        databases: 'Bases de datos',
+        tools: 'Herramientas',
+      },
     },
     about: {
       title: 'SOBRE',
@@ -36,7 +42,7 @@ export const translations = {
       p1_highlight: 'prácticas, escalables y bien estructuradas',
       p1_post: '. Me apasiona transformar ideas en productos digitales funcionales que resuelvan problemas reales.',
       p2_pre: 'Trabajo con',
-      p2_front: 'HTML, CSS y JavaScript',
+      p2_front: 'HTML, CSS, JavaScript, React y Tailwind CSS',
       p2_mid: 'en el front-end, y con',
       p2_back: 'Python, Flask y MySQL',
       p2_post: 'en el back-end, cubriendo el ciclo completo de desarrollo.',
@@ -95,6 +101,12 @@ export const translations = {
       title: 'TECH',
       highlight: 'STACK',
       subtitle: 'Technologies I work with every day',
+      categories: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        databases: 'Databases',
+        tools: 'Tools',
+      },
     },
     about: {
       title: 'ABOUT',
@@ -105,7 +117,7 @@ export const translations = {
       p1_highlight: 'practical, scalable and well-structured solutions',
       p1_post: '. I am passionate about turning ideas into functional digital products that solve real problems.',
       p2_pre: 'I work with',
-      p2_front: 'HTML, CSS and JavaScript',
+      p2_front: 'HTML, CSS, JavaScript, React and Tailwind CSS',
       p2_mid: 'on the front-end, and',
       p2_back: 'Python, Flask and MySQL',
       p2_post: 'on the back-end, covering the full development cycle.',

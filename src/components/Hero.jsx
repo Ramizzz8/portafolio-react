@@ -58,7 +58,7 @@ export default function Hero() {
     <section className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img
-          src={img('images/hero.jpg')}
+          src={img('images/hero.webp')}
           alt=""
           className="w-full h-full object-cover opacity-25"
         />
@@ -75,7 +75,7 @@ export default function Hero() {
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-[#e63946] blur-2xl opacity-20 scale-110" />
             <img
-              src={img('images/ajrg2.jpeg')}
+              src={img('images/ajrg2.webp')}
               alt="Foto de perfil de Andrés Ramírez"
               className="relative w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-[#e63946]/40 shadow-xl shadow-black/40"
             />

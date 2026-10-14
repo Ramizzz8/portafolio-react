@@ -44,13 +44,13 @@ export default function Header() {
         {/* Social links */}
         <nav className="flex items-center gap-3" aria-label="Redes sociales">
           <a href="https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="group">
-            <img src={img('images/linkedin.png')} alt="LinkedIn" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/linkedin.webp')} alt="LinkedIn" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="https://github.com/Ramizzz8" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="group">
-            <img src={img('images/github.png')} alt="GitHub" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/github.webp')} alt="GitHub" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="mailto:ajulianrague@gmail.com" aria-label="Correo" className="group">
-            <img src={img('images/mail.png')} alt="Email" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/mail.webp')} alt="Email" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
         </nav>
 
@@ -86,23 +86,11 @@ export default function Header() {
             title={theme === 'black' ? 'Cambiar a tema azul' : 'Cambiar a tema negro'}
             className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110"
           >
-            {theme === 'black' ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            )}
+            {/* Muestra el color del tema al que se cambiará */}
+            <span
+              className="w-4 h-4 rounded-full border border-white/40"
+              style={{ backgroundColor: theme === 'black' ? '#2b4a75' : '#0a0a0a' }}
+            />
           </button>
 
           {/* Mobile hamburger */}
