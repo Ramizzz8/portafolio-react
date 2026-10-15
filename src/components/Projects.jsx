@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
+import ProjectModal from './ProjectModal'
 
 function TechBadge({ tech, color }) {
   return (
@@ -67,7 +68,7 @@ function ProjectCover({ project, compact = false, frameY }) {
   )
 }
 
-function FeaturedCard({ project, index }) {
+function FeaturedCard({ project, index, onOpen }) {
   const { t, lang } = useLang()
   const isEven = index % 2 === 0
 
@@ -83,8 +84,19 @@ function FeaturedCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.7, delay: index * 0.15 }}
-      className="relative grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden group"
+      className="relative grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden group cursor-pointer transition-shadow duration-300 hover:shadow-2xl"
       style={{ border: `1px solid ${project.color}20` }}
+      // Toda la tarjeta abre la ventana de detalle (también con Enter o Espacio)
+      onClick={() => onOpen(project)}
+      onKeyDown={(e) => {
+        if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          onOpen(project)
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`${t.projects.details_btn}: ${project.title}`}
     >
       {/* Glow de fondo */}
       <div
@@ -131,7 +143,15 @@ function FeaturedCard({ project, index }) {
           ))}
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-3" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border border-white/15 text-white transition-all duration-300 hover:scale-105 hover:border-white/40"
+          >
+            {t.projects.details_btn}
+            <span aria-hidden="true">↗</span>
+          </button>
           {project.github && (
             <a
               href={project.github}
@@ -226,6 +246,8 @@ function OtherCard({ project, index }) {
 
 export default function Projects() {
   const { t } = useLang()
+  const [abierto, setAbierto] = useState(null)
+  const cerrar = useCallback(() => setAbierto(null), [])
   return (
     <section id="trabajos" className="py-24 px-6 relative overflow-hidden">
       <BgWord word={t.projects.bg_word} />
@@ -252,7 +274,7 @@ export default function Projects() {
         {/* Proyectos destacados */}
         <div className="flex flex-col gap-8 mb-20">
           {featuredProjects.map((p, i) => (
-            <FeaturedCard key={p.id} project={p} index={i} />
+            <FeaturedCard key={p.id} project={p} index={i} onOpen={setAbierto} />
           ))}
         </div>
 
@@ -270,6 +292,7 @@ export default function Projects() {
           ))}
         </div>
       </div>
+      <ProjectModal project={abierto} onClose={cerrar} />
     </section>
   )
 }

@@ -22,6 +22,14 @@ export const translations = {
       others: 'Otros proyectos',
       private_badge: '🔒 Repositorio privado',
       view_repo: 'Ver repositorio →',
+      details_btn: 'Ver detalles',
+      modal: {
+        about: 'Sobre el proyecto',
+        features: 'Qué hace',
+        technical: 'Cómo está hecho',
+        image: 'Imagen',
+        close: 'Cerrar',
+      },
     },
     skills: {
       title: 'STACK',
@@ -101,6 +109,14 @@ export const translations = {
       others: 'Other projects',
       private_badge: '🔒 Private repository',
       view_repo: 'View repository →',
+      details_btn: 'View details',
+      modal: {
+        about: 'About the project',
+        features: 'What it does',
+        technical: "How it's built",
+        image: 'Image',
+        close: 'Close',
+      },
     },
     skills: {
       title: 'TECH',
