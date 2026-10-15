@@ -172,17 +172,17 @@ function OtherCard({ project, index }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
+      transition={{ duration: 0.5, delay: (index % 3) * 0.08 }}
       className="group flex flex-col bg-[var(--bg-card)]/60 border border-white/5 rounded-xl overflow-hidden hover:border-[#e63946]/30 hover:-translate-y-1 transition-all duration-300"
     >
-      <div className="relative h-36 overflow-hidden">
+      <div className="relative h-44 overflow-hidden">
         <ProjectCover project={project} compact />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent pointer-events-none" />
       </div>
 
       <div className="p-5 flex flex-col flex-1 gap-3">
-        <h3 className="font-bebas text-xl tracking-wide">{project.title}</h3>
-        <p className="text-white/50 text-xs leading-relaxed flex-1">{project.description[lang]}</p>
+        <h3 className="font-bebas text-2xl tracking-wide">{project.title}</h3>
+        <p className="text-white/55 text-sm leading-relaxed flex-1">{project.description[lang]}</p>
 
         <div className="flex flex-wrap gap-1.5">
           {project.technologies.map((tech) => (
@@ -192,20 +192,33 @@ function OtherCard({ project, index }) {
           ))}
         </div>
 
-        {project.github ? (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-[#e63946] hover:underline font-medium mt-1"
-          >
-            {t.projects.view_repo}
-          </a>
-        ) : (
-          <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 text-white/30 rounded-full mt-1 inline-block">
-            {t.projects.private_badge}
-          </span>
-        )}
+        <div className="flex flex-wrap gap-x-5 gap-y-1 mt-1">
+          {project.github ? (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[#e63946] hover:underline font-medium"
+            >
+              {t.projects.view_repo}
+            </a>
+          ) : (
+            <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 text-white/30 rounded-full inline-block">
+              {t.projects.private_badge}
+            </span>
+          )}
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-medium hover:underline"
+              style={{ color: project.color }}
+            >
+              {t.projects.view_demo}
+            </a>
+          )}
+        </div>
       </div>
     </motion.article>
   )
@@ -251,7 +264,7 @@ export default function Projects() {
         </div>
 
         {/* Otros proyectos */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {otherProjects.map((p, i) => (
             <OtherCard key={p.id} project={p} index={i} />
           ))}

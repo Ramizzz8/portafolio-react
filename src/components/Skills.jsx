@@ -20,6 +20,7 @@ const categories = [
     items: [
       { name: 'Python', icon: 'images/python.webp' },
       { name: 'Flask', color: '#ffffff' },
+      { name: 'PHP', color: '#8892bf' },
     ],
   },
   {

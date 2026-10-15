@@ -5,7 +5,7 @@ import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
 
-const statsValues = ['6+', '5']
+const statsValues = ['9', '5']
 
 export default function About() {
   const { t } = useLang()
@@ -101,7 +101,7 @@ export default function About() {
             </div>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              {['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'Python', 'Flask', 'MySQL', 'Git'].map((skill) => (
+              {['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'Python', 'Flask', 'PHP', 'MySQL', 'Git'].map((skill) => (
                 <span
                   key={skill}
                   className="px-3 py-1.5 bg-[var(--bg-card)] border border-white/10 rounded-lg text-sm text-white/70 hover:border-[#e63946]/40 hover:text-white transition-all duration-200 cursor-default"
