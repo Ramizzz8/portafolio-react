@@ -13,7 +13,7 @@ export const featuredProjects = [
       es: 'Plataforma web de créditos por libranza para pensionados y empleados públicos. Incluye simulador de cuotas, gestión de solicitudes y clientes, reportes y un panel de administración con autenticación por roles.',
       en: 'Web platform for payroll-deduction loans aimed at retirees and public employees. Includes a payment simulator, application and client management, reports and an admin panel with role-based authentication.',
     },
-    technologies: ['Python', 'Flask', 'MySQL', 'React', 'Tailwind CSS'],
+    technologies: ['Python', 'Flask', 'MySQL', 'HTML', 'CSS', 'JavaScript'],
     image: 'images/novacapital-cover.webp',
     cover: true,
     imagePosition: 'left center',
