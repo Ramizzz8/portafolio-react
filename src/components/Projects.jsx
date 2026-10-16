@@ -152,31 +152,38 @@ function FeaturedCard({ project, index, onOpen }) {
             {t.projects.details_btn}
             <span aria-hidden="true">↗</span>
           </button>
+          {/* Si hay demo en vivo, es la acción principal; el código pasa a botón secundario */}
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
+              style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
+            >
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" aria-hidden="true" />
+              {t.projects.view_live}
+            </a>
+          )}
           {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
-              style={{
-                backgroundColor: project.color,
-                color: '#fff',
-                boxShadow: `0 0 20px ${project.color}30`,
-              }}
+              style={
+                project.live
+                  ? { border: `1px solid ${project.color}`, color: project.color }
+                  : { backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }
+              }
             >
-              <img src={img('images/github.webp')} alt="" className="w-4 h-4 brightness-0 invert" />
+              <img
+                src={img('images/github.webp')}
+                alt=""
+                className="w-4 h-4"
+                style={{ filter: project.live ? 'none' : 'brightness(0) invert(1)' }}
+              />
               {t.projects.view_code}
-            </a>
-          )}
-          {project.live && (
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border transition-all duration-300 hover:scale-105"
-              style={{ borderColor: project.color, color: project.color }}
-            >
-              {t.projects.view_demo}
             </a>
           )}
         </div>
