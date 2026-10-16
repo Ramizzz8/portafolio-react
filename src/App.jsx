@@ -8,13 +8,11 @@ import About from './components/About'
 import Contact from './components/Contact'
 import ScrollProgress from './components/ScrollProgress'
 import BackToTop from './components/BackToTop'
-import CustomCursor from './components/CustomCursor'
 
 function AppContent() {
   const { t } = useLang()
   return (
     <ThemeProvider>
-      <CustomCursor />
       <ScrollProgress />
       <Header />
       <main>
