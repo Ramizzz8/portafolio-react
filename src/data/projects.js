@@ -18,7 +18,7 @@ export const featuredProjects = [
     cover: true,
     imagePosition: 'left center',
     github: 'https://github.com/Ramizzz8/Novacapital-SAS',
-    live: 'https://novacapital.167-233-246-233.sslip.io',
+    live: 'https://novacapital.andresrami.com',
     color: '#e63946',
   },
   {
@@ -35,7 +35,7 @@ export const featuredProjects = [
     technologies: ['HTML', 'CSS', 'JavaScript', 'Python', 'Flask'],
     image: 'images/moves-location.webp',
     github: 'https://github.com/Ramizzz8/Moves-Location',
-    live: 'https://moves.167-233-246-233.sslip.io',
+    live: 'https://moves.andresrami.com',
     color: '#3a86ff',
   },
   {

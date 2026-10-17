@@ -4,5 +4,5 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/portafolio-react/', // <- cambia esto por el nombre exacto de tu repositorio en GitHub
+  base: '/', // dominio propio (andresrami.com) en GitHub Pages
 })
