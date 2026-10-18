@@ -116,11 +116,11 @@ body {
 
   /* Nombre y texto en un mismo bloque: el nombre queda siempre justo encima del texto */
   .portada-bloque {
-    position: absolute; left: max(32px, calc(50% - 640px)); bottom: 9vh;
+    position: absolute; left: max(24px, calc(50% - 680px)); bottom: 9vh;
     display: flex; flex-direction: column; align-items: flex-start;
   }
   .portada-nombre {
-    position: static; text-align: left; margin-bottom: 4vh;
+    position: static; text-align: left; margin-bottom: 7vh;
     font-size: clamp(110px, 15vw, 220px);
   }
   .portada-pie { position: static; max-width: 460px; text-align: left; }
