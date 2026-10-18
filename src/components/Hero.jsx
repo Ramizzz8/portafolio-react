@@ -54,88 +54,87 @@ function Typewriter({ roles }) {
 export default function Hero() {
   const { t } = useLang()
 
-  // Parallax: el fondo baja despacio, el contenido sube y se desvanece al hacer scroll
+  // Parallax: la foto baja más despacio que la página y el texto sube y se desvanece
   const sectionRef = useRef(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '30%'])
+  const fotoY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 140])
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120])
-  // Opacidades con función: framer-motion acelera los rangos de opacidad con el scroll
+  // Opacidad con función: framer-motion acelera los rangos de opacidad con el scroll
   // de toda la página e ignora el offset de la sección
   const contentOpacity = useTransform(scrollYProgress, (p) => (reduce ? 1 : Math.max(0, 1 - p / 0.7)))
-  const arrowOpacity = useTransform(scrollYProgress, (p) => Math.max(0, 1 - p / 0.15))
 
   return (
-    <section ref={sectionRef} className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <motion.img
-          src={img('images/hero.webp')}
-          alt=""
-          style={{ y: bgY }}
-          className="w-full h-full object-cover opacity-25 scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-main)]/40 via-[var(--bg-main)]/60 to-[var(--bg-main)]" />
-      </div>
+    <section ref={sectionRef} className="portada relative overflow-hidden">
+      {/* Líneas de fondo */}
+      <motion.img
+        src={img('images/hero.webp')}
+        alt=""
+        style={{ y: bgY }}
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.18] scale-110"
+      />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="relative z-10">
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="text-center px-6"
-      >
-        <motion.div variants={item} className="flex justify-center mb-8">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full bg-[#e63946] blur-2xl opacity-20 scale-110" />
-            <img
-              src={img('images/ajrg2.webp')}
-              alt="Foto de perfil de Andrés Ramírez"
-              className="relative w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-[#e63946]/40 shadow-xl shadow-black/40"
-            />
+      {/* Foto: cada versión tiene dos capas alineadas, el fondo y la persona recortada,
+          para poder fundir el fondo con la página sin difuminar a la persona */}
+      <motion.div style={{ y: fotoY }} className="absolute inset-0" aria-hidden="true">
+        <motion.div
+          className="portada-marco"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        >
+          <div className="portada-escena portada-escena-h">
+            <img src={img('images/portada/horizontal-fondo.webp')} alt="" className="portada-fondo" fetchPriority="high" />
+            <img src={img('images/portada/horizontal-persona.webp')} alt="" className="portada-persona" />
           </div>
         </motion.div>
-
-        <motion.h1
-          variants={item}
-          className="font-bebas text-7xl md:text-9xl leading-none tracking-wide"
+        <motion.div
+          className="portada-escena portada-escena-v"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
         >
-          ANDRÉS <span className="text-[#e63946]">RAMÍREZ</span>
-        </motion.h1>
-
-        <motion.div variants={item} className="text-lg md:text-xl mt-5 h-8">
-          <Typewriter roles={t.hero.roles} />
-        </motion.div>
-
-        <motion.div variants={item} className="flex justify-center gap-4 mt-10 flex-wrap">
-          <a
-            href="#trabajos"
-            className="px-8 py-3 bg-[#e63946] text-white font-bold rounded-lg hover:bg-[#c62c38] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#e63946]/30"
-          >
-            {t.hero.cta_projects}
-          </a>
-          <a
-            href="#contacto"
-            className="px-8 py-3 border-2 border-[#e63946] text-[#e63946] font-bold rounded-lg hover:bg-[#e63946] hover:text-white transition-all duration-300 hover:scale-105"
-          >
-            {t.hero.cta_contact}
-          </a>
-        </motion.div>
-
-        <motion.div variants={item} className="mt-16 flex justify-center">
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            style={{ opacity: arrowOpacity }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-            className="flex flex-col items-center gap-1 text-white/30 text-sm"
-          >
-            <span>scroll</span>
-            <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-              <path d="M8 0v16M1 9l7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
+          <img src={img('images/portada/vertical-fondo.webp')} alt="" className="portada-fondo" />
+          <img src={img('images/portada/vertical-persona.webp')} alt="" className="portada-persona" />
         </motion.div>
       </motion.div>
+
+      {/* Funde el borde inferior con la sección siguiente (también mientras la foto baja con el scroll) */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[var(--bg-main)] pointer-events-none" />
+
+      <motion.div style={{ y: contentY, opacity: contentOpacity }} className="absolute inset-0 z-10 pointer-events-none">
+        <motion.div variants={container} initial="hidden" animate="show" className="h-full">
+          <motion.h1 variants={item} className="portada-nombre font-bebas leading-[0.84] tracking-wide">
+            <span className="block">Andrés</span>
+            <span className="block text-[#e63946]">Ramírez</span>
+          </motion.h1>
+
+          <div className="portada-pie pointer-events-auto">
+            <motion.div variants={item} className="text-lg md:text-xl h-8">
+              <Typewriter roles={t.hero.roles} />
+            </motion.div>
+            <motion.p variants={item} className="text-white/75 leading-relaxed mt-2 mb-6 text-base md:text-[17px]">
+              {t.hero.tagline}
+            </motion.p>
+            <motion.div variants={item} className="flex gap-4 flex-wrap portada-botones">
+              <a
+                href="#trabajos"
+                className="px-8 py-3 bg-[#e63946] text-white font-bold rounded-lg hover:bg-[#c62c38] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#e63946]/30"
+              >
+                {t.hero.cta_projects}
+              </a>
+              <a
+                href="#contacto"
+                className="px-8 py-3 border-2 border-[#e63946] text-[#e63946] font-bold rounded-lg hover:bg-[#e63946] hover:text-white transition-all duration-300 hover:scale-105"
+              >
+                {t.hero.cta_contact}
+              </a>
+            </motion.div>
+          </div>
+        </motion.div>
       </motion.div>
+
     </section>
   )
 }

@@ -51,3 +51,73 @@ body {
   background: #e63946;
   border-radius: 3px;
 }
+
+/* ================= Portada ================= */
+/* Móvil: foto vertical centrada. Escritorio (≥768px): foto horizontal en el 60 % derecho. */
+.portada {
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
+  background: var(--bg-main);
+}
+
+.portada-escena { position: absolute; }
+.portada-escena img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portada-fondo { filter: brightness(0.9) saturate(0.95); }
+
+/* --- Móvil --- */
+.portada-marco { display: none; }
+.portada-escena-v { left: 50%; transform: translateX(-50%); bottom: 18vh; height: 82vh; aspect-ratio: 3 / 4; }
+.portada-escena-v .portada-fondo {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 72%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, #000 14%, #000 66%, transparent 96%);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent 0%, #000 32%, #000 72%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, #000 14%, #000 66%, transparent 96%);
+          mask-composite: intersect;
+}
+.portada-escena-v .portada-persona {
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
+          mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
+}
+
+.portada-nombre {
+  position: absolute; left: 0; right: 0; top: calc(72px + 2vh);
+  text-align: center; font-size: 25vw;
+}
+.portada-pie { position: absolute; left: 16px; right: 16px; bottom: 3vh; text-align: center; }
+.portada-botones { justify-content: center; }
+
+/* --- Escritorio --- */
+@media (min-width: 768px) {
+  .portada-escena-v { display: none; }
+
+  /* Marco: empieza al 40 % del ancho y funde la foto por su borde izquierdo */
+  .portada-marco {
+    --inicio: 40vw;
+    display: block; position: absolute; top: 0; bottom: 0; left: var(--inicio); right: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.35) 18%, #000 46%);
+            mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.35) 18%, #000 46%);
+  }
+  .portada-escena-h {
+    --alto: 112vh;
+    bottom: 0; height: var(--alto); aspect-ratio: 1672 / 941;
+    /* La persona está al 48,4 % de la foto: su centro queda al 72 % de la pantalla */
+    left: calc(72vw - var(--inicio) - var(--alto) * 1672 / 941 * 0.484);
+  }
+  .portada-escena-h .portada-fondo {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 6%, #000 24%, #000 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 6%, #000 24%, #000 88%, transparent 100%);
+  }
+  .portada-escena-h .portada-persona {
+    -webkit-mask-image: linear-gradient(to bottom, #000 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 88%, transparent 100%);
+  }
+
+  .portada-nombre {
+    left: max(24px, calc(50% - 600px)); right: auto; top: calc(72px + 6vh);
+    text-align: left; font-size: clamp(110px, 15vw, 220px);
+  }
+  .portada-pie { left: max(24px, calc(50% - 600px)); right: auto; bottom: 9vh; max-width: 460px; text-align: left; }
+  .portada-botones { justify-content: flex-start; }
+}

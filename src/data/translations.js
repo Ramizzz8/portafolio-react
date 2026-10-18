@@ -10,6 +10,7 @@ export const translations = {
       roles: ['Desarrollador Web', 'Backend Developer', 'Frontend Developer', 'Full Stack Developer'],
       cta_projects: 'Ver proyectos',
       cta_contact: 'Contactarme',
+      tagline: 'Desarrollo aplicaciones web completas, desde la base de datos hasta el despliegue.',
     },
     projects: {
       title: 'MIS',
@@ -98,6 +99,7 @@ export const translations = {
       roles: ['Web Developer', 'Backend Developer', 'Frontend Developer', 'Full Stack Developer'],
       cta_projects: 'View projects',
       cta_contact: 'Contact me',
+      tagline: 'I build complete web applications, from the database to deployment.',
     },
     projects: {
       title: 'MY',
