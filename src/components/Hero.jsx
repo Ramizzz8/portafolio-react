@@ -58,7 +58,6 @@ export default function Hero() {
   const sectionRef = useRef(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] })
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '30%'])
   const fotoY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 140])
   const contentY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120])
   // Opacidad con función: framer-motion acelera los rangos de opacidad con el scroll
@@ -67,14 +66,6 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="portada relative overflow-hidden">
-      {/* Líneas de fondo */}
-      <motion.img
-        src={img('images/hero.webp')}
-        alt=""
-        style={{ y: bgY }}
-        className="absolute inset-0 w-full h-full object-cover opacity-[0.18] scale-110"
-      />
-
       {/* Foto: cada versión tiene dos capas alineadas, el fondo y la persona recortada,
           para poder fundir el fondo con la página sin difuminar a la persona */}
       <motion.div style={{ y: fotoY }} className="absolute inset-0" aria-hidden="true">

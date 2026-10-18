@@ -255,9 +255,21 @@ export default function Projects() {
   const { t } = useLang()
   const [abierto, setAbierto] = useState(null)
   const [verOtros, setVerOtros] = useState(false)
+  // Parallax suave de la imagen de fondo de la sección
+  const seccionRef = useRef(null)
+  const fondoY = useParallax(seccionRef, 60)
   const cerrar = useCallback(() => setAbierto(null), [])
   return (
-    <section id="trabajos" className="py-24 px-6 relative overflow-hidden">
+    <section ref={seccionRef} id="trabajos" className="py-24 px-6 relative overflow-hidden">
+      {/* Imagen de líneas de fondo (la que antes estaba en la portada), solo en la parte
+          superior de la sección y fundida arriba y abajo con el color de la página */}
+      <motion.img
+        src={img('images/hero.webp')}
+        alt=""
+        aria-hidden="true"
+        style={{ y: fondoY }}
+        className="fondo-proyectos absolute inset-x-0 top-0 w-full h-[130vh] object-cover opacity-25 pointer-events-none"
+      />
       <BgWord word={t.projects.bg_word} />
       <div className="max-w-6xl mx-auto relative">
         <motion.h2
