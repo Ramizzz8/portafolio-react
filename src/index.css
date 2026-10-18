@@ -52,10 +52,15 @@ body {
   border-radius: 3px;
 }
 
-/* Fondo de líneas de la sección de proyectos: se funde por arriba y por abajo */
-.fondo-proyectos {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 55%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 55%, transparent 100%);
+/* Fondo de líneas de la sección de proyectos: se funde al principio y al final de la sección;
+   en la unión entre las dos capas no hay degradado para que no se note el corte */
+.fondo-destacados {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 600px);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 600px);
+}
+.fondo-otros {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
 }
 
 /* ================= Portada ================= */

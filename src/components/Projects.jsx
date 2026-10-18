@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
@@ -255,21 +255,36 @@ export default function Projects() {
   const { t } = useLang()
   const [abierto, setAbierto] = useState(null)
   const [verOtros, setVerOtros] = useState(false)
-  // Parallax suave de la imagen de fondo de la sección
+  // Fondo de líneas: la imagen se estira hasta el final de los destacados y su reflejo
+  // vertical continúa en "Otros proyectos". `corte` es la altura (en px desde el inicio
+  // de la sección) donde se unen; se mide con ResizeObserver al cambiar el tamaño.
   const seccionRef = useRef(null)
-  const fondoY = useParallax(seccionRef, 60)
+  const destacadosRef = useRef(null)
+  const [corte, setCorte] = useState(0)
+  useEffect(() => {
+    const seccion = seccionRef.current
+    const observador = new ResizeObserver(() => {
+      const destacados = destacadosRef.current
+      if (!destacados) return
+      // Unión en mitad del margen que separa los destacados del botón (mb-20 = 80px)
+      setCorte(destacados.getBoundingClientRect().bottom - seccion.getBoundingClientRect().top + 40)
+    })
+    observador.observe(seccion)
+    return () => observador.disconnect()
+  }, [])
   const cerrar = useCallback(() => setAbierto(null), [])
   return (
     <section ref={seccionRef} id="trabajos" className="py-24 px-6 relative overflow-hidden">
-      {/* Imagen de líneas de fondo (la que antes estaba en la portada), solo en la parte
-          superior de la sección y fundida arriba y abajo con el color de la página */}
-      <motion.img
-        src={img('images/hero.webp')}
-        alt=""
-        aria-hidden="true"
-        style={{ y: fondoY }}
-        className="fondo-proyectos absolute inset-x-0 top-0 w-full h-[130vh] object-cover opacity-25 pointer-events-none"
-      />
+      {corte > 0 && (
+        <div aria-hidden="true" className="pointer-events-none">
+          <div className="fondo-destacados absolute inset-x-0 top-0 overflow-hidden" style={{ height: corte }}>
+            <img src={img('images/hero.webp')} alt="" className="w-full h-full object-fill opacity-25" />
+          </div>
+          <div className="fondo-otros absolute inset-x-0 bottom-0 overflow-hidden" style={{ top: corte }}>
+            <img src={img('images/hero.webp')} alt="" className="w-full min-h-full aspect-[3/2] object-fill opacity-25 -scale-y-100" />
+          </div>
+        </div>
+      )}
       <BgWord word={t.projects.bg_word} />
       <div className="max-w-6xl mx-auto relative">
         <motion.h2
@@ -292,7 +307,7 @@ export default function Projects() {
         </motion.p>
 
         {/* Proyectos destacados */}
-        <div className="flex flex-col gap-8 mb-20">
+        <div ref={destacadosRef} className="flex flex-col gap-8 mb-20">
           {featuredProjects.map((p, i) => (
             <FeaturedCard key={p.id} project={p} index={i} onOpen={setAbierto} />
           ))}
