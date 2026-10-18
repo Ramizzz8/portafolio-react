@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useRef, useState } from 'react'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
@@ -254,6 +254,7 @@ function OtherCard({ project, index }) {
 export default function Projects() {
   const { t } = useLang()
   const [abierto, setAbierto] = useState(null)
+  const [verOtros, setVerOtros] = useState(false)
   const cerrar = useCallback(() => setAbierto(null), [])
   return (
     <section id="trabajos" className="py-24 px-6 relative overflow-hidden">
@@ -285,19 +286,60 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Divisor */}
-        <div className="flex items-center gap-4 mb-12">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-white/30 text-sm font-medium tracking-widest uppercase">{t.projects.others}</span>
-          <div className="flex-1 h-px bg-white/10" />
-        </div>
+        {/* Divisor desplegable: muestra u oculta el resto de proyectos */}
+        <button
+          type="button"
+          onClick={() => setVerOtros((v) => !v)}
+          aria-expanded={verOtros}
+          aria-controls="otros-proyectos"
+          className="group w-full flex items-center gap-4 py-3 cursor-pointer"
+        >
+          <span className="flex-1 h-px bg-white/10 transition-colors duration-300 group-hover:bg-[#e63946]/40" />
+          <span className="flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 text-white/50 text-sm font-medium tracking-widest uppercase transition-all duration-300 group-hover:border-[#e63946]/50 group-hover:text-white group-hover:bg-[#e63946]/10">
+            {t.projects.others}
+            <span className="text-xs text-white/30 normal-case tracking-normal group-hover:text-white/60">
+              ({otherProjects.length})
+            </span>
+            <motion.svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              animate={{ rotate: verOtros ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-[#e63946]"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </motion.svg>
+          </span>
+          <span className="flex-1 h-px bg-white/10 transition-colors duration-300 group-hover:bg-[#e63946]/40" />
+        </button>
 
-        {/* Otros proyectos */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {otherProjects.map((p, i) => (
-            <OtherCard key={p.id} project={p} index={i} />
-          ))}
-        </div>
+        {/* Otros proyectos (plegados por defecto) */}
+        <AnimatePresence initial={false}>
+          {verOtros && (
+            <motion.div
+              id="otros-proyectos"
+              key="otros"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
+                {otherProjects.map((p, i) => (
+                  <OtherCard key={p.id} project={p} index={i} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <ProjectModal project={abierto} onClose={cerrar} />
     </section>

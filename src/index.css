@@ -114,10 +114,15 @@ body {
             mask-image: linear-gradient(to bottom, #000 88%, transparent 100%);
   }
 
-  .portada-nombre {
-    left: max(24px, calc(50% - 600px)); right: auto; top: calc(72px + 6vh);
-    text-align: left; font-size: clamp(110px, 15vw, 220px);
+  /* Nombre y texto en un mismo bloque: el nombre queda siempre justo encima del texto */
+  .portada-bloque {
+    position: absolute; left: max(32px, calc(50% - 640px)); bottom: 9vh;
+    display: flex; flex-direction: column; align-items: flex-start;
   }
-  .portada-pie { left: max(24px, calc(50% - 600px)); right: auto; bottom: 9vh; max-width: 460px; text-align: left; }
+  .portada-nombre {
+    position: static; text-align: left; margin-bottom: 4vh;
+    font-size: clamp(110px, 15vw, 220px);
+  }
+  .portada-pie { position: static; max-width: 460px; text-align: left; }
   .portada-botones { justify-content: flex-start; }
 }

@@ -104,7 +104,9 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[var(--bg-main)] pointer-events-none" />
 
       <motion.div style={{ y: contentY, opacity: contentOpacity }} className="absolute inset-0 z-10 pointer-events-none">
-        <motion.div variants={container} initial="hidden" animate="show" className="h-full">
+        {/* En escritorio, nombre y texto forman un bloque anclado abajo a la izquierda;
+            en móvil, el nombre va arriba y el texto abajo */}
+        <motion.div variants={container} initial="hidden" animate="show" className="portada-bloque">
           <motion.h1 variants={item} className="portada-nombre font-bebas leading-[0.84] tracking-wide">
             <span className="block">Andrés</span>
             <span className="block text-[#e63946]">Ramírez</span>
