@@ -88,16 +88,21 @@ function VistaPrevia({ src, activa, montada, etiqueta }) {
   return (
     <>
       {montada && (
-        <video
-          ref={videoRef}
-          src={img(src)}
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${activa ? 'opacity-100' : 'opacity-0'}`}
-        />
+        // El clip es 16:9 y el hueco casi cuadrado: se muestra entero sobre la portada desenfocada
+        <div
+          className={`absolute inset-0 flex items-center justify-center p-4 bg-black/55 backdrop-blur-md transition-opacity duration-500 ${activa ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <video
+            ref={videoRef}
+            src={img(src)}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className="w-full max-h-full object-contain rounded-lg shadow-2xl ring-1 ring-white/10"
+          />
+        </div>
       )}
       <span
         className={`absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-xs font-semibold text-[#fff] pointer-events-none transition-opacity duration-300 ${activa ? 'opacity-0' : 'opacity-100'}`}
@@ -177,7 +182,7 @@ function FeaturedCard({ project, index, onOpen }) {
           <VistaPrevia src={previa} activa={previaActiva} montada={previaMontada} etiqueta={t.projects.preview_badge} />
         )}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${previaActiva ? 'opacity-0' : 'opacity-100'}`}
           style={{
             background: isEven
               ? `linear-gradient(to right, transparent 60%, var(--bg-main))`
