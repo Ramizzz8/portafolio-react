@@ -187,4 +187,52 @@ export const projectDetails = {
       ],
     },
   },
+
+  10: {
+    galeria: [],
+    es: {
+      resumen: [
+        'Proyecto del módulo de Desarrollo web en entorno servidor (DAW). Parte de un ejemplo de clase que dibujaba los 768 valores de un embedding como puntos en un círculo; lo transformé en una visualización que responde a la pregunta que de verdad interesa: ¿de qué se está hablando?',
+        'Cada tema se define con una lista de palabras clave. Lo que dices se convierte en un vector y se compara con los vectores de cada tema; la aguja apunta hacia el más parecido y los sectores crecen según el peso de cada uno.',
+        'La versión original funciona con PHP y Ollama en local. Para la demo pública, el mismo modelo multilingüe se ejecuta en el navegador con Transformers.js, así que no hace falta servidor y nada de lo que dices sale del equipo.',
+      ],
+      funciones: [
+        'Dictado por voz en tiempo real o entrada escrita',
+        'Brújula que apunta al tema dominante, con la estela de las últimas frases',
+        'Gráfica temporal que marca los cambios de tema y la palabra donde ocurrieron',
+        'Temas editables: añade los tuyos con sus palabras clave',
+        'Ajustes para analizar 1, 5 o 10 palabras y para afinar la sensibilidad',
+      ],
+      tecnico: [
+        'Similitud coseno entre embeddings y softmax con temperatura para repartir el peso entre los temas',
+        'Cada tema combina la palabra clave más parecida con el centroide de todas, más robusto que un único vector',
+        'Detección de cambio de tema comparando cada consulta con la media de las cinco anteriores',
+        'Dibujo en Canvas con animación suavizada y soporte de pantallas de alta densidad',
+        'Versión servidor: PHP con cURL que pide los embeddings a Ollama en lote y devuelve errores en JSON',
+        'Diagnóstico de un fallo real: nomic-embed-text, entrenado en inglés, confundía «hamburguesa» con viajes; se resolvió con un modelo multilingüe',
+      ],
+    },
+    en: {
+      resumen: [
+        'Project for the Server-side Web Development module (DAW). It starts from a class example that drew the 768 values of an embedding as dots in a circle; I turned it into a visualisation that answers the question that actually matters: what is being talked about?',
+        'Each topic is defined by a list of keywords. What you say is turned into a vector and compared with the vectors of each topic; the needle points to the closest one and the sectors grow with the weight of each.',
+        'The original version runs on PHP and Ollama locally. For the public demo, the same multilingual model runs in the browser with Transformers.js, so no server is needed and nothing you say leaves your device.',
+      ],
+      funciones: [
+        'Real-time voice dictation or typed input',
+        'Compass that points to the dominant topic, with a trail of the latest phrases',
+        'Timeline chart that marks topic changes and the word where they happened',
+        'Editable topics: add your own with their keywords',
+        'Settings to analyse 1, 5 or 10 words and tune the sensitivity',
+      ],
+      tecnico: [
+        'Cosine similarity between embeddings and a temperature softmax to share the weight among topics',
+        'Each topic mixes its closest keyword with the centroid of all of them, sturdier than a single vector',
+        'Topic-change detection by comparing each query with the average of the previous five',
+        'Canvas drawing with smoothed animation and high-density screen support',
+        'Server version: PHP with cURL that requests embeddings from Ollama in batches and returns errors as JSON',
+        "Real bug diagnosis: nomic-embed-text, trained in English, mistook «hamburguesa» (burger) for travel; fixed with a multilingual model",
+      ],
+    },
+  },
 }

@@ -72,6 +72,23 @@ export const featuredProjects = [
     live: null,
     color: '#8b5cf6',
   },
+  {
+    id: 10,
+    title: 'Brújula de temas',
+    tagline: {
+      es: 'Detección de temas por voz con embeddings',
+      en: 'Voice topic detection with embeddings',
+    },
+    description: {
+      es: 'Escucha lo que dices (o lo que escribes) y una aguja apunta en tiempo real al tema del que estás hablando. Una gráfica marca cada cambio de tema a lo largo de la conversación. El modelo de lenguaje se ejecuta en el propio navegador.',
+      en: 'It listens to what you say (or type) and a needle points in real time to the topic you are talking about. A chart marks every change of topic along the conversation. The language model runs right in the browser.',
+    },
+    technologies: ['JavaScript', 'Canvas', 'Transformers.js', 'Web Speech API', 'PHP', 'Ollama'],
+    image: 'images/proyectos/brujula-temas.webp',
+    github: 'https://github.com/Ramizzz8/portafolio-react/tree/main/public/demos/brujula-temas',
+    live: '/demos/brujula-temas/',
+    color: '#4a90d9',
+  },
 ]
 
 export const otherProjects = [

@@ -1,0 +1,1757 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brújula de temas · Andrés Ramírez</title>
+<meta name="description" content="Demo: detecta de qué tema estás hablando, por voz o por escrito, con embeddings que se calculan en el navegador.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --papel: #e7edf0;
+  --superficie: #f6f9fa;
+  --tinta: #15243b;
+  --tinta-suave: #5a6a7e;
+  --linea: #c8d3d9;
+  --aguja: #c8102e;
+  --foco: #2f6690;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: "Archivo", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
+/* ---------- Cabecera ---------- */
+
+header {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 24px 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+header p {
+  margin: 10px 0 0;
+  max-width: 60ch;
+  color: var(--tinta-suave);
+}
+
+/* ---------- Distribución ---------- */
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Brújula ---------- */
+
+#zonaBrujula {
+  position: relative;
+}
+
+#brujula {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+#temaActual {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 16px;
+  color: var(--tinta-suave);
+  min-height: 34px;
+}
+
+#temaActual strong {
+  font-size: 26px;
+  font-weight: 700;
+  font-stretch: 112%;
+}
+
+/* ---------- Panel lateral ---------- */
+
+#panel {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+}
+
+.seccion {
+  padding: 20px 22px;
+}
+
+.seccion + .seccion {
+  border-top: 1px solid var(--linea);
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-stretch: 112%;
+}
+
+/* Micrófono */
+
+#controles {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+#microfono {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--tinta);
+  color: var(--superficie);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+#microfono svg {
+  width: 26px;
+  height: 26px;
+}
+
+#microfono:disabled {
+  background: var(--linea);
+  cursor: not-allowed;
+}
+
+#microfono.activo {
+  background: var(--aguja);
+  animation: pulso 1.6s infinite;
+}
+
+@keyframes pulso {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,16,46,0.35); }
+  50%      { box-shadow: 0 0 0 12px rgba(200,16,46,0); }
+}
+
+#estado {
+  color: var(--tinta-suave);
+  font-size: 14px;
+}
+
+#estado.error {
+  color: var(--aguja);
+}
+
+/* Dictado */
+
+#dictado {
+  min-height: 72px;
+  max-height: 180px;
+  overflow-y: auto;
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#dictado.vacio::before {
+  content: "Lo que digas aparecerá aquí.";
+  color: var(--tinta-suave);
+}
+
+#textoProvisional {
+  color: var(--tinta-suave);
+}
+
+#escribir {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  background: white;
+  color: var(--tinta);
+  font: inherit;
+}
+
+#palabraActual {
+  margin-top: 10px;
+  min-height: 22px;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
+
+#palabraActual strong {
+  color: var(--tinta);
+  font-weight: 600;
+}
+
+/* Temas */
+
+#listaTemas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 4px 3px 10px;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  background: white;
+  font-size: 13px;
+}
+
+.chip .punto {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.chip.cargando {
+  color: var(--tinta-suave);
+}
+
+.chip button {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tinta-suave);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.chip button:hover {
+  background: var(--papel);
+}
+
+#nuevoTema {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  #nuevoTema {
+    grid-template-columns: 1fr;
+  }
+}
+
+input[type=text], select {
+  padding: 7px 9px;
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  background: white;
+  color: var(--tinta);
+  font: inherit;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.boton {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 4px;
+  background: var(--tinta);
+  color: var(--superficie);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton.secundario {
+  background: transparent;
+  color: var(--tinta);
+  border: 1px solid var(--linea);
+}
+
+.ayuda {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--tinta-suave);
+}
+
+/* Ajustes */
+
+.ajuste {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.ajuste + .ajuste {
+  margin-top: 10px;
+}
+
+.ajuste input[type=range] {
+  width: 100%;
+  accent-color: var(--tinta);
+}
+
+/* ---------- Línea temporal ---------- */
+
+#zonaLinea {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 24px 48px;
+  position: relative;
+}
+
+#zonaLinea p {
+  margin: -6px 0 12px;
+  max-width: 75ch;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
+
+#marcoLinea {
+  position: relative;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+#linea {
+  width: 100%;
+  height: 190px;
+  display: block;
+}
+
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--tinta);
+  color: var(--superficie);
+  font-size: 12px;
+  padding: 6px 9px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: none;
+}
+
+/* ---------- Demo ---------- */
+
+#barra {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+}
+
+#barra a {
+  color: var(--tinta);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#barra a:hover {
+  text-decoration: underline;
+}
+
+header .nota {
+  font-size: 13px;
+}
+
+#cargaModelo {
+  max-width: 1072px;
+  margin: 16px auto 0;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--aguja);
+  border-radius: 6px;
+}
+
+@media (max-width: 1120px) {
+  #cargaModelo {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  #cargaModelo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+#cargaModelo[hidden] {
+  display: none;
+}
+
+#cargaModelo > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+#textoCarga {
+  color: var(--tinta-suave);
+}
+
+#barraCarga {
+  height: 6px;
+  margin-top: 6px;
+  background: var(--papel);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#progresoCarga {
+  width: 0;
+  height: 100%;
+  background: var(--tinta);
+  transition: width 0.2s;
+}
+
+.boton:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #microfono.activo {
+    animation: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav id="barra">
+  <a href="/#trabajos">← Volver al portafolio</a>
+  <a href="https://github.com/Ramizzz8/portafolio-react/tree/main/public/demos/brujula-temas"
+     target="_blank" rel="noopener">Ver el código</a>
+</nav>
+
+<header>
+  <h1>¿De qué estoy hablando?</h1>
+  <p>
+    Habla o escribe. La aguja apunta al tema que más se parece
+    a lo que dices, y la gráfica de abajo marca cuándo cambias
+    de tema.
+  </p>
+  <p class="nota">
+    El modelo de lenguaje (multilingual-e5-small) se ejecuta en
+    tu propio navegador: nada de lo que digas sale de tu equipo.
+  </p>
+</header>
+
+<div id="cargaModelo" role="status">
+  <div>
+    <strong>Hace falta descargar el modelo</strong>
+    <span id="textoCarga">Unos 120 MB, solo la primera vez. Después queda guardado en el navegador.</span>
+    <div id="barraCarga" hidden><div id="progresoCarga"></div></div>
+  </div>
+  <button id="botonCargar" class="boton" type="button">Cargar el modelo</button>
+</div>
+
+<main>
+
+  <section id="zonaBrujula" aria-label="Brújula de temas">
+    <canvas id="brujula"></canvas>
+    <p id="temaActual">Cargando temas…</p>
+  </section>
+
+  <div id="panel">
+
+    <div class="seccion">
+      <div id="controles">
+        <button id="microfono" aria-label="Empezar a escuchar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="2" width="6" height="12" rx="3"/>
+            <path d="M5 10a7 7 0 0 0 14 0"/>
+            <path d="M12 17v4"/>
+            <path d="M8 21h8"/>
+          </svg>
+        </button>
+        <div id="estado">Pulsa el micrófono o escribe abajo.</div>
+      </div>
+    </div>
+
+    <div class="seccion">
+      <h2>Lo que se ha dicho</h2>
+      <div id="dictado" class="vacio">
+        <span id="textoFinal"></span>
+        <span id="textoProvisional"></span>
+      </div>
+      <input id="escribir" type="text"
+             placeholder="O escríbelo aquí"
+             aria-label="Escribir texto">
+      <div id="palabraActual"></div>
+    </div>
+
+    <div class="seccion">
+      <h2>Temas</h2>
+      <div id="listaTemas"></div>
+      <form id="nuevoTema">
+        <input id="nombreTema" type="text"
+               placeholder="Nombre" aria-label="Nombre del tema">
+        <input id="clavesTema" type="text"
+               placeholder="Palabras clave, separadas por comas"
+               aria-label="Palabras clave">
+        <button class="boton" type="submit">Añadir</button>
+      </form>
+      <p class="ayuda">
+        Cuantas más palabras clave pongas, mejor reconoce el tema.
+      </p>
+    </div>
+
+    <div class="seccion">
+      <h2>Ajustes</h2>
+
+      <label class="ajuste">
+        Analizar
+        <select id="contexto">
+          <option value="1">la última palabra</option>
+          <option value="5" selected>las últimas 5 palabras</option>
+          <option value="10">las últimas 10 palabras</option>
+        </select>
+      </label>
+
+      <label class="ajuste">
+        Decisión
+        <input id="temperatura" type="range"
+               min="1" max="10" value="5">
+      </label>
+
+      <label class="ajuste">
+        Umbral de cambio
+        <input id="umbral" type="range"
+               min="5" max="60" value="25">
+      </label>
+
+      <div class="ajuste" style="margin-top:16px">
+        <span></span>
+        <div>
+          <button id="limpiar" class="boton secundario"
+                  type="button">Empezar de nuevo</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<section id="zonaLinea">
+  <h2>Cambio de tema en el tiempo</h2>
+  <p>
+    Cada punto es una consulta. Cuanto más alto, más se aleja de
+    lo que venías diciendo; en rojo si pasa la línea discontinua.
+    La franja de abajo es el tema dominante y la palabra marca
+    dónde cambió. Pasa el ratón por los puntos para ver el detalle.
+  </p>
+  <div id="marcoLinea">
+    <canvas id="linea"></canvas>
+    <div id="tooltip"></div>
+  </div>
+</section>
+
+<script type="module">
+
+import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
+
+// ========================================
+// Configuración
+// ========================================
+
+// Modelo multilingüe que funciona bien en español.
+// Se descarga una vez y queda en la caché del navegador.
+const MODELO = "Xenova/multilingual-e5-small";
+
+// Los modelos E5 esperan este prefijo delante de cada texto
+const PREFIJO = "query: ";
+
+const COLORES = [
+  "#c8553d", "#2f6690", "#5b8e3e", "#7a5c9e",
+  "#c98f1f", "#2a9d8f", "#b23a48", "#6b7a8f"
+];
+
+const TEMAS_INICIALES = [
+  ["Deporte", "fútbol, baloncesto, tenis, partido, equipo, gol, entrenar, gimnasio, correr, liga, jugador, estadio"],
+  ["Comida", "comer, cocina, receta, restaurante, cenar, desayuno, pizza, pasta, carne, fruta, pan, queso, plato"],
+  ["Tecnología", "ordenador, programación, internet, móvil, aplicación, software, código, inteligencia artificial, servidor, pantalla"],
+  ["Música", "canción, concierto, guitarra, cantar, disco, banda, piano, ritmo, cantante, festival"],
+  ["Viajes", "viajar, vacaciones, avión, hotel, aeropuerto, maleta, turismo, país, billete, extranjero"],
+  ["Naturaleza", "bosque, montaña, animales, río, árbol, flores, lluvia, campo, plantas, mar"]
+];
+
+const VENTANA_CAMBIO = 5;
+const MAX_HISTORIAL = 40;
+
+const MOVIMIENTO_REDUCIDO =
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const SUAVIZADO = MOVIMIENTO_REDUCIDO ? 1 : 0.12;
+
+
+// ========================================
+// Elementos
+// ========================================
+
+const $ = s => document.querySelector(s);
+
+const brujula = $("#brujula");
+const ctxB = brujula.getContext("2d");
+const linea = $("#linea");
+const ctxL = linea.getContext("2d");
+const tooltip = $("#tooltip");
+
+const temaActual = $("#temaActual");
+const microfono = $("#microfono");
+const estado = $("#estado");
+const dictado = $("#dictado");
+const textoFinal = $("#textoFinal");
+const textoProvisional = $("#textoProvisional");
+const escribir = $("#escribir");
+const palabraActual = $("#palabraActual");
+
+const listaTemas = $("#listaTemas");
+const nuevoTema = $("#nuevoTema");
+const nombreTema = $("#nombreTema");
+const clavesTema = $("#clavesTema");
+
+const cargaModelo = $("#cargaModelo");
+const botonCargar = $("#botonCargar");
+const textoCarga = $("#textoCarga");
+const barraCarga = $("#barraCarga");
+const progresoCarga = $("#progresoCarga");
+const contexto = $("#contexto");
+const sliderTemperatura = $("#temperatura");
+const sliderUmbral = $("#umbral");
+const limpiar = $("#limpiar");
+
+
+// ========================================
+// Estado
+// ========================================
+
+let temas = [];      // {nombre, claves[], color, vectores[], centroide}
+let historial = [];  // {texto, vector, cambio, dominante, posicion}
+let vectorActual = null;
+
+let posicion = { x: 0, y: 0 };
+let objetivo = { x: 0, y: 0 };
+let pesosMostrados = [];
+let pesosObjetivo = [];
+
+let peticionActual = 0;
+let controlador = null;
+let ultimoSegmento = "";
+let extractor = null;
+
+let escuchando = false;
+let reconocimiento = null;
+let textoAcumulado = "";
+
+function temperatura() {
+  // Slider 1..10 -> 0.04 (indecisa) .. 0.004 (muy decidida)
+  return 0.044 - Number(sliderTemperatura.value) * 0.004;
+}
+
+function umbral() {
+  return Number(sliderUmbral.value) / 100;
+}
+
+
+// ========================================
+// Matemáticas
+// ========================================
+
+function similitud(a, b) {
+
+  let producto = 0, na = 0, nb = 0;
+
+  for (let i = 0; i < a.length; i++) {
+    producto += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
+  }
+
+  return producto / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+function media(vectores) {
+
+  let resultado = new Array(vectores[0].length).fill(0);
+
+  vectores.forEach(function(v) {
+    for (let i = 0; i < v.length; i++) {
+      resultado[i] += v[i] / vectores.length;
+    }
+  });
+
+  return resultado;
+}
+
+function softmax(valores) {
+
+  let maximo = Math.max(...valores);
+  let t = temperatura();
+
+  let exponenciales = valores.map(v => Math.exp((v - maximo) / t));
+  let suma = exponenciales.reduce((a, b) => a + b, 0);
+
+  return exponenciales.map(e => e / suma);
+}
+
+// Parecido de un texto con un tema:
+// mitad la palabra clave más parecida,
+// mitad la "media" de todas sus palabras clave.
+function similitudTema(vector, tema) {
+
+  let mejor = -1;
+
+  tema.vectores.forEach(function(v) {
+    mejor = Math.max(mejor, similitud(vector, v));
+  });
+
+  return 0.5 * mejor + 0.5 * similitud(vector, tema.centroide);
+}
+
+function anguloTema(i, total) {
+  return -Math.PI / 2 + i * 2 * Math.PI / total;
+}
+
+
+// ========================================
+// Servidor
+// ========================================
+
+async function obtenerEmbeddings(textos) {
+
+  if (!extractor) {
+    throw new Error("El modelo todavía no está cargado.");
+  }
+
+  let salida = await extractor(
+    textos.map(t => PREFIJO + t),
+    { pooling: "mean", normalize: true }
+  );
+
+  return salida.tolist();
+}
+
+function mostrarError(mensaje) {
+  estado.textContent = mensaje;
+  estado.classList.add("error");
+}
+
+function mostrarEstado(mensaje) {
+  estado.textContent = mensaje;
+  estado.classList.remove("error");
+}
+
+
+// ========================================
+// Temas
+// ========================================
+
+function separarClaves(texto) {
+  return texto
+    .split(",")
+    .map(c => c.trim().toLowerCase())
+    .filter(c => c);
+}
+
+async function cargarVectoresTema(tema) {
+
+  // El nombre del tema también cuenta como palabra clave
+  let textos = [tema.nombre.toLowerCase(), ...tema.claves];
+
+  let vectores = await obtenerEmbeddings(textos);
+
+  // Si mientras tanto se quitó el tema, se descarta
+  if (!temas.includes(tema)) return;
+
+  tema.vectores = vectores;
+  tema.centroide = media(vectores);
+}
+
+async function anadirTema(nombre, claves) {
+
+  if (temas.length >= COLORES.length) {
+    mostrarError("Puedes tener como máximo " + COLORES.length + " temas.");
+    return;
+  }
+
+  let usados = temas.map(t => t.color);
+
+  let tema = {
+    nombre: nombre,
+    claves: separarClaves(claves || ""),
+    color: COLORES.find(c => !usados.includes(c)),
+    vectores: null,
+    centroide: null
+  };
+
+  temas.push(tema);
+  pesosMostrados.push(0);
+  pintarListaTemas();
+
+  try {
+    await cargarVectoresTema(tema);
+  } catch (error) {
+    console.error(error);
+    mostrarError(error.message);
+  }
+
+  pintarListaTemas();
+  recalcular();
+}
+
+function quitarTema(indice) {
+
+  temas.splice(indice, 1);
+  pesosMostrados.splice(indice, 1);
+
+  pintarListaTemas();
+  recalcular();
+}
+
+function pintarListaTemas() {
+
+  listaTemas.innerHTML = "";
+
+  temas.forEach(function(tema, i) {
+
+    let chip = document.createElement("span");
+    chip.className = "chip" + (tema.vectores ? "" : " cargando");
+    chip.title = tema.claves.join(", ") || tema.nombre;
+
+    let punto = document.createElement("span");
+    punto.className = "punto";
+    punto.style.background = tema.vectores ? tema.color : "var(--linea)";
+
+    let nombre = document.createElement("span");
+    nombre.textContent = tema.nombre;
+
+    let quitar = document.createElement("button");
+    quitar.type = "button";
+    quitar.textContent = "×";
+    quitar.setAttribute("aria-label", "Quitar " + tema.nombre);
+    quitar.onclick = () => quitarTema(i);
+
+    chip.append(punto, nombre, quitar);
+    listaTemas.appendChild(chip);
+  });
+}
+
+nuevoTema.onsubmit = function(evento) {
+
+  evento.preventDefault();
+
+  if (!extractor) {
+    mostrarError("Carga el modelo antes de añadir temas.");
+    return;
+  }
+
+  let nombre = nombreTema.value.trim();
+  if (!nombre) {
+    nombreTema.focus();
+    return;
+  }
+
+  anadirTema(nombre, clavesTema.value);
+
+  nombreTema.value = "";
+  clavesTema.value = "";
+};
+
+
+
+
+// ========================================
+// Posición en la brújula
+// ========================================
+
+function calcularPosicion(vector) {
+
+  let hayTemas = temas.some(t => t.vectores);
+
+  if (!vector || !hayTemas) {
+    return { pesos: temas.map(() => 0), x: 0, y: 0, dominante: -1 };
+  }
+
+  let similitudes = temas.map(
+    t => t.vectores ? similitudTema(vector, t) : -1
+  );
+
+  let pesos = softmax(similitudes);
+
+  let x = 0, y = 0;
+
+  pesos.forEach(function(peso, i) {
+    let a = anguloTema(i, temas.length);
+    x += Math.cos(a) * peso;
+    y += Math.sin(a) * peso;
+  });
+
+  return {
+    pesos: pesos,
+    x: x,
+    y: y,
+    dominante: pesos.indexOf(Math.max(...pesos))
+  };
+}
+
+function recalcular() {
+
+  let r = calcularPosicion(vectorActual);
+
+  pesosObjetivo = r.pesos;
+  objetivo = { x: r.x, y: r.y };
+
+  historial.forEach(function(h) {
+    let p = calcularPosicion(h.vector);
+    h.posicion = { x: p.x, y: p.y };
+    h.dominante = p.dominante;
+  });
+
+  pintarTemaActual(r);
+  dibujarLinea();
+}
+
+function pintarTemaActual(r) {
+
+  if (!temas.some(t => t.vectores)) {
+    temaActual.textContent = extractor
+      ? "Cargando temas…"
+      : "Carga el modelo para empezar.";
+    return;
+  }
+
+  if (!vectorActual || r.dominante < 0) {
+    temaActual.textContent = "Di algo para empezar.";
+    return;
+  }
+
+  let tema = temas[r.dominante];
+  let porcentaje = Math.round(r.pesos[r.dominante] * 100);
+
+  temaActual.textContent = "";
+
+  let fuerte = document.createElement("strong");
+  fuerte.textContent = tema.nombre;
+  fuerte.style.color = tema.color;
+
+  temaActual.append(fuerte, "  " + porcentaje + " %");
+}
+
+
+// ========================================
+// Nuevo vector
+// ========================================
+
+function procesarVector(texto, vector) {
+
+  let cambio = 0;
+
+  if (historial.length > 0) {
+    let recientes = historial.slice(-VENTANA_CAMBIO).map(h => h.vector);
+    cambio = 1 - similitud(vector, media(recientes));
+  }
+
+  vectorActual = vector;
+
+  let r = calcularPosicion(vector);
+
+  pesosObjetivo = r.pesos;
+  objetivo = { x: r.x, y: r.y };
+
+  historial.push({
+    texto: texto,
+    vector: vector,
+    cambio: cambio,
+    dominante: r.dominante,
+    posicion: { x: r.x, y: r.y }
+  });
+
+  if (historial.length > MAX_HISTORIAL) {
+    historial.shift();
+  }
+
+  pintarTemaActual(r);
+  dibujarLinea();
+}
+
+
+// ========================================
+// Dibujo
+// ========================================
+
+const FUENTE = "Archivo, system-ui, sans-serif";
+
+function color(nombre) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(nombre).trim();
+}
+
+function ajustarCanvas(canvas, ctx) {
+
+  let escala = window.devicePixelRatio || 1;
+  let ancho = canvas.clientWidth;
+  let alto = canvas.clientHeight;
+
+  if (canvas.width !== Math.round(ancho * escala) ||
+      canvas.height !== Math.round(alto * escala)) {
+    canvas.width = Math.round(ancho * escala);
+    canvas.height = Math.round(alto * escala);
+  }
+
+  ctx.setTransform(escala, 0, 0, escala, 0, 0);
+
+  return { ancho: ancho, alto: alto };
+}
+
+function dibujarBrujula() {
+
+  let { ancho, alto } = ajustarCanvas(brujula, ctxB);
+
+  let tinta = color("--tinta");
+  let tintaSuave = color("--tinta-suave");
+  let lineaColor = color("--linea");
+  let superficie = color("--superficie");
+  let rojo = color("--aguja");
+
+  let cx = ancho / 2;
+  let cy = alto / 2;
+  // En pantallas pequeñas, letra más pequeña y más hueco a los lados
+  let pequeno = ancho < 440;
+  let margenLados = pequeno ? 84 : 104;
+  let R = Math.min(ancho / 2 - margenLados, alto / 2 - 58);
+  let RP = R * 0.82;
+
+  ctxB.clearRect(0, 0, ancho, alto);
+
+  // Esfera
+  ctxB.fillStyle = superficie;
+  ctxB.beginPath();
+  ctxB.arc(cx, cy, R, 0, Math.PI * 2);
+  ctxB.fill();
+
+  // Anillos interiores discontinuos
+  ctxB.strokeStyle = lineaColor;
+  ctxB.lineWidth = 1;
+  ctxB.setLineDash([2, 4]);
+  [1 / 3, 2 / 3].forEach(function(f) {
+    ctxB.beginPath();
+    ctxB.arc(cx, cy, R * f, 0, Math.PI * 2);
+    ctxB.stroke();
+  });
+  ctxB.setLineDash([]);
+
+  let total = temas.length;
+  let anchoSector = total ? 2 * Math.PI / total : 0;
+
+  // Sectores de cada tema
+  temas.forEach(function(tema, i) {
+
+    let a = anguloTema(i, total);
+    let peso = pesosMostrados[i] || 0;
+    let radio = R * Math.sqrt(peso);
+
+    if (radio < 1) return;
+
+    ctxB.globalAlpha = 0.18 + 0.45 * peso;
+    ctxB.fillStyle = tema.color;
+    ctxB.beginPath();
+    ctxB.moveTo(cx, cy);
+    ctxB.arc(cx, cy, radio,
+             a - anchoSector * 0.44, a + anchoSector * 0.44);
+    ctxB.closePath();
+    ctxB.fill();
+    ctxB.globalAlpha = 1;
+  });
+
+  // Borde con marcas de grados
+  ctxB.strokeStyle = tinta;
+  ctxB.lineWidth = 1.5;
+  ctxB.beginPath();
+  ctxB.arc(cx, cy, R, 0, Math.PI * 2);
+  ctxB.stroke();
+
+  ctxB.lineWidth = 1;
+  for (let g = 0; g < 360; g += 5) {
+    let a = g * Math.PI / 180;
+    let largo = g % 30 === 0 ? 10 : 4;
+    ctxB.strokeStyle = g % 30 === 0 ? tinta : tintaSuave;
+    ctxB.beginPath();
+    ctxB.moveTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+    ctxB.lineTo(cx + Math.cos(a) * (R + largo),
+                cy + Math.sin(a) * (R + largo));
+    ctxB.stroke();
+  }
+
+  // Radios y etiquetas de los temas
+  temas.forEach(function(tema, i) {
+
+    let a = anguloTema(i, total);
+    let peso = pesosMostrados[i] || 0;
+    let cargado = !!tema.vectores;
+
+    ctxB.strokeStyle = lineaColor;
+    ctxB.beginPath();
+    ctxB.moveTo(cx, cy);
+    ctxB.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+    ctxB.stroke();
+
+    // Marca del tema sobre el borde
+    ctxB.fillStyle = cargado ? tema.color : lineaColor;
+    ctxB.beginPath();
+    ctxB.arc(cx + Math.cos(a) * R, cy + Math.sin(a) * R,
+             4.5, 0, Math.PI * 2);
+    ctxB.fill();
+
+    // Las etiquetas de los lados se alinean hacia fuera
+    // para no pisar el borde
+    let cos = Math.cos(a);
+    let lado = cos > 0.3 ? "left" : cos < -0.3 ? "right" : "center";
+    let separacion = lado === "center" ? 32 : 18;
+
+    let lx = cx + cos * (R + separacion);
+    let ly = cy + Math.sin(a) * (R + separacion);
+
+    ctxB.textAlign = lado;
+    ctxB.textBaseline = "middle";
+
+    ctxB.fillStyle = cargado ? tema.color : tintaSuave;
+    ctxB.font = (peso > 0.4 ? "700 " : "600 ") +
+                (pequeno ? "12px " : "15px ") + FUENTE;
+    ctxB.fillText(tema.nombre, lx, ly - 8);
+
+    ctxB.fillStyle = tintaSuave;
+    ctxB.font = (pequeno ? "11px " : "12px ") + FUENTE;
+    ctxB.fillText(cargado ? Math.round(peso * 100) + " %" : (extractor ? "cargando" : ""),
+                  lx, ly + 9);
+  });
+
+  // Estela del recorrido
+  let estela = historial.slice(-15);
+
+  if (estela.length > 1) {
+
+    ctxB.setLineDash([3, 3]);
+    ctxB.lineWidth = 1.2;
+    ctxB.strokeStyle = tintaSuave;
+    ctxB.globalAlpha = 0.6;
+    ctxB.beginPath();
+    estela.forEach(function(h, i) {
+      let x = cx + h.posicion.x * RP;
+      let y = cy + h.posicion.y * RP;
+      if (i === 0) ctxB.moveTo(x, y); else ctxB.lineTo(x, y);
+    });
+    ctxB.stroke();
+    ctxB.setLineDash([]);
+
+    estela.slice(0, -1).forEach(function(h, i) {
+      let tema = temas[h.dominante];
+      ctxB.globalAlpha = 0.25 + 0.6 * i / estela.length;
+      ctxB.fillStyle = tema ? tema.color : tintaSuave;
+      ctxB.beginPath();
+      ctxB.arc(cx + h.posicion.x * RP, cy + h.posicion.y * RP,
+               3, 0, Math.PI * 2);
+      ctxB.fill();
+    });
+
+    ctxB.globalAlpha = 1;
+  }
+
+  // Aguja: la mitad roja apunta a la posición actual
+  let px = posicion.x * RP;
+  let py = posicion.y * RP;
+  let distancia = Math.hypot(px, py);
+
+  if (vectorActual && distancia > 2) {
+
+    let ang = Math.atan2(py, px);
+    let largo = Math.max(distancia, 24);
+    let cola = 22;
+    let grosor = 6;
+
+    ctxB.save();
+    ctxB.translate(cx, cy);
+    ctxB.rotate(ang);
+
+    ctxB.fillStyle = rojo;
+    ctxB.beginPath();
+    ctxB.moveTo(largo, 0);
+    ctxB.lineTo(0, -grosor);
+    ctxB.lineTo(0, grosor);
+    ctxB.closePath();
+    ctxB.fill();
+
+    ctxB.fillStyle = tinta;
+    ctxB.beginPath();
+    ctxB.moveTo(-cola, 0);
+    ctxB.lineTo(0, -grosor);
+    ctxB.lineTo(0, grosor);
+    ctxB.closePath();
+    ctxB.fill();
+
+    ctxB.restore();
+
+    // Punta, con el color del tema dominante
+    let ultimo = historial[historial.length - 1];
+    let tema = ultimo ? temas[ultimo.dominante] : null;
+
+    ctxB.fillStyle = tema ? tema.color : tinta;
+    ctxB.strokeStyle = superficie;
+    ctxB.lineWidth = 3;
+    ctxB.beginPath();
+    ctxB.arc(cx + px, cy + py, 8, 0, Math.PI * 2);
+    ctxB.fill();
+    ctxB.stroke();
+  }
+
+  // Eje central
+  ctxB.fillStyle = tinta;
+  ctxB.beginPath();
+  ctxB.arc(cx, cy, 7, 0, Math.PI * 2);
+  ctxB.fill();
+  ctxB.fillStyle = superficie;
+  ctxB.beginPath();
+  ctxB.arc(cx, cy, 2.5, 0, Math.PI * 2);
+  ctxB.fill();
+}
+
+let puntosLinea = [];
+
+function dibujarLinea() {
+
+  let { ancho, alto } = ajustarCanvas(linea, ctxL);
+
+  let tinta = color("--tinta");
+  let tintaSuave = color("--tinta-suave");
+  let lineaColor = color("--linea");
+  let rojo = color("--aguja");
+
+  ctxL.clearRect(0, 0, ancho, alto);
+
+  let margenIzq = 46;
+  let margenDer = 12;
+  let franja = 12;
+  let base = alto - franja - 10;
+  let techo = 22;
+
+  let maximo = Math.max(umbral() * 1.6, ...historial.map(h => h.cambio));
+  let yDe = c => base - (c / maximo) * (base - techo);
+
+  ctxL.strokeStyle = lineaColor;
+  ctxL.lineWidth = 1;
+  ctxL.beginPath();
+  ctxL.moveTo(margenIzq, base);
+  ctxL.lineTo(ancho - margenDer, base);
+  ctxL.stroke();
+
+  // Umbral
+  ctxL.setLineDash([5, 4]);
+  ctxL.strokeStyle = rojo;
+  ctxL.beginPath();
+  ctxL.moveTo(margenIzq, yDe(umbral()));
+  ctxL.lineTo(ancho - margenDer, yDe(umbral()));
+  ctxL.stroke();
+  ctxL.setLineDash([]);
+
+  ctxL.fillStyle = rojo;
+  ctxL.font = "11px " + FUENTE;
+  ctxL.textAlign = "right";
+  ctxL.textBaseline = "middle";
+  ctxL.fillText("umbral", margenIzq - 6, yDe(umbral()));
+
+  puntosLinea = [];
+
+  if (historial.length === 0) {
+    ctxL.fillStyle = tintaSuave;
+    ctxL.textAlign = "center";
+    ctxL.font = "14px " + FUENTE;
+    ctxL.fillText("Aquí irá apareciendo la conversación.",
+                  ancho / 2, alto / 2);
+    return;
+  }
+
+  let paso = (ancho - margenIzq - margenDer) / (MAX_HISTORIAL - 1);
+
+  historial.forEach(function(h, i) {
+    puntosLinea.push({ x: margenIzq + i * paso, y: yDe(h.cambio), dato: h });
+  });
+
+  // Franja del tema dominante
+  puntosLinea.forEach(function(p) {
+    let tema = temas[p.dato.dominante];
+    ctxL.fillStyle = tema ? tema.color : lineaColor;
+    ctxL.fillRect(p.x - paso / 2, alto - franja, paso + 0.5, franja);
+  });
+
+  // Línea
+  ctxL.strokeStyle = tinta;
+  ctxL.lineWidth = 1.8;
+  ctxL.beginPath();
+  puntosLinea.forEach(function(p, i) {
+    if (i === 0) ctxL.moveTo(p.x, p.y); else ctxL.lineTo(p.x, p.y);
+  });
+  ctxL.stroke();
+
+  // Puntos y palabras donde cambia el tema
+  let ultimaEtiqueta = -Infinity;
+
+  puntosLinea.forEach(function(p, i) {
+
+    let salto = p.dato.cambio >= umbral();
+    let anterior = puntosLinea[i - 1];
+    let cambiaTema = anterior && anterior.dato.dominante !== p.dato.dominante;
+
+    ctxL.fillStyle = salto ? rojo : tinta;
+    ctxL.beginPath();
+    ctxL.arc(p.x, p.y, salto ? 4.5 : 2.8, 0, Math.PI * 2);
+    ctxL.fill();
+
+    // Si la etiqueta anterior está muy cerca, no se escribe
+    if (cambiaTema && p.x - ultimaEtiqueta > 60) {
+      ultimaEtiqueta = p.x;
+      let palabras = p.dato.texto.split(" ");
+      let tema = temas[p.dato.dominante];
+      ctxL.fillStyle = tema ? tema.color : rojo;
+      ctxL.font = "600 12px " + FUENTE;
+      ctxL.textAlign = "center";
+      ctxL.textBaseline = "bottom";
+      ctxL.fillText(palabras[palabras.length - 1], p.x, p.y - 8);
+    }
+  });
+}
+
+linea.addEventListener("mousemove", function(evento) {
+
+  let caja = linea.getBoundingClientRect();
+  let x = evento.clientX - caja.left;
+
+  let cercano = null;
+  let distancia = Infinity;
+
+  puntosLinea.forEach(function(p) {
+    let d = Math.abs(p.x - x);
+    if (d < distancia) { distancia = d; cercano = p; }
+  });
+
+  if (!cercano || distancia > 20) {
+    tooltip.style.display = "none";
+    return;
+  }
+
+  let tema = temas[cercano.dato.dominante];
+
+  tooltip.textContent =
+    "«" + cercano.dato.texto + "»  —  " +
+    (tema ? tema.nombre : "sin tema") +
+    ", cambio " + cercano.dato.cambio.toFixed(2);
+
+  tooltip.style.display = "block";
+
+  let izquierda = linea.offsetLeft + cercano.x + 12;
+  let maxIzq = linea.parentElement.clientWidth - tooltip.offsetWidth - 8;
+
+  tooltip.style.left = Math.min(izquierda, maxIzq) + "px";
+  tooltip.style.top = (linea.offsetTop + cercano.y - 34) + "px";
+});
+
+linea.addEventListener("mouseleave", () => tooltip.style.display = "none");
+
+sliderTemperatura.addEventListener("input", recalcular);
+sliderUmbral.addEventListener("input", dibujarLinea);
+window.addEventListener("resize", dibujarLinea);
+
+
+// ========================================
+// Animación
+// ========================================
+
+function animar() {
+
+  posicion.x += (objetivo.x - posicion.x) * SUAVIZADO;
+  posicion.y += (objetivo.y - posicion.y) * SUAVIZADO;
+
+  temas.forEach(function(t, i) {
+    let actual = pesosMostrados[i] || 0;
+    let destino = pesosObjetivo[i] || 0;
+    pesosMostrados[i] = actual + (destino - actual) * SUAVIZADO;
+  });
+
+  dibujarBrujula();
+  requestAnimationFrame(animar);
+}
+
+
+// ========================================
+// Consultar texto
+// ========================================
+
+function limpiarPalabra(p) {
+  return p.toLowerCase().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+}
+
+async function consultarTexto(textoCompleto) {
+
+  if (!temas.some(t => t.vectores)) return;
+
+  let palabras = textoCompleto.split(/\s+/).map(limpiarPalabra).filter(p => p);
+
+  if (!palabras.length) return;
+
+  let segmento = palabras.slice(-Number(contexto.value)).join(" ");
+
+  if (segmento === ultimoSegmento) return;
+  ultimoSegmento = segmento;
+
+  palabraActual.textContent = "Analizando: ";
+  let fuerte = document.createElement("strong");
+  fuerte.textContent = segmento;
+  palabraActual.append(fuerte);
+
+  if (controlador) controlador.abort();
+
+  controlador = new AbortController();
+  let numero = ++peticionActual;
+
+  try {
+
+    let [vector] = await obtenerEmbeddings([segmento]);
+
+    if (numero !== peticionActual) return;
+
+    procesarVector(segmento, vector);
+
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      console.error(error);
+      mostrarError(error.message);
+    }
+  }
+}
+
+let esperaEscritura = null;
+
+escribir.addEventListener("input", function() {
+  clearTimeout(esperaEscritura);
+  esperaEscritura = setTimeout(() => consultarTexto(escribir.value), 300);
+});
+
+contexto.addEventListener("change", () => ultimoSegmento = "");
+
+
+// ========================================
+// Reconocimiento de voz
+// ========================================
+
+function actualizarDictadoVacio() {
+  let vacio = !textoFinal.textContent.trim() &&
+              !textoProvisional.textContent.trim();
+  dictado.classList.toggle("vacio", vacio);
+}
+
+function procesarReconocimiento(evento) {
+
+  let confirmado = "";
+  let provisional = "";
+
+  for (let i = 0; i < evento.results.length; i++) {
+    let resultado = evento.results[i];
+    if (resultado.isFinal) confirmado += resultado[0].transcript + " ";
+    else provisional += resultado[0].transcript;
+  }
+
+  textoFinal.textContent = textoAcumulado + confirmado;
+  textoProvisional.textContent = provisional;
+  actualizarDictadoVacio();
+  dictado.scrollTop = dictado.scrollHeight;
+
+  let textoCompleto =
+    (textoAcumulado + " " + confirmado + " " + provisional).trim();
+
+  if (textoCompleto) consultarTexto(textoCompleto);
+}
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+
+  mostrarEstado("Este navegador no reconoce la voz. Usa Google Chrome o escribe abajo.");
+  microfono.disabled = true;
+
+} else {
+
+  reconocimiento = new SpeechRecognition();
+  reconocimiento.lang = "es-ES";
+  reconocimiento.continuous = true;
+  reconocimiento.interimResults = true;
+  reconocimiento.maxAlternatives = 1;
+
+  reconocimiento.onstart = function() {
+    mostrarEstado("Escuchando…");
+    microfono.classList.add("activo");
+    microfono.setAttribute("aria-label", "Dejar de escuchar");
+  };
+
+  reconocimiento.onresult = procesarReconocimiento;
+
+  reconocimiento.onerror = function(evento) {
+    console.error(evento.error);
+    if (evento.error === "not-allowed" || evento.error === "service-not-allowed") {
+      escuchando = false;
+      mostrarError("El navegador no tiene permiso para usar el micrófono.");
+    } else if (evento.error === "network") {
+      escuchando = false;
+      mostrarError("El reconocimiento de voz necesita conexión a internet.");
+    }
+  };
+
+  reconocimiento.onend = function() {
+
+    microfono.classList.remove("activo");
+    microfono.setAttribute("aria-label", "Empezar a escuchar");
+
+    if (escuchando) {
+
+      textoAcumulado = textoFinal.textContent + " " +
+                       textoProvisional.textContent + " ";
+      textoFinal.textContent = textoAcumulado;
+      textoProvisional.textContent = "";
+
+      try { reconocimiento.start(); } catch (e) { console.error(e); }
+
+    } else if (!estado.classList.contains("error")) {
+      mostrarEstado("Micrófono apagado.");
+    }
+  };
+}
+
+microfono.onclick = function() {
+
+  if (!reconocimiento) return;
+
+  if (!escuchando) {
+    escuchando = true;
+    try {
+      reconocimiento.start();
+    } catch (error) {
+      escuchando = false;
+      console.error(error);
+    }
+  } else {
+    escuchando = false;
+    reconocimiento.stop();
+  }
+};
+
+
+// ========================================
+// Empezar de nuevo
+// ========================================
+
+function reiniciar() {
+
+  textoAcumulado = "";
+  ultimoSegmento = "";
+
+  textoFinal.textContent = "";
+  textoProvisional.textContent = "";
+  palabraActual.textContent = "";
+  escribir.value = "";
+  actualizarDictadoVacio();
+
+  vectorActual = null;
+  historial = [];
+  objetivo = { x: 0, y: 0 };
+  pesosObjetivo = temas.map(() => 0);
+
+  peticionActual++;
+  if (controlador) controlador.abort();
+
+  if (escuchando) {
+    escuchando = false;
+    reconocimiento.stop();
+  }
+
+  pintarTemaActual({ dominante: -1 });
+  dibujarLinea();
+}
+
+limpiar.onclick = reiniciar;
+
+
+// ========================================
+// Inicio
+// ========================================
+
+// Progreso de descarga: Transformers.js avisa por cada archivo
+let descargas = {};
+
+function progresoDescarga(info) {
+
+  if (info.status !== "progress" || !info.total) return;
+
+  descargas[info.file] = { cargado: info.loaded, total: info.total };
+
+  let cargado = 0, total = 0;
+  Object.values(descargas).forEach(d => {
+    cargado += d.cargado;
+    total += d.total;
+  });
+
+  progresoCarga.style.width = (cargado / total * 100) + "%";
+  textoCarga.textContent =
+    "Descargando… " + Math.round(cargado / 1e6) + " de " +
+    Math.round(total / 1e6) + " MB";
+}
+
+async function cargarModelo() {
+
+  botonCargar.disabled = true;
+  barraCarga.hidden = false;
+  textoCarga.textContent = "Preparando la descarga…";
+  mostrarEstado("Cargando el modelo…");
+
+  try {
+
+    extractor = await pipeline("feature-extraction", MODELO, {
+      dtype: "q8",
+      progress_callback: progresoDescarga
+    });
+
+  } catch (error) {
+
+    console.error(error);
+    botonCargar.disabled = false;
+    barraCarga.hidden = true;
+    textoCarga.textContent =
+      "No se pudo descargar el modelo. Comprueba la conexión y vuelve a intentarlo.";
+    mostrarError("No se pudo cargar el modelo.");
+    return;
+  }
+
+  cargaModelo.hidden = true;
+  mostrarEstado("Cargando temas…");
+
+  for (let tema of [...temas]) {
+    try {
+      await cargarVectoresTema(tema);
+    } catch (error) {
+      console.error(error);
+      mostrarError(error.message);
+      return;
+    }
+    pintarListaTemas();
+    recalcular();
+  }
+
+  mostrarEstado("Listo. Pulsa el micrófono o escribe abajo.");
+  escribir.focus({ preventScroll: true });
+}
+
+// Si el modelo ya está en la caché del navegador, se carga solo
+async function modeloEnCache() {
+  try {
+    let cache = await caches.open("transformers-cache");
+    let claves = await cache.keys();
+    return claves.some(r => r.url.includes(MODELO) && r.url.endsWith(".onnx"));
+  } catch (e) {
+    return false;
+  }
+}
+
+botonCargar.addEventListener("click", cargarModelo);
+
+async function iniciar() {
+
+  dibujarLinea();
+  requestAnimationFrame(animar);
+
+  // Mientras no hay modelo, se muestran los temas en gris
+  TEMAS_INICIALES.forEach(([nombre, claves], i) => {
+    temas.push({
+      nombre: nombre,
+      claves: separarClaves(claves),
+      color: COLORES[i],
+      vectores: null,
+      centroide: null
+    });
+    pesosMostrados.push(0);
+  });
+  pintarListaTemas();
+  temaActual.textContent = "Carga el modelo para empezar.";
+  mostrarEstado("Primero hay que cargar el modelo.");
+
+  if (await modeloEnCache()) {
+    cargarModelo();
+  }
+}
+
+document.fonts.ready.then(dibujarLinea);
+iniciar();
+
+</script>
+
+</body>
+</html>
