@@ -149,6 +149,10 @@ export const projectDetails = {
   },
 
   4: {
+    // Sin demo en vivo (el modelo de IA necesita más memoria de la que tiene el servidor):
+    // se muestra un vídeo grabado con las tres herramientas funcionando en local
+    video: 'videos/laboratorio-ia.mp4',
+    poster: 'videos/laboratorio-ia.webp',
     galeria: ['images/proyectos/laboratorio-ia-chat.webp', 'images/proyectos/laboratorio-ia-saneador.webp'],
     es: {
       resumen: [

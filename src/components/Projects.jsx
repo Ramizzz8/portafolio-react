@@ -6,6 +6,7 @@ import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
 import ProjectModal from './ProjectModal'
+import { projectDetails } from '../data/projectDetails'
 
 function TechBadge({ tech, color }) {
   return (
@@ -71,6 +72,9 @@ function ProjectCover({ project, compact = false, frameY }) {
 function FeaturedCard({ project, index, onOpen }) {
   const { t, lang } = useLang()
   const isEven = index % 2 === 0
+  const tieneVideo = Boolean(projectDetails[project.id]?.video)
+  // El botón de código es secundario si hay otra acción principal (demo en vivo o vídeo)
+  const secundario = Boolean(project.live) || tieneVideo
 
   // Parallax: la portada se mueve más lenta que la tarjeta y la ventana, en sentido contrario
   const cardRef = useRef(null)
@@ -152,6 +156,18 @@ function FeaturedCard({ project, index, onOpen }) {
             {t.projects.details_btn}
             <span aria-hidden="true">↗</span>
           </button>
+          {/* Sin demo en vivo pero con vídeo: "Ver vídeo" abre la ficha, que empieza por el vídeo */}
+          {!project.live && tieneVideo && (
+            <button
+              type="button"
+              onClick={() => onOpen(project)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
+              style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
+            >
+              <span aria-hidden="true">▶</span>
+              {t.projects.view_video}
+            </button>
+          )}
           {/* Si hay demo en vivo, es la acción principal; el código pasa a botón secundario */}
           {project.live && (
             <a
@@ -172,7 +188,7 @@ function FeaturedCard({ project, index, onOpen }) {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
               style={
-                project.live
+                secundario
                   ? { border: `1px solid ${project.color}`, color: project.color }
                   : { backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }
               }
@@ -180,8 +196,8 @@ function FeaturedCard({ project, index, onOpen }) {
               <img
                 src={img('images/github.webp')}
                 alt=""
-                className={`w-4 h-4 ${project.live ? 'icono-adaptable' : ''}`}
-                style={project.live ? undefined : { filter: 'brightness(0) invert(1)' }}
+                className={`w-4 h-4 ${secundario ? 'icono-adaptable' : ''}`}
+                style={secundario ? undefined : { filter: 'brightness(0) invert(1)' }}
               />
               {t.projects.view_code}
             </a>

@@ -15,9 +15,16 @@ export default function ProjectModal({ project, onClose }) {
   const actual = seleccion.id === project?.id ? seleccion.indice : 0
 
   const detalle = project ? projectDetails[project.id] : null
-  const imagenes = project ? [project.image, ...(detalle?.galeria ?? [])] : []
+  // Galería: el vídeo (si lo hay) primero, después la portada y las capturas extra
+  const medios = project
+    ? [
+        ...(detalle?.video ? [{ tipo: 'video', src: detalle.video, poster: detalle.poster }] : []),
+        { tipo: 'imagen', src: project.image },
+        ...(detalle?.galeria ?? []).map((src) => ({ tipo: 'imagen', src })),
+      ]
+    : []
   const textos = detalle?.[lang]
-  const total = imagenes.length
+  const total = medios.length
   const setActual = (indice) => setSeleccion({ id: project.id, indice })
 
   useEffect(() => {
@@ -80,38 +87,62 @@ export default function ProjectModal({ project, onClose }) {
             </button>
 
             {/* Galería */}
-            <div className="relative aspect-video bg-[var(--bg-main)] -mt-[52px]">
+            <div className="relative aspect-video bg-black -mt-[52px]">
               <AnimatePresence mode="wait">
-                <motion.img
-                  key={imagenes[actual]}
-                  src={img(imagenes[actual])}
-                  alt={`${project.title} — ${actual + 1}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ objectPosition: actual === 0 ? project.imagePosition ?? 'top' : 'top' }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                />
+                {medios[actual].tipo === 'video' ? (
+                  <motion.video
+                    key={medios[actual].src}
+                    src={img(medios[actual].src)}
+                    poster={img(medios[actual].poster)}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  />
+                ) : (
+                  <motion.img
+                    key={medios[actual].src}
+                    src={img(medios[actual].src)}
+                    alt={`${project.title} — ${actual + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ objectPosition: medios[actual].src === project.image ? project.imagePosition ?? 'top' : 'top' }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  />
+                )}
               </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent pointer-events-none" />
-
-              {imagenes.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                  {imagenes.map((src, i) => (
-                    <button
-                      key={src}
-                      onClick={() => setActual(i)}
-                      aria-label={`${t.projects.modal.image} ${i + 1}`}
-                      className="w-16 h-10 sm:w-20 sm:h-12 rounded-md overflow-hidden border-2 transition-all"
-                      style={{ borderColor: i === actual ? project.color : 'rgba(255,255,255,0.2)', opacity: i === actual ? 1 : 0.6 }}
-                    >
-                      <img src={img(src)} alt="" className="w-full h-full object-cover object-top" />
-                    </button>
-                  ))}
-                </div>
+              {medios[actual].tipo === 'imagen' && (
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent pointer-events-none" />
               )}
             </div>
+
+            {/* Miniaturas debajo de la imagen, para no tapar los controles del vídeo */}
+            {medios.length > 1 && (
+              <div className="flex justify-center gap-2 px-6 pt-4">
+                {medios.map((m, i) => (
+                  <button
+                    key={m.src}
+                    onClick={() => setActual(i)}
+                    aria-label={m.tipo === 'video' ? t.projects.modal.video : `${t.projects.modal.image} ${i + 1}`}
+                    className="relative w-16 h-10 sm:w-20 sm:h-12 rounded-md overflow-hidden border-2 transition-all"
+                    style={{ borderColor: i === actual ? project.color : 'rgba(128,128,128,0.35)', opacity: i === actual ? 1 : 0.6 }}
+                  >
+                    <img src={img(m.tipo === 'video' ? m.poster : m.src)} alt="" className="w-full h-full object-cover object-top" />
+                    {m.tipo === 'video' && (
+                      <span className="absolute inset-0 grid place-items-center bg-black/35 text-[#fff] text-sm" aria-hidden="true">▶</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Contenido */}
             <div className="px-6 pt-5 pb-8 sm:px-10 sm:pt-6 sm:pb-10 relative">
