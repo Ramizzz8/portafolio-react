@@ -157,7 +157,7 @@ body {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-.cinta-pista { width: max-content; animation: cinta-desplazar 45s linear infinite; }
+.cinta-pista { width: max-content; animation: cinta-desplazar 52s linear infinite; }
 .cinta:hover .cinta-pista { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .cinta-pista { animation: none; }
