@@ -86,6 +86,7 @@ export const translations = {
       error: 'Algo salió mal. Escríbeme directamente a',
     },
     footer: 'Hecho con React + Tailwind',
+    theme: { to_light: 'Cambiar a modo claro', to_dark: 'Cambiar a modo oscuro' },
   },
 
   en: {
@@ -175,5 +176,6 @@ export const translations = {
       error: 'Something went wrong. Write directly to',
     },
     footer: 'Built with React + Tailwind',
+    theme: { to_light: 'Switch to light mode', to_dark: 'Switch to dark mode' },
   },
 }

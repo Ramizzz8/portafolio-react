@@ -113,7 +113,7 @@ export default function Hero() {
             <motion.div variants={item} className="flex gap-4 flex-wrap portada-botones">
               <a
                 href="#trabajos"
-                className="px-8 py-3 bg-[#e63946] text-white font-bold rounded-lg hover:bg-[#c62c38] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#e63946]/30"
+                className="px-8 py-3 bg-[#e63946] text-[#fff] font-bold rounded-lg hover:bg-[#c62c38] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#e63946]/30"
               >
                 {t.hero.cta_projects}
               </a>

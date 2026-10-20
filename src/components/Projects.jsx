@@ -180,8 +180,8 @@ function FeaturedCard({ project, index, onOpen }) {
               <img
                 src={img('images/github.webp')}
                 alt=""
-                className="w-4 h-4"
-                style={{ filter: project.live ? 'none' : 'brightness(0) invert(1)' }}
+                className={`w-4 h-4 ${project.live ? 'icono-adaptable' : ''}`}
+                style={project.live ? undefined : { filter: 'brightness(0) invert(1)' }}
               />
               {t.projects.view_code}
             </a>

@@ -44,13 +44,13 @@ export default function Header() {
         {/* Social links */}
         <nav className="flex items-center gap-3" aria-label="Redes sociales">
           <a href="https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="group">
-            <img src={img('images/linkedin.webp')} alt="LinkedIn" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/linkedin.webp')} alt="LinkedIn" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="https://github.com/Ramizzz8" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="group">
-            <img src={img('images/github.webp')} alt="GitHub" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/github.webp')} alt="GitHub" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
           <a href="mailto:ajulianrague@gmail.com" aria-label="Correo" className="group">
-            <img src={img('images/mail.webp')} alt="Email" className="w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+            <img src={img('images/mail.webp')} alt="Email" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
           </a>
         </nav>
 
@@ -79,18 +79,23 @@ export default function Header() {
             {lang === 'es' ? 'EN' : 'ES'}
           </button>
 
-          {/* Toggle tema */}
+          {/* Toggle tema: muestra el icono del modo al que se cambiará */}
           <button
             onClick={toggleTheme}
-            aria-label="Cambiar tema"
-            title={theme === 'black' ? 'Cambiar a tema azul' : 'Cambiar a tema negro'}
-            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110"
+            aria-label={theme === 'dark' ? t.theme.to_light : t.theme.to_dark}
+            title={theme === 'dark' ? t.theme.to_light : t.theme.to_dark}
+            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110 text-white/70 hover:text-white"
           >
-            {/* Muestra el color del tema al que se cambiará */}
-            <span
-              className="w-4 h-4 rounded-full border border-white/40"
-              style={{ backgroundColor: theme === 'black' ? '#2b4a75' : '#0a0a0a' }}
-            />
+            {theme === 'dark' ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 1.5v2.5M12 20v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M1.5 12H4M20 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
           </button>
 
           {/* Mobile hamburger */}

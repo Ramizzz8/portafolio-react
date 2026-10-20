@@ -10,7 +10,7 @@ const STATUS = { IDLE: 'idle', SENDING: 'sending', OK: 'ok', ERROR: 'error' }
 
 const contactLinks = [
   { label: 'LinkedIn', value: 'Andrés Ramírez', href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/', icon: 'images/linkedin.webp', color: '#0a66c2' },
-  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', icon: 'images/github.webp', color: '#ffffff' },
+  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', icon: 'images/github.webp', color: '#8b949e' },
   { label: 'Email', value: 'ajulianrague@gmail.com', href: 'mailto:ajulianrague@gmail.com', icon: 'images/mail.webp', color: '#e63946' },
 ]
 
@@ -84,7 +84,7 @@ export default function Contact() {
                 className="group flex items-center gap-4 p-4 bg-[var(--bg-card)] border border-white/5 rounded-xl hover:border-white/15 transition-all duration-300 hover:-translate-y-0.5"
               >
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${link.color}15`, border: `1px solid ${link.color}30` }}>
-                  <img src={img(link.icon)} alt={link.label} className="w-5 h-5 object-contain" />
+                  <img src={img(link.icon)} alt={link.label} className="icono-adaptable w-5 h-5 object-contain" />
                 </div>
                 <div>
                   <p className="text-white/40 text-xs">{link.label}</p>
@@ -138,7 +138,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === STATUS.SENDING}
-              className="w-full py-4 bg-[#e63946] text-white font-bold rounded-xl hover:bg-[#c62c38] transition-all duration-300 hover:scale-[1.01] hover:shadow-lg hover:shadow-[#e63946]/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 text-sm tracking-wide uppercase"
+              className="w-full py-4 bg-[#e63946] text-[#fff] font-bold rounded-xl hover:bg-[#c62c38] transition-all duration-300 hover:scale-[1.01] hover:shadow-lg hover:shadow-[#e63946]/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 text-sm tracking-wide uppercase"
             >
               {status === STATUS.SENDING ? t.contact.sending : t.contact.submit}
             </button>

@@ -19,7 +19,7 @@ const categories = [
     key: 'backend',
     items: [
       { name: 'Python', icon: 'images/python.webp' },
-      { name: 'Flask', color: '#ffffff' },
+      { name: 'Flask', color: 'var(--color-white)' },
       { name: 'PHP', color: '#8892bf' },
     ],
   },
@@ -33,7 +33,7 @@ const categories = [
     key: 'tools',
     items: [
       { name: 'Git', color: '#f05032' },
-      { name: 'GitHub', icon: 'images/github.webp' },
+      { name: 'GitHub', icon: 'images/github.webp', adaptable: true },
       { name: 'Vite', color: '#a855f7' },
     ],
   },
@@ -43,7 +43,7 @@ function SkillChip({ item }) {
   return (
     <li className="flex items-center gap-2.5 px-3 py-2 bg-[var(--bg-main)] border border-white/5 rounded-lg text-sm text-white/80 hover:border-[#e63946]/40 hover:text-white transition-all duration-200">
       {item.icon ? (
-        <img src={img(item.icon)} alt="" className="w-5 h-5 object-contain" />
+        <img src={img(item.icon)} alt="" className={`w-5 h-5 object-contain ${item.adaptable ? 'icono-adaptable' : ''}`} />
       ) : (
         <span className="w-2.5 h-2.5 mx-[5px] rounded-full" style={{ backgroundColor: item.color }} />
       )}

@@ -74,7 +74,7 @@ export default function ProjectModal({ project, onClose }) {
               ref={cerrarRef}
               onClick={onClose}
               aria-label={t.projects.modal.close}
-              className="sticky top-3 float-right mr-3 z-10 w-10 h-10 rounded-full bg-black/60 backdrop-blur border border-white/15 text-white text-lg flex items-center justify-center hover:bg-black/80 transition-colors"
+              className="sticky top-3 float-right mr-3 z-10 w-10 h-10 rounded-full bg-black/60 backdrop-blur border border-white/15 text-[#fff] text-lg flex items-center justify-center hover:bg-black/80 transition-colors"
             >
               ✕
             </button>
@@ -171,7 +171,7 @@ export default function ProjectModal({ project, onClose }) {
                     className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border transition-transform hover:scale-105"
                     style={project.live ? { borderColor: project.color, color: project.color } : { backgroundColor: project.color, borderColor: project.color, color: '#fff' }}
                   >
-                    <img src={img('images/github.webp')} alt="" className="w-4 h-4 brightness-0 invert" />
+                    <img src={img('images/github.webp')} alt="" className={`w-4 h-4 ${project.live ? 'icono-adaptable' : 'brightness-0 invert'}`} />
                     {t.projects.view_code}
                   </a>
                 )}

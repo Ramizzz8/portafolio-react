@@ -9,19 +9,33 @@
   font-display: swap;
 }
 
-/* Tema negro (default) */
+/* Modo oscuro (por defecto) */
 :root {
   --bg-main: #0a0a0a;
   --bg-card: #1a1a1a;
   --bg-hover: #242424;
+  color-scheme: dark;
 }
 
-/* Tema azul */
-[data-theme="blue"] {
-  --bg-main: #0d1b2a;
-  --bg-card: #1b273b;
-  --bg-hover: #243148;
+/* Modo claro. Tailwind genera todas las clases "white" (text-white/70, border-white/10…)
+   a partir de --color-white: al oscurecerla, textos y bordes se adaptan solos. */
+[data-theme="light"] {
+  --bg-main: #f4f2ee;
+  --bg-card: #ffffff;
+  --bg-hover: #ebe8e3;
+  --color-white: #16161a;
+  color-scheme: light;
 }
+
+/* Iconos que son imágenes blancas (LinkedIn, GitHub, correo): oscuros en modo claro */
+[data-theme="light"] .icono-adaptable { filter: invert(1); }
+
+/* Las líneas de luz del fondo de proyectos se invierten: líneas azules sobre claro */
+[data-theme="light"] .fondo-destacados img,
+[data-theme="light"] .fondo-otros img { filter: invert(1) hue-rotate(180deg); opacity: 0.3; }
+
+/* La foto de fondo de "Sobre mí" es oscura: en modo claro se invierte y se suaviza */
+[data-theme="light"] .fondo-sobre-mi { filter: invert(1) grayscale(1); opacity: 0.07; }
 
 html {
   scroll-behavior: smooth;
@@ -29,7 +43,7 @@ html {
 
 body {
   background-color: var(--bg-main);
-  color: #ffffff;
+  color: var(--color-white);
   font-family: Arial, sans-serif;
   margin: 0;
   transition: background-color 0.4s ease;
