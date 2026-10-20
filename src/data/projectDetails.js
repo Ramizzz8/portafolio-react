@@ -5,6 +5,9 @@
 
 export const projectDetails = {
   1: {
+    video: 'videos/novacapital.mp4',
+    previa: 'videos/novacapital-previa.mp4',
+    poster: 'images/novacapital-cover.webp',
     galeria: [],
     es: {
       resumen: [
@@ -55,6 +58,9 @@ export const projectDetails = {
   },
 
   2: {
+    video: 'videos/moves.mp4',
+    previa: 'videos/moves-previa.mp4',
+    poster: 'images/moves-location.webp',
     galeria: [],
     es: {
       resumen: [
@@ -103,6 +109,9 @@ export const projectDetails = {
   },
 
   3: {
+    video: 'videos/camaron.mp4',
+    previa: 'videos/camaron-previa.mp4',
+    poster: 'images/proyectos/camaron-viviendas.webp',
     galeria: ['images/proyectos/camaron-ficha.webp', 'images/proyectos/camaron-panel.webp'],
     es: {
       resumen: [
@@ -153,6 +162,7 @@ export const projectDetails = {
     // se muestra un vídeo grabado con las tres herramientas funcionando en local
     video: 'videos/laboratorio-ia.mp4',
     poster: 'videos/laboratorio-ia.webp',
+    previa: 'videos/laboratorio-ia-previa.mp4',
     galeria: ['images/proyectos/laboratorio-ia-chat.webp', 'images/proyectos/laboratorio-ia-saneador.webp'],
     es: {
       resumen: [
@@ -193,6 +203,9 @@ export const projectDetails = {
   },
 
   10: {
+    video: 'videos/brujula.mp4',
+    previa: 'videos/brujula-previa.mp4',
+    poster: 'images/proyectos/brujula-temas.webp',
     galeria: [],
     es: {
       resumen: [

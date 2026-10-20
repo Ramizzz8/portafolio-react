@@ -26,6 +26,7 @@ export const translations = {
       view_repo: 'Ver repositorio →',
       details_btn: 'Ver detalles',
       view_video: 'Ver vídeo',
+      preview_badge: 'Vídeo',
       modal: {
         about: 'Sobre el proyecto',
         features: 'Qué hace',
@@ -118,6 +119,7 @@ export const translations = {
       view_repo: 'View repository →',
       details_btn: 'View details',
       view_video: 'Watch video',
+      preview_badge: 'Video',
       modal: {
         about: 'About the project',
         features: 'What it does',

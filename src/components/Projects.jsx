@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { img } from '../utils/img'
@@ -69,6 +69,45 @@ function ProjectCover({ project, compact = false, frameY }) {
   )
 }
 
+// Vista previa al estilo YouTube: la portada se funde con un clip corto, en silencio y en bucle.
+// El <video> solo se crea (y descarga) la primera vez que se activa (`montada`).
+function VistaPrevia({ src, activa, montada, etiqueta }) {
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    if (activa) {
+      video.currentTime = 0
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+    }
+  }, [activa, montada])
+
+  return (
+    <>
+      {montada && (
+        <video
+          ref={videoRef}
+          src={img(src)}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${activa ? 'opacity-100' : 'opacity-0'}`}
+        />
+      )}
+      <span
+        className={`absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-xs font-semibold text-[#fff] pointer-events-none transition-opacity duration-300 ${activa ? 'opacity-0' : 'opacity-100'}`}
+      >
+        <span aria-hidden="true">▶</span> {etiqueta}
+      </span>
+    </>
+  )
+}
+
 function FeaturedCard({ project, index, onOpen }) {
   const { t, lang } = useLang()
   const isEven = index % 2 === 0
@@ -81,6 +120,25 @@ function FeaturedCard({ project, index, onOpen }) {
   const coverY = useParallax(cardRef, 30)
   const frameY = useParallax(cardRef, -20)
 
+  // Vista previa: tras medio segundo con el ratón encima (solo con ratón y sin "reducir movimiento")
+  const previa = projectDetails[project.id]?.previa
+  const reducirMovimiento = useReducedMotion()
+  const [previaActiva, setPreviaActiva] = useState(false)
+  const [previaMontada, setPreviaMontada] = useState(false)
+  const temporizador = useRef(null)
+  const entrar = () => {
+    if (!previa || reducirMovimiento || !window.matchMedia('(hover: hover)').matches) return
+    temporizador.current = setTimeout(() => {
+      setPreviaMontada(true)
+      setPreviaActiva(true)
+    }, 500)
+  }
+  const salir = () => {
+    clearTimeout(temporizador.current)
+    setPreviaActiva(false)
+  }
+  useEffect(() => () => clearTimeout(temporizador.current), [])
+
   return (
     <motion.article
       ref={cardRef}
@@ -92,6 +150,8 @@ function FeaturedCard({ project, index, onOpen }) {
       style={{ border: `1px solid ${project.color}20` }}
       // Toda la tarjeta abre la ventana de detalle (también con Enter o Espacio)
       onClick={() => onOpen(project)}
+      onMouseEnter={entrar}
+      onMouseLeave={salir}
       onKeyDown={(e) => {
         if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault()
@@ -113,6 +173,9 @@ function FeaturedCard({ project, index, onOpen }) {
         <motion.div style={{ y: coverY }} className="absolute inset-x-0 -inset-y-10">
           <ProjectCover project={project} frameY={frameY} />
         </motion.div>
+        {previa && (
+          <VistaPrevia src={previa} activa={previaActiva} montada={previaMontada} etiqueta={t.projects.preview_badge} />
+        )}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
