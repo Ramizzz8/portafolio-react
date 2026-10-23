@@ -4,7 +4,6 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
-import CintaTecnologias from './components/CintaTecnologias'
 import About from './components/About'
 import Contact from './components/Contact'
 import ScrollProgress from './components/ScrollProgress'
@@ -18,7 +17,6 @@ function AppContent() {
       <Header />
       <main>
         <Hero />
-        <CintaTecnologias />
         <Projects />
         <Skills />
         <About />
