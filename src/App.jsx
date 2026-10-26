@@ -17,9 +17,9 @@ function AppContent() {
       <Header />
       <main>
         <Hero />
+        <About />
         <Projects />
         <Skills />
-        <About />
         <Contact />
       </main>
       <footer className="text-center py-8 text-white/30 text-sm border-t border-white/5">

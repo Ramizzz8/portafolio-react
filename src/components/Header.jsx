@@ -12,9 +12,9 @@ export default function Header() {
   const { lang, toggleLang, t } = useLang()
 
   const navLinks = [
+    { label: t.nav.about, href: '#sobre-mi' },
     { label: t.nav.projects, href: '#trabajos' },
     { label: t.nav.skills, href: '#habilidades' },
-    { label: t.nav.about, href: '#sobre-mi' },
     { label: t.nav.contact, href: '#contacto' },
   ]
 
