@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 
@@ -11,6 +11,44 @@ const container = {
 const item = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
+function Typewriter({ roles }) {
+  const [roleIndex, setRoleIndex] = useState(0)
+  const [displayed, setDisplayed] = useState('')
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    setDisplayed('')
+    setDeleting(false)
+    setRoleIndex(0)
+  }, [roles])
+
+  useEffect(() => {
+    const current = roles[roleIndex]
+    let timeout
+
+    if (!deleting && displayed.length < current.length) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 60)
+    } else if (!deleting && displayed.length === current.length) {
+      timeout = setTimeout(() => setDeleting(true), 1800)
+    } else if (deleting && displayed.length > 0) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 35)
+    } else if (deleting && displayed.length === 0) {
+      setDeleting(false)
+      setRoleIndex((i) => (i + 1) % roles.length)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [displayed, deleting, roleIndex, roles])
+
+  return (
+    <span className="font-mono text-[#e63946] tracking-tight">
+      <span className="text-white/30 select-none">&gt; </span>
+      {displayed}
+      <span className="animate-pulse text-[#e63946]">_</span>
+    </span>
+  )
 }
 
 export default function Hero() {
@@ -66,10 +104,10 @@ export default function Hero() {
           </motion.h1>
 
           <div className="portada-pie pointer-events-auto">
-            <motion.p variants={item} className="text-2xl md:text-[28px] font-semibold leading-tight text-white">
-              {t.hero.role}
-            </motion.p>
-            <motion.p variants={item} className="text-white/80 leading-relaxed mt-2 mb-6 text-base md:text-lg">
+            <motion.div variants={item} className="text-lg md:text-xl h-8">
+              <Typewriter roles={t.hero.roles} />
+            </motion.div>
+            <motion.p variants={item} className="text-white/75 leading-relaxed mt-2 mb-6 text-base md:text-[17px]">
               {t.hero.tagline}
             </motion.p>
             <motion.div variants={item} className="flex gap-4 flex-wrap portada-botones">

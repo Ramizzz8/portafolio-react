@@ -7,7 +7,7 @@ export const translations = {
       contact: 'Contacto',
     },
     hero: {
-      role: 'Desarrollador web full-stack',
+      roles: ['Desarrollador Web', 'Backend Developer', 'Frontend Developer', 'Full Stack Developer'],
       cta_projects: 'Ver proyectos',
       cta_contact: 'Contactarme',
       tagline: 'Desarrollo aplicaciones web completas, desde la base de datos hasta el despliegue.',
@@ -102,7 +102,7 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
-      role: 'Full-stack web developer',
+      roles: ['Web Developer', 'Backend Developer', 'Frontend Developer', 'Full Stack Developer'],
       cta_projects: 'View projects',
       cta_contact: 'Contact me',
       tagline: 'I build complete web applications, from the database to deployment.',
