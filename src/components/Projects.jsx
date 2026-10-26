@@ -6,6 +6,7 @@ import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
 import ProjectModal from './ProjectModal'
+import { IconoGitHub } from './IconosRedes'
 import { projectDetails } from '../data/projectDetails'
 
 function TechBadge({ tech, color }) {
@@ -261,12 +262,7 @@ function FeaturedCard({ project, index, onOpen }) {
                   : { backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }
               }
             >
-              <img
-                src={img('images/github.webp')}
-                alt=""
-                className={`w-4 h-4 ${secundario ? 'icono-adaptable' : ''}`}
-                style={secundario ? undefined : { filter: 'brightness(0) invert(1)' }}
-              />
+              <IconoGitHub className="w-4 h-4" />
               {t.projects.view_code}
             </a>
           )}

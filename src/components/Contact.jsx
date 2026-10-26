@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
-import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
+import { IconoGitHub, IconoGmail, IconoLinkedIn } from './IconosRedes'
 
 const STATUS = { IDLE: 'idle', SENDING: 'sending', OK: 'ok', ERROR: 'error' }
 
 const contactLinks = [
-  { label: 'LinkedIn', value: 'Andrés Ramírez', href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/', icon: 'images/linkedin.webp', color: '#0a66c2' },
-  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', icon: 'images/github.webp', color: '#8b949e' },
-  { label: 'Email', value: 'ajulianrague@gmail.com', href: 'mailto:ajulianrague@gmail.com', icon: 'images/mail.webp', color: '#e63946' },
+  { label: 'LinkedIn', value: 'Andrés Ramírez', href: 'https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/', Icono: IconoLinkedIn },
+  { label: 'GitHub', value: '@Ramizzz8', href: 'https://github.com/Ramizzz8', Icono: IconoGitHub },
+  { label: 'Email', value: 'ajulianrague@gmail.com', href: 'mailto:ajulianrague@gmail.com', Icono: IconoGmail },
 ]
 
 export default function Contact() {
@@ -83,8 +83,8 @@ export default function Contact() {
                 transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
                 className="group flex items-center gap-4 p-4 bg-[var(--bg-card)] border border-white/5 rounded-xl hover:border-white/15 transition-all duration-300 hover:-translate-y-0.5"
               >
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${link.color}15`, border: `1px solid ${link.color}30` }}>
-                  <img src={img(link.icon)} alt={link.label} className="icono-adaptable w-5 h-5 object-contain" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-white/5 text-white/85 group-hover:text-[#e63946] transition-colors duration-200">
+                  <link.Icono className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-white/40 text-sm">{link.label}</p>

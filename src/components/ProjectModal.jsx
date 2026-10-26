@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { projectDetails } from '../data/projectDetails'
+import { IconoGitHub } from './IconosRedes'
 
 // Ventana con la información ampliada de un proyecto destacado.
 // Se cierra con Esc, con la X o haciendo clic fuera; las flechas cambian de imagen.
@@ -202,7 +203,7 @@ export default function ProjectModal({ project, onClose }) {
                     className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border transition-transform hover:scale-105"
                     style={project.live ? { borderColor: project.color, color: project.color } : { backgroundColor: project.color, borderColor: project.color, color: '#fff' }}
                   >
-                    <img src={img('images/github.webp')} alt="" className={`w-4 h-4 ${project.live ? 'icono-adaptable' : 'brightness-0 invert'}`} />
+                    <IconoGitHub className="w-4 h-4" />
                     {t.projects.view_code}
                   </a>
                 )}

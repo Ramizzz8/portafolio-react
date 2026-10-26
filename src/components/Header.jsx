@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { IconoGitHub, IconoGmail, IconoLinkedIn } from './IconosRedes'
 import { useLang } from '../context/LanguageContext'
-import { img } from '../utils/img'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -43,14 +43,14 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Social links */}
         <nav className="flex items-center gap-3" aria-label="Redes sociales">
-          <a href="https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="group">
-            <img src={img('images/linkedin.webp')} alt="LinkedIn" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+          <a href="https://www.linkedin.com/in/andr%C3%A9s-ram%C3%ADrez-011936349/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/85 hover:text-[#e63946] transition-[color,transform] duration-300 hover:scale-110">
+            <IconoLinkedIn />
           </a>
-          <a href="https://github.com/Ramizzz8" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="group">
-            <img src={img('images/github.webp')} alt="GitHub" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+          <a href="https://github.com/Ramizzz8" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-white/85 hover:text-[#e63946] transition-[color,transform] duration-300 hover:scale-110">
+            <IconoGitHub />
           </a>
-          <a href="mailto:ajulianrague@gmail.com" aria-label="Correo" className="group">
-            <img src={img('images/mail.webp')} alt="Email" className="icono-adaptable w-7 h-7 transition-all duration-300 group-hover:scale-125 group-hover:brightness-125" />
+          <a href="mailto:ajulianrague@gmail.com" aria-label="Correo" className="text-white/85 hover:text-[#e63946] transition-[color,transform] duration-300 hover:scale-110">
+            <IconoGmail />
           </a>
         </nav>
 
