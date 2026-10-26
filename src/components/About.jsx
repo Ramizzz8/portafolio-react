@@ -70,7 +70,7 @@ export default function About() {
                   className="bg-[var(--bg-card)] border border-white/5 rounded-xl p-4 text-center md:text-left md:flex md:items-center md:gap-4"
                 >
                   <span className="font-bebas text-3xl text-[#e63946] block md:inline">{s.value}</span>
-                  <span className="text-white/50 text-xs leading-tight block">{s.label}</span>
+                  <span className="text-white/50 text-sm leading-tight block">{s.label}</span>
                 </motion.div>
               ))}
             </div>

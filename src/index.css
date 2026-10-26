@@ -9,6 +9,15 @@
   font-display: swap;
 }
 
+/* IBM Plex Sans (OFL), fuente variable 400–700, subconjunto latino (incluye el español) */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('./assets/fonts/IBMPlexSans-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Modo oscuro (por defecto) */
 :root {
   --bg-main: #0a0a0a;
@@ -44,15 +53,13 @@ html {
 body {
   background-color: var(--bg-main);
   color: var(--color-white);
-  font-family: var(--fuente-texto, Arial, sans-serif);
+  font-family: 'IBM Plex Sans', Arial, sans-serif;
   margin: 0;
   transition: background-color 0.4s ease;
 }
 
 .font-bebas {
-  font-family: var(--fuente-titulos, 'Bebas Neue'), sans-serif;
-  font-weight: var(--peso-titulos, normal);
-  text-transform: var(--mayusculas-titulos, none);
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -108,9 +115,12 @@ body {
           mask-image: linear-gradient(to bottom, #000 62%, transparent 92%);
 }
 
+/* La tilde de la Í sobresale por encima de las mayúsculas: separa un poco la segunda línea */
+.portada-nombre span + span { margin-top: 0.1em; }
+
 .portada-nombre {
   position: absolute; left: 0; right: 0; top: calc(72px + 2vh);
-  text-align: center; font-size: calc(25vw * var(--escala-nombre, 1));
+  text-align: center; font-size: 25vw;
 }
 .portada-pie { position: absolute; left: 16px; right: 16px; bottom: 3vh; text-align: center; }
 .portada-botones { justify-content: center; }
@@ -148,7 +158,7 @@ body {
   }
   .portada-nombre {
     position: static; text-align: left; margin-bottom: 7vh;
-    font-size: calc(clamp(110px, 15vw, 220px) * var(--escala-nombre, 1));
+    font-size: clamp(110px, 15vw, 220px);
   }
   .portada-pie { position: static; max-width: 460px; text-align: left; }
   .portada-botones { justify-content: flex-start; }

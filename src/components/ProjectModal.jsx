@@ -149,7 +149,7 @@ export default function ProjectModal({ project, onClose }) {
               <p className="text-sm font-semibold tracking-wide mb-1" style={{ color: project.color }}>
                 {project.tagline[lang]}
               </p>
-              <h2 id="modal-titulo" className="font-bebas text-5xl sm:text-6xl leading-none mb-5">
+              <h2 id="modal-titulo" className="font-bebas text-5xl leading-none mb-5">
                 {project.title}
               </h2>
 
@@ -157,7 +157,7 @@ export default function ProjectModal({ project, onClose }) {
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs px-2.5 py-1 rounded-full font-medium border"
+                    className="text-sm px-2.5 py-1 rounded-full font-medium border"
                     style={{ color: project.color, borderColor: `${project.color}40`, backgroundColor: `${project.color}12` }}
                   >
                     {tech}
@@ -219,7 +219,7 @@ export default function ProjectModal({ project, onClose }) {
 function Seccion({ titulo, color, children }) {
   return (
     <section>
-      <h3 className="flex items-center gap-3 text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
+      <h3 className="flex items-center gap-3 text-sm font-bold tracking-[0.2em] uppercase text-white/50 mb-4">
         <span className="w-6 h-0.5 rounded-full" style={{ backgroundColor: color }} />
         {titulo}
       </h3>

@@ -11,7 +11,7 @@ import { projectDetails } from '../data/projectDetails'
 function TechBadge({ tech, color }) {
   return (
     <span
-      className="text-xs px-2.5 py-1 rounded-full font-medium border"
+      className="text-sm px-2.5 py-1 rounded-full font-medium border"
       style={{
         color: color,
         borderColor: `${color}40`,
@@ -105,7 +105,7 @@ function VistaPrevia({ src, activa, montada, etiqueta }) {
         </div>
       )}
       <span
-        className={`absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-xs font-semibold text-[#fff] pointer-events-none transition-opacity duration-300 ${activa ? 'opacity-0' : 'opacity-100'}`}
+        className={`absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur px-3 py-1 text-sm font-semibold text-[#fff] pointer-events-none transition-opacity duration-300 ${activa ? 'opacity-0' : 'opacity-100'}`}
       >
         <span aria-hidden="true">▶</span> {etiqueta}
       </span>
@@ -199,7 +199,7 @@ function FeaturedCard({ project, index, onOpen }) {
       >
         {/* Badge destacado */}
         <span
-          className="text-xs font-bold tracking-widest uppercase mb-4 inline-block"
+          className="text-sm font-bold tracking-widest uppercase mb-4 inline-block"
           style={{ color: project.color }}
         >
           {t.projects.featured_badge}
@@ -207,7 +207,7 @@ function FeaturedCard({ project, index, onOpen }) {
 
         <p className="text-white/40 text-sm mb-1">{project.tagline[lang]}</p>
         <h3 className="font-bebas text-4xl md:text-5xl mb-4 leading-tight">{project.title}</h3>
-        <p className="text-white/70 leading-relaxed mb-6 text-sm md:text-base">{project.description[lang]}</p>
+        <p className="text-white/70 leading-relaxed mb-6 text-base">{project.description[lang]}</p>
 
         <div className="flex flex-wrap gap-2 mb-8">
           {project.technologies.map((tech) => (
@@ -292,12 +292,12 @@ function OtherCard({ project, index }) {
       </div>
 
       <div className="p-5 flex flex-col flex-1 gap-3">
-        <h3 className="font-bebas text-2xl tracking-wide">{project.title}</h3>
+        <h3 className="font-bebas text-3xl tracking-wide">{project.title}</h3>
         <p className="text-white/55 text-sm leading-relaxed flex-1">{project.description[lang]}</p>
 
         <div className="flex flex-wrap gap-1.5">
           {project.technologies.map((tech) => (
-            <span key={tech} className="text-[10px] px-2 py-0.5 bg-[var(--bg-main)] text-white/40 rounded-full">
+            <span key={tech} className="text-sm px-2 py-0.5 bg-[var(--bg-main)] text-white/40 rounded-full">
               {tech}
             </span>
           ))}
@@ -309,12 +309,12 @@ function OtherCard({ project, index }) {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-[#e63946] hover:underline font-medium"
+              className="text-sm text-[#e63946] hover:underline font-medium"
             >
               {t.projects.view_repo}
             </a>
           ) : (
-            <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 text-white/30 rounded-full inline-block">
+            <span className="text-sm px-2 py-0.5 bg-white/5 border border-white/10 text-white/30 rounded-full inline-block">
               {t.projects.private_badge}
             </span>
           )}
@@ -323,7 +323,7 @@ function OtherCard({ project, index }) {
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-medium hover:underline"
+              className="text-sm font-medium hover:underline"
               style={{ color: project.color }}
             >
               {t.projects.view_demo}
@@ -408,7 +408,7 @@ export default function Projects() {
           <span className="flex-1 h-px bg-white/10 transition-colors duration-300 group-hover:bg-[#e63946]/40" />
           <span className="flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 text-white/50 text-sm font-medium tracking-widest uppercase transition-all duration-300 group-hover:border-[#e63946]/50 group-hover:text-white group-hover:bg-[#e63946]/10">
             {t.projects.others}
-            <span className="text-xs text-white/30 normal-case tracking-normal group-hover:text-white/60">
+            <span className="text-sm text-white/30 normal-case tracking-normal group-hover:text-white/60">
               ({otherProjects.length})
             </span>
             <motion.svg

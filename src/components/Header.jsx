@@ -74,7 +74,7 @@ export default function Header() {
             onClick={toggleLang}
             aria-label="Cambiar idioma"
             title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110 font-mono text-xs font-bold text-white/70 hover:text-white"
+            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center hover:border-[#e63946]/50 transition-all duration-300 hover:scale-110 font-mono text-sm font-bold text-white/70 hover:text-white"
           >
             {lang === 'es' ? 'EN' : 'ES'}
           </button>

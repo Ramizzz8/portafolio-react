@@ -87,7 +87,7 @@ export default function Contact() {
                   <img src={img(link.icon)} alt={link.label} className="icono-adaptable w-5 h-5 object-contain" />
                 </div>
                 <div>
-                  <p className="text-white/40 text-xs">{link.label}</p>
+                  <p className="text-white/40 text-sm">{link.label}</p>
                   <p className="text-white text-sm font-medium group-hover:text-[#e63946] transition-colors duration-200">{link.value}</p>
                 </div>
                 <span className="ml-auto text-white/20 group-hover:text-white/60 transition-colors">↗</span>
@@ -96,7 +96,7 @@ export default function Contact() {
 
             <div className="flex items-center gap-2 mt-2 px-1">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-white/40 text-xs">{t.contact.available}</span>
+              <span className="text-white/40 text-sm">{t.contact.available}</span>
             </div>
           </motion.div>
 
@@ -112,25 +112,25 @@ export default function Contact() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="flex flex-col gap-2">
-                <label htmlFor="user_name" className="text-xs font-medium text-white/50 uppercase tracking-wider">{t.contact.name}</label>
+                <label htmlFor="user_name" className="text-sm font-medium text-white/50 uppercase tracking-wider">{t.contact.name}</label>
                 <input id="user_name" name="user_name" type="text" required placeholder={t.contact.name_ph}
                   className="bg-[var(--bg-card)] border border-white/8 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#e63946]/60 focus:bg-[var(--bg-hover)] transition-all duration-200" />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="user_email" className="text-xs font-medium text-white/50 uppercase tracking-wider">{t.contact.email}</label>
+                <label htmlFor="user_email" className="text-sm font-medium text-white/50 uppercase tracking-wider">{t.contact.email}</label>
                 <input id="user_email" name="user_email" type="email" required placeholder={t.contact.email_ph}
                   className="bg-[var(--bg-card)] border border-white/8 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#e63946]/60 focus:bg-[var(--bg-hover)] transition-all duration-200" />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="subject" className="text-xs font-medium text-white/50 uppercase tracking-wider">{t.contact.subject}</label>
+              <label htmlFor="subject" className="text-sm font-medium text-white/50 uppercase tracking-wider">{t.contact.subject}</label>
               <input id="subject" name="subject" type="text" required placeholder={t.contact.subject_ph}
                 className="bg-[var(--bg-card)] border border-white/8 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#e63946]/60 focus:bg-[var(--bg-hover)] transition-all duration-200" />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-xs font-medium text-white/50 uppercase tracking-wider">{t.contact.message}</label>
+              <label htmlFor="message" className="text-sm font-medium text-white/50 uppercase tracking-wider">{t.contact.message}</label>
               <textarea id="message" name="message" rows={6} required placeholder={t.contact.message_ph}
                 className="bg-[var(--bg-card)] border border-white/8 rounded-xl px-4 py-3.5 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#e63946]/60 focus:bg-[var(--bg-hover)] transition-all duration-200 resize-none" />
             </div>

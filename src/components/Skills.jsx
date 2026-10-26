@@ -59,7 +59,7 @@ export default function Skills() {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="bg-[var(--bg-card)] rounded-xl p-6 border border-white/5 hover:border-white/10 transition-colors duration-300"
             >
-              <h3 className="font-bebas text-2xl tracking-wide mb-4">
+              <h3 className="font-bebas text-3xl tracking-wide mb-4">
                 <span className="text-[#e63946] mr-2">0{i + 1}</span>
                 {t.skills.categories[cat.key]}
               </h3>

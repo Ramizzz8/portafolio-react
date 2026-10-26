@@ -104,10 +104,10 @@ export default function Hero() {
           </motion.h1>
 
           <div className="portada-pie pointer-events-auto">
-            <motion.div variants={item} className="text-lg md:text-xl h-8">
+            <motion.div variants={item} className="text-lg h-8">
               <Typewriter roles={t.hero.roles} />
             </motion.div>
-            <motion.p variants={item} className="text-white/75 leading-relaxed mt-2 mb-6 text-base md:text-[17px]">
+            <motion.p variants={item} className="text-white/75 leading-relaxed mt-2 mb-6 text-base md:text-lg">
               {t.hero.tagline}
             </motion.p>
             <motion.div variants={item} className="flex gap-4 flex-wrap portada-botones">
