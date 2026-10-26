@@ -4,8 +4,11 @@ import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
+import { featuredProjects, otherProjects } from '../data/projects'
+import { tecnologias } from '../data/tecnologias'
 
-const statsValues = ['9', '5']
+// Se cuentan a partir de los datos para que nunca contradigan al resto de la página
+const statsValues = [String(featuredProjects.length + otherProjects.length), String(tecnologias.length)]
 
 export default function About() {
   const { t } = useLang()
@@ -100,16 +103,6 @@ export default function About() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3 pt-2">
-              {['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS', 'Python', 'Flask', 'PHP', 'MySQL', 'Git'].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-3 py-1.5 bg-[var(--bg-card)] border border-white/10 rounded-lg text-sm text-white/70 hover:border-[#e63946]/40 hover:text-white transition-all duration-200 cursor-default"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
 
             <div className="pt-4">
               <a

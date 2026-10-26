@@ -3,51 +3,23 @@ import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import BgWord from './BgWord'
 
+import { categoriasTecnologia, tecnologias } from '../data/tecnologias'
+
 // Cada categoría usa la clave de traducción de t.skills.categories
-const categories = [
-  {
-    key: 'frontend',
-    items: [
-      { name: 'HTML', icon: 'images/logo-de-html.webp' },
-      { name: 'CSS', icon: 'images/css.webp' },
-      { name: 'JavaScript', icon: 'images/javascript.webp' },
-      { name: 'React', color: '#61dafb' },
-      { name: 'Tailwind CSS', color: '#38bdf8' },
-    ],
-  },
-  {
-    key: 'backend',
-    items: [
-      { name: 'Python', icon: 'images/python.webp' },
-      { name: 'Flask', color: 'var(--color-white)' },
-      { name: 'PHP', color: '#8892bf' },
-    ],
-  },
-  {
-    key: 'databases',
-    items: [
-      { name: 'MySQL', icon: 'images/sqlogo.webp' },
-    ],
-  },
-  {
-    key: 'tools',
-    items: [
-      { name: 'Git', color: '#f05032' },
-      { name: 'GitHub', icon: 'images/github.webp', adaptable: true },
-      { name: 'Vite', color: '#a855f7' },
-    ],
-  },
-]
+const categories = categoriasTecnologia.map((key) => ({
+  key,
+  items: tecnologias.filter((t) => t.categoria === key),
+}))
 
 function SkillChip({ item }) {
   return (
     <li className="flex items-center gap-2.5 px-3 py-2 bg-[var(--bg-main)] border border-white/5 rounded-lg text-sm text-white/80 hover:border-[#e63946]/40 hover:text-white transition-all duration-200">
-      {item.icon ? (
-        <img src={img(item.icon)} alt="" className={`w-5 h-5 object-contain ${item.adaptable ? 'icono-adaptable' : ''}`} />
+      {item.icono ? (
+        <img src={img(item.icono)} alt="" className={`w-5 h-5 object-contain ${item.adaptable ? 'icono-adaptable' : ''}`} />
       ) : (
         <span className="w-2.5 h-2.5 mx-[5px] rounded-full" style={{ backgroundColor: item.color }} />
       )}
-      {item.name}
+      {item.nombre}
     </li>
   )
 }
@@ -93,7 +65,7 @@ export default function Skills() {
               </h3>
               <ul className="flex flex-wrap gap-2.5">
                 {cat.items.map((item) => (
-                  <SkillChip key={item.name} item={item} />
+                  <SkillChip key={item.nombre} item={item} />
                 ))}
               </ul>
             </motion.div>
