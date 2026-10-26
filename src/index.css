@@ -44,13 +44,15 @@ html {
 body {
   background-color: var(--bg-main);
   color: var(--color-white);
-  font-family: Arial, sans-serif;
+  font-family: var(--fuente-texto, Arial, sans-serif);
   margin: 0;
   transition: background-color 0.4s ease;
 }
 
 .font-bebas {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--fuente-titulos, 'Bebas Neue'), sans-serif;
+  font-weight: var(--peso-titulos, normal);
+  text-transform: var(--mayusculas-titulos, none);
 }
 
 ::-webkit-scrollbar {
@@ -108,7 +110,7 @@ body {
 
 .portada-nombre {
   position: absolute; left: 0; right: 0; top: calc(72px + 2vh);
-  text-align: center; font-size: 25vw;
+  text-align: center; font-size: calc(25vw * var(--escala-nombre, 1));
 }
 .portada-pie { position: absolute; left: 16px; right: 16px; bottom: 3vh; text-align: center; }
 .portada-botones { justify-content: center; }
@@ -146,7 +148,7 @@ body {
   }
   .portada-nombre {
     position: static; text-align: left; margin-bottom: 7vh;
-    font-size: clamp(110px, 15vw, 220px);
+    font-size: calc(clamp(110px, 15vw, 220px) * var(--escala-nombre, 1));
   }
   .portada-pie { position: static; max-width: 460px; text-align: left; }
   .portada-botones { justify-content: flex-start; }
