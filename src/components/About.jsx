@@ -7,25 +7,34 @@ import BgWord from './BgWord'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { tecnologias } from '../data/tecnologias'
 
+// Foto de esta sección (distinta de la portada)
+const FOTO = 'images/ajrg2.webp'
+
 // Se cuentan a partir de los datos para que nunca contradigan al resto de la página
-const statsValues = [String(featuredProjects.length + otherProjects.length), String(tecnologias.length)]
+const totalProyectos = featuredProjects.length + otherProjects.length
+const totalTecnologias = tecnologias.length
+
+// Entrada escalonada de cada bloque al llegar a la sección
+const aparecer = (retraso = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.6, delay: retraso },
+})
 
 export default function About() {
   const { t } = useLang()
-  // Parallax: los brillos se mueven a distinta velocidad y en sentidos opuestos
+  // Parallax: el fondo y los brillos se mueven a distinta velocidad
   const sectionRef = useRef(null)
   const glowRedY = useParallax(sectionRef, 120)
   const glowBlueY = useParallax(sectionRef, -80)
   const bgY = useParallax(sectionRef, 60)
-  const stats = [
-    { value: statsValues[0], label: t.about.stat1 },
-    { value: statsValues[1], label: t.about.stat2 },
-  ]
+  const fotoY = useParallax(sectionRef, -30)
 
   return (
     <section ref={sectionRef} id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
       <div className="absolute inset-y-0 right-0 w-1/2 z-0 overflow-hidden pointer-events-none hidden md:block">
-        <motion.img src={img('images/about.webp')} alt="" style={{ y: bgY }} className="fondo-sobre-mi w-full h-full object-cover opacity-15 scale-125" />
+        <motion.img src={img('images/about.webp')} alt="" style={{ y: bgY }} className="fondo-sobre-mi w-full h-full object-cover opacity-10 scale-125" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-main)] via-[var(--bg-main)]/60 to-transparent" />
       </div>
       <motion.div style={{ y: glowRedY }} className="absolute top-0 right-0 w-96 h-96 bg-[#e63946] rounded-full opacity-[0.03] blur-3xl pointer-events-none" />
@@ -33,88 +42,85 @@ export default function About() {
 
       <BgWord word={t.about.bg_word} />
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="font-bebas text-5xl text-center mb-20 tracking-wide"
-        >
+        <motion.h2 {...aparecer()} className="font-bebas text-5xl text-center mb-16 tracking-wide">
           {t.about.title} <span className="text-[#e63946]">{t.about.highlight}</span>
         </motion.h2>
 
-        <div className="grid md:grid-cols-5 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="md:col-span-2 flex flex-col items-center gap-8"
-          >
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-2xl border border-[#e63946]/20" />
-              <div className="absolute -inset-6 rounded-2xl border border-[#e63946]/08" />
-              <div className="absolute -top-2 -right-2 w-5 h-5 bg-[#e63946] rounded-full" />
-              <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-[#3a86ff] rounded-full" />
-              <img src={img('images/ajrg2.webp')} alt="Andrés Ramírez" className="relative w-52 h-52 object-cover rounded-2xl" />
+        <div className="grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
+          {/* Foto y contadores */}
+          <motion.div {...aparecer(0.1)} className="flex flex-col gap-8 max-w-md w-full mx-auto lg:mx-0">
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[var(--bg-card)]">
+              <motion.img
+                src={img(FOTO)}
+                alt="Andrés Ramírez"
+                loading="lazy"
+                style={{ y: fotoY }}
+                className="absolute inset-x-0 -inset-y-6 w-full h-[calc(100%+3rem)] object-cover"
+              />
             </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-4 w-full">
-              {stats.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                  className="bg-[var(--bg-card)] border border-white/5 rounded-xl p-4 text-center md:text-left md:flex md:items-center md:gap-4"
-                >
-                  <span className="font-bebas text-3xl text-[#e63946] block md:inline">{s.value}</span>
-                  <span className="text-white/50 text-sm leading-tight block">{s.label}</span>
-                </motion.div>
-              ))}
+            <div className="grid grid-cols-2 gap-6">
+              <p>
+                <span className="font-bebas text-5xl text-[#e63946] block leading-none">{totalProyectos}</span>
+                <span className="text-white/60 text-sm">{t.about.proyectos}</span>
+              </p>
+              <p>
+                <span className="font-bebas text-5xl text-[#e63946] block leading-none">{totalTecnologias}</span>
+                <span className="text-white/60 text-sm">{t.about.tecnologias}</span>
+              </p>
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="md:col-span-3 flex flex-col gap-6"
-          >
-            <div className="flex flex-col gap-5 text-white/75 leading-relaxed text-lg">
-              <p>
-                {t.about.p1_pre}{' '}
-                <span className="text-white font-semibold">{t.about.p1_highlight}</span>
-                {t.about.p1_post}
-              </p>
-              <p>
-                {t.about.p2_pre}{' '}
-                <span className="text-[#e63946] font-medium">{t.about.p2_front}</span>{' '}
-                {t.about.p2_mid}{' '}
-                <span className="text-[#e63946] font-medium">{t.about.p2_back}</span>{' '}
-                {t.about.p2_post}
-              </p>
-              <p>
-                {t.about.p3_pre}{' '}
-                <span className="text-white font-semibold">{t.about.p3_highlight}</span>
-                {t.about.p3_post}
-              </p>
+          {/* Historia, datos y trayectoria */}
+          <div className="flex flex-col gap-12">
+            <motion.div {...aparecer(0.2)} className="flex flex-col gap-5 text-lg leading-relaxed">
+              {t.about.historia.map((parrafo, i) => (
+                <p key={i} className={i === 0 ? 'text-white' : 'text-white/75'}>
+                  {parrafo}
+                </p>
+              ))}
+            </motion.div>
+
+            <div className="grid sm:grid-cols-2 gap-10">
+              <motion.div {...aparecer(0.3)}>
+                <h3 className="font-bebas text-3xl tracking-wide mb-5">{t.about.datos_titulo}</h3>
+                <dl className="flex flex-col gap-4">
+                  {t.about.datos.map(([clave, valor]) => (
+                    <div key={clave}>
+                      <dt className="text-white/50 text-sm">{clave}</dt>
+                      <dd className="text-white text-base">{valor}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </motion.div>
+
+              <motion.div {...aparecer(0.4)}>
+                <h3 className="font-bebas text-3xl tracking-wide mb-5">{t.about.trayectoria_titulo}</h3>
+                <ol className="flex flex-col gap-5 border-l-2 border-white/10 pl-6">
+                  {t.about.trayectoria.map(([titulo, texto], i, lista) => (
+                    <li key={titulo} className="relative">
+                      <span
+                        className={`absolute -left-[31px] top-1.5 w-3 h-3 rounded-full ${i === lista.length - 1 ? 'bg-[#e63946]' : 'bg-white/30'}`}
+                        aria-hidden="true"
+                      />
+                      <p className="text-white text-base font-semibold">{titulo}</p>
+                      <p className="text-white/60 text-sm leading-relaxed">{texto}</p>
+                    </li>
+                  ))}
+                </ol>
+              </motion.div>
             </div>
 
-
-            <div className="pt-4">
+            <motion.div {...aparecer(0.5)}>
               <a
                 href="https://ramizzz8.github.io/Curriculum/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-[#e63946] text-[#e63946] rounded-lg font-bold hover:bg-[#e63946] hover:text-white transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-[#e63946] text-[#e63946] rounded-lg font-bold hover:bg-[#e63946] hover:text-white transition-colors duration-300"
               >
                 {t.about.cv}
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
