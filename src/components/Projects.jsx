@@ -114,9 +114,10 @@ function VistaPrevia({ src, activa, montada, etiqueta }) {
   )
 }
 
-function FeaturedCard({ project, index, onOpen }) {
+// `variante`: "principal" (Novacapital, a todo el ancho) o "compacta" (cuadrícula de 2 columnas).
+// Por debajo de 1024 px ambas apilan la imagen encima del texto, así la portada nunca se recorta.
+function FeaturedCard({ project, index, onOpen, variante = 'compacta' }) {
   const { t, lang } = useLang()
-  const isEven = index % 2 === 0
   const tieneVideo = Boolean(projectDetails[project.id]?.video)
   // El botón de código es secundario si hay otra acción principal (demo en vivo o vídeo)
   const secundario = Boolean(project.live) || tieneVideo
@@ -145,14 +146,87 @@ function FeaturedCard({ project, index, onOpen }) {
   }
   useEffect(() => () => clearTimeout(temporizador.current), [])
 
+  const principal = variante === 'principal'
+
+  const cabecera = (
+    <>
+      <span className="text-sm font-bold tracking-widest uppercase mb-4 inline-block" style={{ color: project.color }}>
+        {t.projects.featured_badge}
+      </span>
+      <p className="text-white/40 text-sm mb-1">{project.tagline[lang]}</p>
+      <h3 className={`font-bebas mb-4 leading-tight ${principal ? 'text-5xl' : 'text-4xl'}`}>{project.title}</h3>
+    </>
+  )
+  const cuerpo = (
+    <>
+      <p className="text-white/70 leading-relaxed mb-6 text-base">{project.description[lang]}</p>
+      <div className="flex flex-wrap gap-2 mb-8">
+        {project.technologies.map((tech) => (
+          <TechBadge key={tech} tech={tech} color={project.color} />
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-3 mt-auto" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          onClick={() => onOpen(project)}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border border-white/15 text-white transition-all duration-300 hover:scale-105 hover:border-white/40"
+        >
+          {t.projects.details_btn}
+          <span aria-hidden="true">↗</span>
+        </button>
+        {/* Sin demo en vivo pero con vídeo: "Ver vídeo" abre la ficha, que empieza por el vídeo */}
+        {!project.live && tieneVideo && (
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
+          >
+            <span aria-hidden="true">▶</span>
+            {t.projects.view_video}
+          </button>
+        )}
+        {/* Si hay demo en vivo, es la acción principal; el código pasa a botón secundario */}
+        {project.live && (
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
+          >
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" aria-hidden="true" />
+            {t.projects.view_live}
+          </a>
+        )}
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
+            style={
+              secundario
+                ? { border: `1px solid ${project.color}`, color: project.color }
+                : { backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }
+            }
+          >
+            <IconoGitHub className="w-4 h-4" />
+            {t.projects.view_code}
+          </a>
+        )}
+      </div>
+    </>
+  )
+
   return (
     <motion.article
       ref={cardRef}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, delay: index * 0.15 }}
-      className="relative grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden group cursor-pointer transition-shadow duration-300 hover:shadow-2xl"
+      transition={{ duration: 0.7, delay: principal ? 0 : (index % 2) * 0.15 }}
+      className="relative flex flex-col rounded-2xl overflow-hidden group cursor-pointer bg-[var(--bg-card)] transition-shadow duration-300 hover:shadow-2xl"
       style={{ border: `1px solid ${project.color}20` }}
       // Toda la tarjeta abre la ventana de detalle (también con Enter o Espacio)
       onClick={() => onOpen(project)}
@@ -171,103 +245,35 @@ function FeaturedCard({ project, index, onOpen }) {
       {/* Glow de fondo */}
       <div
         className="absolute inset-0 opacity-5 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at ${isEven ? '0%' : '100%'} 50%, ${project.color}, transparent 70%)` }}
+        style={{ background: `radial-gradient(ellipse at 50% 0%, ${project.color}, transparent 70%)` }}
       />
 
-      {/* Imagen */}
-      <div className={`relative overflow-hidden h-64 md:h-auto md:min-h-[380px] ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+      {/* Imagen: siempre arriba, con la proporción de la portada para que se vea entera */}
+      <div className={`relative overflow-hidden ${principal ? 'aspect-[16/9]' : 'aspect-[16/10]'}`}>
         <motion.div style={{ y: coverY }} className="absolute inset-x-0 -inset-y-10">
-          <ProjectCover project={project} frameY={frameY} />
+          <ProjectCover project={project} frameY={frameY} compact={!principal} />
         </motion.div>
         {previa && (
           <VistaPrevia src={previa} activa={previaActiva} montada={previaMontada} etiqueta={t.projects.preview_badge} />
         )}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${previaActiva ? 'opacity-0' : 'opacity-100'}`}
-          style={{
-            background: isEven
-              ? `linear-gradient(to right, transparent 60%, var(--bg-main))`
-              : `linear-gradient(to left, transparent 60%, var(--bg-main))`,
-          }}
+          style={{ background: 'linear-gradient(to bottom, transparent 75%, var(--bg-card))' }}
         />
       </div>
 
       {/* Contenido */}
-      <div
-        className={`relative flex flex-col justify-center p-8 md:p-12 bg-[var(--bg-card)] ${
-          isEven ? 'md:order-2' : 'md:order-1'
-        }`}
-      >
-        {/* Badge destacado */}
-        <span
-          className="text-sm font-bold tracking-widest uppercase mb-4 inline-block"
-          style={{ color: project.color }}
-        >
-          {t.projects.featured_badge}
-        </span>
-
-        <p className="text-white/40 text-sm mb-1">{project.tagline[lang]}</p>
-        <h3 className="font-bebas text-4xl md:text-5xl mb-4 leading-tight">{project.title}</h3>
-        <p className="text-white/70 leading-relaxed mb-6 text-base">{project.description[lang]}</p>
-
-        <div className="flex flex-wrap gap-2 mb-8">
-          {project.technologies.map((tech) => (
-            <TechBadge key={tech} tech={tech} color={project.color} />
-          ))}
+      {principal ? (
+        <div className="relative grid lg:grid-cols-[2fr_3fr] gap-x-12 p-8 md:p-12">
+          <div>{cabecera}</div>
+          <div className="flex flex-col">{cuerpo}</div>
         </div>
-
-        <div className="flex flex-wrap gap-3" onClick={(e) => e.stopPropagation()}>
-          <button
-            type="button"
-            onClick={() => onOpen(project)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm border border-white/15 text-white transition-all duration-300 hover:scale-105 hover:border-white/40"
-          >
-            {t.projects.details_btn}
-            <span aria-hidden="true">↗</span>
-          </button>
-          {/* Sin demo en vivo pero con vídeo: "Ver vídeo" abre la ficha, que empieza por el vídeo */}
-          {!project.live && tieneVideo && (
-            <button
-              type="button"
-              onClick={() => onOpen(project)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
-              style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
-            >
-              <span aria-hidden="true">▶</span>
-              {t.projects.view_video}
-            </button>
-          )}
-          {/* Si hay demo en vivo, es la acción principal; el código pasa a botón secundario */}
-          {project.live && (
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
-              style={{ backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }}
-            >
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" aria-hidden="true" />
-              {t.projects.view_live}
-            </a>
-          )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 hover:scale-105"
-              style={
-                secundario
-                  ? { border: `1px solid ${project.color}`, color: project.color }
-                  : { backgroundColor: project.color, color: '#fff', boxShadow: `0 0 20px ${project.color}30` }
-              }
-            >
-              <IconoGitHub className="w-4 h-4" />
-              {t.projects.view_code}
-            </a>
-          )}
+      ) : (
+        <div className="relative flex flex-col flex-1 p-8">
+          {cabecera}
+          {cuerpo}
         </div>
-      </div>
+      )}
     </motion.article>
   )
 }
@@ -388,9 +394,12 @@ export default function Projects() {
 
         {/* Proyectos destacados */}
         <div ref={destacadosRef} className="flex flex-col gap-8 mb-20">
-          {featuredProjects.map((p, i) => (
-            <FeaturedCard key={p.id} project={p} index={i} onOpen={setAbierto} />
-          ))}
+          <FeaturedCard project={featuredProjects[0]} index={0} onOpen={setAbierto} variante="principal" />
+          <div className="grid lg:grid-cols-2 gap-8">
+            {featuredProjects.slice(1).map((p, i) => (
+              <FeaturedCard key={p.id} project={p} index={i} onOpen={setAbierto} />
+            ))}
+          </div>
         </div>
 
         {/* Divisor desplegable: muestra u oculta el resto de proyectos */}
