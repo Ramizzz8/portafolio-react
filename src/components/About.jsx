@@ -8,7 +8,7 @@ import { featuredProjects, otherProjects } from '../data/projects'
 import { tecnologias } from '../data/tecnologias'
 
 // Foto de esta sección (distinta de la portada)
-const FOTO = 'images/ajrg2.webp'
+const FOTO = 'images/sobre-mi.webp'
 
 // Se cuentan a partir de los datos para que nunca contradigan al resto de la página
 const totalProyectos = featuredProjects.length + otherProjects.length
