@@ -76,6 +76,13 @@ export const translations = {
         ['Cursando 2.º de DAW', 'Segundo curso de Desarrollo de Aplicaciones Web, con mis proyectos desplegados en un servidor propio.'],
       ],
       cv: 'Ver currículum ↗',
+      escena: {
+        descripcion: 'Habitación en 3D con mi escritorio: el monitor reproduce mis proyectos y la lámpara cambia el tema de la web.',
+        pista: 'Pulsa la lámpara para cambiar el tema · el monitor lleva a mis proyectos',
+        monitor: 'ver proyectos',
+        apagar: 'Apagar la luz (tema claro)',
+        encender: 'Encender la luz (tema oscuro)',
+      },
     },
     contact: {
       title: 'TRABAJEMOS',
@@ -179,6 +186,13 @@ export const translations = {
         ['Second year of DAW', 'Currently in the second year of Web Application Development, with my projects deployed on my own server.'],
       ],
       cv: 'View resume ↗',
+      escena: {
+        descripcion: 'A 3D room with my desk: the monitor plays my projects and the lamp switches the site theme.',
+        pista: 'Click the lamp to switch the theme · the monitor takes you to my projects',
+        monitor: 'see projects',
+        apagar: 'Turn off the light (light theme)',
+        encender: 'Turn on the light (dark theme)',
+      },
     },
     contact: {
       title: "LET'S",

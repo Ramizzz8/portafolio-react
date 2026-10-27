@@ -1,14 +1,15 @@
-import { motion } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { lazy, Suspense, useRef } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 import { useParallax } from '../hooks/useParallax'
 import BgWord from './BgWord'
 import { featuredProjects, otherProjects } from '../data/projects'
 import { tecnologias } from '../data/tecnologias'
 
-// Foto de esta sección (distinta de la portada)
-const FOTO = 'images/sobre-mi.webp'
+// Three.js pesa: la escena se descarga aparte y solo al acercarse a la sección
+const Escritorio3D = lazy(() => import('./Escritorio3D'))
 
 // Se cuentan a partir de los datos para que nunca contradigan al resto de la página
 const totalProyectos = featuredProjects.length + otherProjects.length
@@ -29,7 +30,11 @@ export default function About() {
   const glowRedY = useParallax(sectionRef, 120)
   const glowBlueY = useParallax(sectionRef, -80)
   const bgY = useParallax(sectionRef, 60)
-  const fotoY = useParallax(sectionRef, -30)
+  const { theme, toggleTheme } = useTheme()
+  const reducirMovimiento = useReducedMotion()
+  const escenaRef = useRef(null)
+  const cerca = useInView(escenaRef, { once: true, margin: '400px' })
+  const enPantalla = useInView(escenaRef)
 
   return (
     <section ref={sectionRef} id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
@@ -47,16 +52,23 @@ export default function About() {
         </motion.h2>
 
         <div className="grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-16 items-start">
-          {/* Foto y contadores */}
+          {/* Escena 3D y contadores */}
           <motion.div {...aparecer(0.1)} className="flex flex-col gap-8 max-w-md w-full mx-auto lg:mx-0">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[var(--bg-card)]">
-              <motion.img
-                src={img(FOTO)}
-                alt="Andrés Ramírez"
-                loading="lazy"
-                style={{ y: fotoY }}
-                className="absolute inset-x-0 -inset-y-6 w-full h-[calc(100%+3rem)] object-cover"
-              />
+            <div>
+              <div ref={escenaRef} className="relative aspect-square">
+                {cerca && (
+                  <Suspense fallback={null}>
+                    <Escritorio3D
+                      tema={theme}
+                      onToggleTheme={toggleTheme}
+                      activa={enPantalla}
+                      quieto={reducirMovimiento}
+                      textos={t.about.escena}
+                    />
+                  </Suspense>
+                )}
+              </div>
+              <p className="text-white/50 text-sm mt-3 text-center">{t.about.escena.pista}</p>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <p>
