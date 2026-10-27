@@ -20,19 +20,19 @@ function colorMarca(hex, tema) {
   return `#${hex}`
 }
 
-// Logo en un solo color que toma el de su marca al pasar el ratón
+// Cada etiqueta lleva el logo de su tecnología con su color de marca
 function SkillChip({ item, tema }) {
   const dentro = item.icono.path ? `<path d="${item.icono.path}"/>` : item.icono.svg
   return (
     <li
       style={{ '--marca': colorMarca(item.icono.hex, tema) }}
-      className="group flex items-center gap-2.5 px-3 py-2 bg-[var(--bg-main)] border border-white/5 rounded-lg text-sm text-white/80 hover:border-[#e63946]/40 hover:text-white transition-all duration-200"
+      className="flex items-center gap-2.5 px-3 py-2 bg-[var(--bg-main)] border border-white/5 rounded-lg text-sm text-white/80 hover:border-[#e63946]/40 hover:text-white transition-all duration-200"
     >
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"
-        className="w-5 h-5 shrink-0 text-white/55 group-hover:text-[var(--marca)] transition-colors duration-200"
+        className="w-5 h-5 shrink-0 text-[var(--marca)]"
         dangerouslySetInnerHTML={{ __html: dentro }}
       />
       {item.nombre}

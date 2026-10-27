@@ -2,7 +2,7 @@
 // La leen la sección "Stack tecnológico" y el contador de "Sobre mí".
 // `categoria` es la clave de t.skills.categories; `icono` es un icono de Simple Icons (CC0) o uno propio.
 import {
-  siCaddy, siCloudflare, siCss, siDocker, siFlask, siFramer, siGit, siGithubactions, siHtml5, siHuggingface,
+  siApache, siCaddy, siCloudflare, siCss, siDocker, siFlask, siFramer, siGit, siGithubactions, siHtml5, siHuggingface,
   siJavascript, siLinux, siMysql, siOllama, siPhp, siPython, siReact, siTailwindcss, siVite,
 } from './logos'
 
@@ -35,6 +35,7 @@ export const tecnologias = [
 
   { nombre: 'Docker', categoria: 'despliegue', icono: siDocker },
   { nombre: 'Caddy', categoria: 'despliegue', icono: siCaddy },
+  { nombre: 'Apache', categoria: 'despliegue', icono: siApache },
   { nombre: 'Linux', categoria: 'despliegue', icono: siLinux },
   { nombre: 'GitHub Actions', categoria: 'despliegue', icono: siGithubactions },
   { nombre: 'Cloudflare', categoria: 'despliegue', icono: siCloudflare },
