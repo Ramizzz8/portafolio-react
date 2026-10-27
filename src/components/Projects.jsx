@@ -359,6 +359,15 @@ export default function Projects() {
     return () => observador.disconnect()
   }, [])
   const cerrar = useCallback(() => setAbierto(null), [])
+  // La sección Stack pide abrir la ficha de un proyecto con el evento 'abrir-proyecto'
+  useEffect(() => {
+    const abrirFicha = (e) => {
+      const proyecto = [...featuredProjects, ...otherProjects].find((p) => p.id === e.detail)
+      if (proyecto) setAbierto(proyecto)
+    }
+    window.addEventListener('abrir-proyecto', abrirFicha)
+    return () => window.removeEventListener('abrir-proyecto', abrirFicha)
+  }, [])
   return (
     <section ref={seccionRef} id="trabajos" className="py-24 px-6 relative overflow-hidden">
       {corte > 0 && (
