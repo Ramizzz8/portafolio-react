@@ -55,7 +55,7 @@ export const translations = {
       highlight: 'MÍ',
       bg_word: 'SOBRE MÍ',
       historia: [
-        'Soy Andrés, desarrollador web en Valencia. Estoy terminando el ciclo de Desarrollo de Aplicaciones Web y ya he construido plataformas para clientes reales: la de créditos de Novacapital y la de gestiones migratorias de Moves Location.',
+        'Soy Andrés, desarrollador web en Valencia. Estoy terminando el ciclo de Desarrollo de Aplicaciones Web y ya he construido una plataforma para un cliente real: la de créditos por libranza de Novacapital.',
         'Me gusta encargarme de todo el recorrido: la base de datos, el back-end en Python o PHP, la interfaz y el despliegue en mi propio servidor con Docker. Por eso todo lo que ves en esta web está publicado y funcionando, con demo o vídeo.',
         'Ahora busco empresa para las prácticas de segundo curso, un primer empleo como desarrollador junior o nuevos proyectos freelance.',
       ],
@@ -72,7 +72,7 @@ export const translations = {
       trayectoria: [
         ['Bachillerato', 'Mi formación de base antes de dar el salto al desarrollo web.'],
         ['Proyectos propios', 'IA local, simulaciones y herramientas web, todas publicadas con demo o vídeo.'],
-        ['Proyectos freelance', 'Novacapital SAS y Moves Location: plataformas web completas para empresas reales.'],
+        ['Proyectos freelance', 'Novacapital SAS: plataforma web completa de créditos para una empresa real.'],
         ['Cursando 2.º de DAW', 'Segundo curso de Desarrollo de Aplicaciones Web, con mis proyectos desplegados en un servidor propio.'],
       ],
       cv: 'Ver currículum ↗',
@@ -158,7 +158,7 @@ export const translations = {
       highlight: 'ME',
       bg_word: 'ABOUT ME',
       historia: [
-        "I'm Andrés, a web developer based in Valencia. I'm finishing my Web Application Development degree and I've already built platforms for real clients: the loans platform for Novacapital and the immigration services platform for Moves Location.",
+        "I'm Andrés, a web developer based in Valencia. I'm finishing my Web Application Development degree and I've already built a platform for a real client: the payroll loans platform for Novacapital.",
         'I like owning the whole journey: the database, the back-end in Python or PHP, the interface and the deployment on my own server with Docker. That is why everything on this site is live and working, with a demo or a video.',
         "I'm now looking for a company for my second-year internship, a first job as a junior developer, or new freelance projects.",
       ],
@@ -175,7 +175,7 @@ export const translations = {
       trayectoria: [
         ['High school', 'My foundation before making the jump into web development.'],
         ['Own projects', 'Local AI, simulations and web tools, all published with a demo or video.'],
-        ['Freelance projects', 'Novacapital SAS and Moves Location: complete web platforms for real companies.'],
+        ['Freelance projects', 'Novacapital SAS: a complete loans web platform for a real company.'],
         ['Second year of DAW', 'Currently in the second year of Web Application Development, with my projects deployed on my own server.'],
       ],
       cv: 'View resume ↗',
