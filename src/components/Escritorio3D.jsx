@@ -260,13 +260,13 @@ function Habitacion({ tema, onToggleTheme, activa, quieto, textos }) {
   )
 }
 
-export default function Escritorio3D({ tema, onToggleTheme, activa, quieto, textos }) {
+export default function Escritorio3D({ tema, onToggleTheme, activa, quieto, captura = false, textos }) {
   return (
     <Canvas
       orthographic
       shadows={{ type: THREE.PCFShadowMap }}
-      gl={{ alpha: true }}
-      dpr={[1, 2]}
+      gl={{ alpha: true, preserveDrawingBuffer: captura }}
+      dpr={captura ? 3 : [1, 2]}
       frameloop={activa ? 'always' : 'never'}
       camera={{ position: [6, 5.2, 6], near: 0.1, far: 50 }}
       onCreated={({ camera }) => camera.lookAt(0, 0.45, 0)}

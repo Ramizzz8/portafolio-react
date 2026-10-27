@@ -1,5 +1,5 @@
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { lazy, Suspense, useRef } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { img } from '../utils/img'
 import { useLang } from '../context/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
@@ -10,6 +10,15 @@ import { tecnologias } from '../data/tecnologias'
 
 // Three.js pesa: la escena se descarga aparte y solo al acercarse a la sección
 const Escritorio3D = lazy(() => import('./Escritorio3D'))
+const Personaje3D = lazy(() => import('./Personaje3D'))
+import EscenaEstatica from './EscenaEstatica'
+
+// DEMO (solo en beta): comparar la habitación (A), el personaje (B) y el render fijo (C)
+const EN_BETA = typeof window !== 'undefined' && /^(beta\.|localhost|127\.)/.test(window.location.hostname)
+const DEMOS = [['a', 'A · Habitación 3D'], ['b', 'B · Personaje'], ['c', 'C · Render fijo']]
+const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams()
+const demoInicial = EN_BETA && ['a', 'b', 'c'].includes(params.get('escena')) ? params.get('escena') : 'a'
+const CAPTURA = EN_BETA && params.has('captura')
 
 // Se cuentan a partir de los datos para que nunca contradigan al resto de la página
 const totalProyectos = featuredProjects.length + otherProjects.length
@@ -35,6 +44,7 @@ export default function About() {
   const escenaRef = useRef(null)
   const cerca = useInView(escenaRef, { once: true, margin: '400px' })
   const enPantalla = useInView(escenaRef)
+  const [demo, setDemo] = useState(demoInicial)
 
   return (
     <section ref={sectionRef} id="sobre-mi" className="py-24 px-6 relative overflow-hidden">
@@ -55,20 +65,44 @@ export default function About() {
           {/* Escena 3D y contadores */}
           <motion.div {...aparecer(0.1)} className="flex flex-col gap-8 max-w-md w-full mx-auto lg:mx-0">
             <div>
+              {EN_BETA && !CAPTURA && (
+                <div className="flex justify-center gap-2 mb-4" role="group" aria-label="Demo">
+                  {DEMOS.map(([id, nombre]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setDemo(id)}
+                      aria-pressed={demo === id}
+                      className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${demo === id ? 'bg-[#e63946] border-[#e63946] text-white' : 'border-white/20 text-white/70 hover:border-[#e63946]'}`}
+                    >
+                      {nombre}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div ref={escenaRef} className="relative aspect-square">
-                {cerca && (
+                {cerca && demo === 'a' && (
                   <Suspense fallback={null}>
                     <Escritorio3D
                       tema={theme}
                       onToggleTheme={toggleTheme}
                       activa={enPantalla}
-                      quieto={reducirMovimiento}
+                      quieto={reducirMovimiento || CAPTURA}
+                      captura={CAPTURA}
                       textos={t.about.escena}
                     />
                   </Suspense>
                 )}
+                {cerca && demo === 'b' && (
+                  <Suspense fallback={null}>
+                    <Personaje3D tema={theme} activa={enPantalla} quieto={reducirMovimiento} />
+                  </Suspense>
+                )}
+                {demo === 'c' && <EscenaEstatica tema={theme} quieto={reducirMovimiento} />}
               </div>
-              <p className="text-white/50 text-sm mt-3 text-center">{t.about.escena.pista}</p>
+              <p className="text-white/50 text-sm mt-3 text-center">
+                {demo === 'a' ? t.about.escena.pista : demo === 'b' ? 'Mueve el ratón y pulsa al robot para saludar' : 'Imagen fija: se inclina con el ratón y se mueve al hacer scroll'}
+              </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <p>
