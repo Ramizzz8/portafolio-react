@@ -3,7 +3,8 @@ import { ContactShadows, Html, RoundedBox } from '@react-three/drei'
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
-// DEMO B: robot propio hecho con piezas básicas. Mira al cursor, parpadea, flota y saluda al pulsarlo.
+// Robot propio hecho con piezas básicas: mira al cursor, parpadea, flota y saluda al pulsarlo.
+// Sin usar por ahora: reservado para un futuro asistente de IA que responda preguntas sobre mí.
 
 const BLANCO = { color: '#f4f6fa', roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.15 }
 const ROJO = '#e63946'

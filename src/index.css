@@ -175,9 +175,3 @@ body {
   .portada-pie { position: static; max-width: 460px; text-align: left; }
   .portada-botones { justify-content: flex-start; }
 }
-
-/* DEMO C: brillo de la lámpara que respira */
-@keyframes respirar {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
