@@ -3,7 +3,7 @@
 // `categoria` es la clave de t.skills.categories; `icono` es un icono de Simple Icons (CC0) o uno propio.
 import {
   siApache, siCaddy, siCloudflare, siCss, siDocker, siFlask, siFramer, siGit, siGithubactions, siHtml5, siHuggingface,
-  siJavascript, siLinux, siMysql, siOllama, siPhp, siPython, siReact, siTailwindcss, siVite,
+  siFastapi, siJavascript, siLinux, siMysql, siOllama, siPhp, siPython, siReact, siSqlite, siTailwindcss, siThreedotjs, siVite,
 } from './logos'
 
 // Iconos propios (24×24) para lo que no tiene logo de marca
@@ -19,14 +19,17 @@ export const tecnologias = [
   { nombre: 'React', categoria: 'frontend', icono: siReact },
   { nombre: 'Tailwind CSS', categoria: 'frontend', icono: siTailwindcss },
   { nombre: 'Vite', categoria: 'frontend', icono: siVite },
+  { nombre: 'Three.js', categoria: 'frontend', icono: siThreedotjs },
   { nombre: 'Framer Motion', categoria: 'frontend', icono: siFramer },
   { nombre: 'Canvas', categoria: 'frontend', icono: iconoCanvas },
   { nombre: 'Web Speech API', categoria: 'frontend', icono: iconoVoz },
 
   { nombre: 'Python', categoria: 'backend', icono: siPython },
   { nombre: 'Flask', categoria: 'backend', icono: siFlask },
+  { nombre: 'FastAPI', categoria: 'backend', icono: siFastapi },
   { nombre: 'PHP', categoria: 'backend', icono: siPhp },
   { nombre: 'MySQL', categoria: 'backend', icono: siMysql },
+  { nombre: 'SQLite', categoria: 'backend', icono: siSqlite },
 
   { nombre: 'Ollama', categoria: 'ia', icono: siOllama },
   { nombre: 'ChromaDB', categoria: 'ia', icono: iconoChroma },

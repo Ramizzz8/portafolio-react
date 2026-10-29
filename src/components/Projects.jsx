@@ -396,9 +396,15 @@ export default function Projects() {
         <div ref={destacadosRef} className="flex flex-col gap-8 mb-20">
           <FeaturedCard project={featuredProjects[0]} index={0} onOpen={setAbierto} variante="principal" />
           <div className="grid lg:grid-cols-2 gap-8">
-            {featuredProjects.slice(1).map((p, i) => (
-              <FeaturedCard key={p.id} project={p} index={i} onOpen={setAbierto} />
-            ))}
+            {featuredProjects.slice(1).map((p, i, resto) => {
+              // Si quedan impares, el último ocupa el ancho entero en vez de quedarse solo en media fila
+              const soloAlFinal = resto.length % 2 === 1 && i === resto.length - 1
+              return (
+                <div key={p.id} className={soloAlFinal ? 'lg:col-span-2' : undefined}>
+                  <FeaturedCard project={p} index={i} onOpen={setAbierto} variante={soloAlFinal ? 'principal' : 'compacta'} />
+                </div>
+              )
+            })}
           </div>
         </div>
 

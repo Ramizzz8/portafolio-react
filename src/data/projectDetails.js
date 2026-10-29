@@ -108,6 +108,61 @@ export const projectDetails = {
     },
   },
 
+  11: {
+    video: 'videos/geofora.mp4',
+    previa: 'videos/geofora-previa.mp4',
+    poster: 'images/proyectos/geofora.webp',
+    galeria: [],
+    es: {
+      resumen: [
+        'GEOFORA presenta el mundo como un globo 3D interactivo que funciona como mapa de calor: cada país se tiñe según el número de noticias que ha generado en las últimas 24 horas, así que se ve de un vistazo dónde está pasando algo.',
+        'Al pulsar cualquier país se abre un panel con sus datos básicos, sus últimas noticias con fotografía, la música que se escucha allí, un resumen de su cultura y una galería de fotos. Todo en español y con una dirección propia que se puede compartir (/pais/japon).',
+        'Es mi Proyecto Intermodular de 2.º de DAW: reúne cliente, servidor, bases de datos, diseño de interfaces y despliegue en una aplicación publicada y funcionando.',
+      ],
+      funciones: [
+        'Globo 3D con textura real de la NASA y países que se pueden pulsar',
+        'Mapa de calor con las noticias de las últimas 24 horas',
+        'Ficha del país: bandera, capital, idiomas, moneda, población y hora local',
+        'Noticias de medios de todo el mundo en más de 60 idiomas, con traducción al español',
+        'Música del país con fragmentos de 30 segundos',
+        'Resumen de su cultura y galería de fotos con autor y licencia',
+        'Buscador de países sin tildes ni mayúsculas, manejable con el teclado',
+      ],
+      tecnico: [
+        'API REST con Python y FastAPI que hace de intermediario con todas las fuentes y protege las claves',
+        'Tarea de fondo que cada 15 minutos procesa unas 4.800 noticias de GDELT en memoria y guarda solo las más relevantes de cada país',
+        'SQLite como base de datos y caché, con borrado automático de lo que tiene más de 7 días',
+        'Cada apartado falla por separado: si una fuente cae, se sirve la última copia guardada',
+        '104 pruebas automáticas: 76 de backend con pytest y 28 de frontend con Vitest',
+        'Un solo contenedor Docker tras Caddy (HTTPS automático) en mi servidor Linux',
+      ],
+    },
+    en: {
+      resumen: [
+        'GEOFORA shows the world as an interactive 3D globe that doubles as a heat map: each country is shaded by the number of news stories it produced in the last 24 hours, so you can see at a glance where something is happening.',
+        'Clicking any country opens a panel with its key facts, its latest news with photos, the music people listen to there, a summary of its culture and a photo gallery. Everything in Spanish, with its own shareable address (/pais/japon).',
+        'It is my final-year project (Proyecto Intermodular) for the second year of the Web Application Development degree: client, server, databases, interface design and deployment in a live, working application.',
+      ],
+      funciones: [
+        '3D globe with a real NASA texture and clickable countries',
+        'Heat map of news from the last 24 hours',
+        'Country facts: flag, capital, languages, currency, population and local time',
+        'News from media worldwide in more than 60 languages, translated into Spanish',
+        'Music from the country with 30-second previews',
+        'Culture summary and photo gallery with author and licence',
+        'Accent- and case-insensitive country search, usable with the keyboard',
+      ],
+      tecnico: [
+        'REST API with Python and FastAPI that sits between the app and every source and keeps the keys private',
+        'Background job that processes about 4,800 GDELT news items in memory every 15 minutes and keeps only the most relevant for each country',
+        'SQLite as database and cache, automatically deleting anything older than 7 days',
+        'Each section fails on its own: if a source is down, the last saved copy is served',
+        '104 automated tests: 76 backend tests with pytest and 28 frontend tests with Vitest',
+        'A single Docker container behind Caddy (automatic HTTPS) on my Linux server',
+      ],
+    },
+  },
+
   3: {
     video: 'videos/camaron.mp4',
     previa: 'videos/camaron-previa.mp4',

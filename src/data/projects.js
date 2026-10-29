@@ -39,6 +39,23 @@ export const featuredProjects = [
     color: '#3a86ff',
   },
   {
+    id: 11,
+    title: 'GEOFORA',
+    tagline: {
+      es: 'El mundo, país a país · Proyecto Intermodular',
+      en: 'The world, country by country · Final-year project',
+    },
+    description: {
+      es: 'Globo terráqueo 3D interactivo en el que cada país se tiñe según sus noticias de las últimas 24 horas. Al pulsar un país se abre su ficha: datos básicos, noticias de sus medios traducidas al español, su música, su cultura y una galería de fotos.',
+      en: 'Interactive 3D globe where each country is shaded by its news from the last 24 hours. Clicking a country opens its page: key facts, news from its own media translated into Spanish, its music, its culture and a photo gallery.',
+    },
+    technologies: ['React', 'Three.js', 'Python', 'FastAPI', 'SQLite', 'Docker'],
+    image: 'images/proyectos/geofora.webp',
+    github: 'https://github.com/Ramizzz8/geofora',
+    live: 'https://geofora.andresrami.com',
+    color: '#f59e0b',
+  },
+  {
     id: 3,
     title: 'Camarón Viviendas',
     tagline: {
