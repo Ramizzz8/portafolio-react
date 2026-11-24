@@ -56,6 +56,23 @@ export const featuredProjects = [
     color: '#f59e0b',
   },
   {
+    id: 12,
+    title: 'Atiende',
+    tagline: {
+      es: 'Incidencias que se adaptan a cada sector',
+      en: 'Ticketing that adapts to each industry',
+    },
+    description: {
+      es: 'Plataforma multiempresa de incidencias en la que el sector cambia las reglas: un taller envía presupuestos que el cliente aprueba, un administrador de fincas detecta avisos repetidos entre vecinos y un equipo de soporte prioriza por impacto y urgencia. Los clientes entran sin contraseña y el panel se actualiza en tiempo real.',
+      en: 'Multi-tenant ticketing platform where the industry changes the rules: a garage sends quotes the customer approves, a property manager detects duplicate reports from neighbours and an IT team prioritises by impact and urgency. Customers sign in without a password and the panel updates in real time.',
+    },
+    technologies: ['Laravel', 'PHP', 'React', 'TypeScript', 'Inertia', 'WebSockets', 'Docker'],
+    image: 'images/proyectos/atiende.webp',
+    github: 'https://github.com/Ramizzz8/atiende',
+    live: 'https://atiende.andresrami.com',
+    color: '#4f46e5',
+  },
+  {
     id: 3,
     title: 'Camarón Viviendas',
     tagline: {

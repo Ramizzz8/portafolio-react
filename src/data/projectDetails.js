@@ -163,6 +163,57 @@ export const projectDetails = {
     },
   },
 
+  12: {
+    poster: 'images/proyectos/atiende.webp',
+    galeria: ['images/proyectos/atiende-panel.webp', 'images/proyectos/atiende-portal.webp', 'images/proyectos/atiende-estadisticas.webp'],
+    es: {
+      resumen: [
+        'Atiende es una plataforma de incidencias para varias empresas a la vez, en la que cada empresa pertenece a un sector y el sector decide cómo funciona: qué pide el formulario, qué estados existen, qué cambios están permitidos y cómo se calculan la prioridad y los plazos.',
+        'Los clientes abren y siguen sus incidencias desde un portal con la marca de la empresa, sin crear contraseña: confirman con un enlace firmado que caduca. El equipo trabaja desde un panel con bandeja, plazos de resolución, notas internas y avisos en tiempo real. La demo pública incluye tres empresas de ejemplo con datos que se reinician cada noche.',
+      ],
+      funciones: [
+        'Taller mecánico: vehículos por matrícula con historial, presupuestos por versiones con IVA que el cliente aprueba o rechaza, y PDF del presupuesto',
+        'Administrador de fincas: varios edificios con sus zonas comunes, aviso de "ya hay una incidencia igual" y prioridad que sube con los vecinos afectados',
+        'Proveedores externos que programan la visita y cierran la incidencia con un enlace firmado, sin cuenta',
+        'Soporte informático: inventario de equipos, prioridad por matriz impacto × urgencia y plazo de primera respuesta',
+        'Plazos de resolución que se pausan mientras se espera al cliente o a las piezas',
+        'Conversación con notas internas, adjuntos, historial de cambios, valoración y reapertura en 7 días',
+        'Estadísticas por empresa: plazo cumplido, tiempo medio, carga por empleado y satisfacción',
+      ],
+      tecnico: [
+        'Aislamiento entre empresas con un filtro global de Eloquent que se aplica antes de resolver los modelos de la URL',
+        'Máquina de estados por sector en código, con bloqueo de fila para cambios simultáneos y vuelta atrás con motivo',
+        'Más de 260 tests con Pest: reglas de cada sector, enlaces caducados o manipulados, adjuntos peligrosos y permisos',
+        'Tiempo real con Laravel Reverb (WebSockets) en un canal privado por empresa',
+        'Emails en cola, enlaces mágicos firmados y protección frente a archivos ejecutables o SVG',
+        'Desplegado con Docker (FrankenPHP) detrás de Caddy, con la web, la cola, Reverb y el programador en contenedores separados',
+      ],
+    },
+    en: {
+      resumen: [
+        'Atiende is a ticketing platform for many companies at once, where each company belongs to an industry and the industry decides how it works: what the form asks for, which states exist, which changes are allowed and how priority and deadlines are calculated.',
+        'Customers open and follow their tickets from a portal branded with the company, without creating a password: they confirm through a signed link that expires. The team works from a panel with an inbox, resolution deadlines, internal notes and real-time updates. The public demo includes three sample companies whose data resets every night.',
+      ],
+      funciones: [
+        'Garage: vehicles by number plate with history, versioned quotes with VAT that the customer approves or rejects, and a PDF of the quote',
+        'Property manager: several buildings with their common areas, "this issue is already reported" warning and priority that rises with affected neighbours',
+        'External suppliers who schedule the visit and close the ticket through a signed link, without an account',
+        'IT support: equipment inventory, priority from an impact × urgency matrix and a first-response deadline',
+        'Resolution deadlines that pause while waiting for the customer or for parts',
+        'Conversation with internal notes, attachments, change history, ratings and reopening within 7 days',
+        'Per-company statistics: deadlines met, average time, workload per employee and satisfaction',
+      ],
+      tecnico: [
+        'Tenant isolation with a global Eloquent scope applied before URL models are resolved',
+        'Per-industry state machine in code, with row locking for simultaneous changes and going back with a reason',
+        'Over 260 Pest tests: industry rules, expired or tampered links, dangerous attachments and permissions',
+        'Real-time updates with Laravel Reverb (WebSockets) on a private channel per company',
+        'Queued emails, signed magic links and protection against executable or SVG uploads',
+        'Deployed with Docker (FrankenPHP) behind Caddy, with the web app, queue, Reverb and scheduler in separate containers',
+      ],
+    },
+  },
+
   3: {
     video: 'videos/camaron.mp4',
     previa: 'videos/camaron-previa.mp4',
