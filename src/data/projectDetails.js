@@ -164,11 +164,11 @@ export const projectDetails = {
   },
 
   12: {
-    poster: 'images/proyectos/atiende.webp',
-    galeria: ['images/proyectos/atiende-panel.webp', 'images/proyectos/atiende-portal.webp', 'images/proyectos/atiende-estadisticas.webp'],
+    poster: 'images/proyectos/attent.webp',
+    galeria: ['images/proyectos/attent-panel.webp', 'images/proyectos/attent-portal.webp', 'images/proyectos/attent-estadisticas.webp'],
     es: {
       resumen: [
-        'Atiende es una plataforma de incidencias para varias empresas a la vez, en la que cada empresa pertenece a un sector y el sector decide cómo funciona: qué pide el formulario, qué estados existen, qué cambios están permitidos y cómo se calculan la prioridad y los plazos.',
+        'ATTENT es una plataforma de incidencias para varias empresas a la vez, en la que cada empresa pertenece a un sector y el sector decide cómo funciona: qué pide el formulario, qué estados existen, qué cambios están permitidos y cómo se calculan la prioridad y los plazos.',
         'Los clientes abren y siguen sus incidencias desde un portal con la marca de la empresa, sin crear contraseña: confirman con un enlace firmado que caduca. El equipo trabaja desde un panel con bandeja, plazos de resolución, notas internas y avisos en tiempo real. La demo pública incluye tres empresas de ejemplo con datos que se reinician cada noche.',
       ],
       funciones: [
@@ -191,7 +191,7 @@ export const projectDetails = {
     },
     en: {
       resumen: [
-        'Atiende is a ticketing platform for many companies at once, where each company belongs to an industry and the industry decides how it works: what the form asks for, which states exist, which changes are allowed and how priority and deadlines are calculated.',
+        'ATTENT is a ticketing platform for many companies at once, where each company belongs to an industry and the industry decides how it works: what the form asks for, which states exist, which changes are allowed and how priority and deadlines are calculated.',
         'Customers open and follow their tickets from a portal branded with the company, without creating a password: they confirm through a signed link that expires. The team works from a panel with an inbox, resolution deadlines, internal notes and real-time updates. The public demo includes three sample companies whose data resets every night.',
       ],
       funciones: [

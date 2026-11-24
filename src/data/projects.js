@@ -57,7 +57,7 @@ export const featuredProjects = [
   },
   {
     id: 12,
-    title: 'Atiende',
+    title: 'ATTENT',
     tagline: {
       es: 'Incidencias que se adaptan a cada sector',
       en: 'Ticketing that adapts to each industry',
@@ -67,9 +67,9 @@ export const featuredProjects = [
       en: 'Multi-tenant ticketing platform where the industry changes the rules: a garage sends quotes the customer approves, a property manager detects duplicate reports from neighbours and an IT team prioritises by impact and urgency. Customers sign in without a password and the panel updates in real time.',
     },
     technologies: ['Laravel', 'PHP', 'React', 'TypeScript', 'Inertia', 'WebSockets', 'Docker'],
-    image: 'images/proyectos/atiende.webp',
-    github: 'https://github.com/Ramizzz8/atiende',
-    live: 'https://atiende.andresrami.com',
+    image: 'images/proyectos/attent.webp',
+    github: 'https://github.com/Ramizzz8/attent',
+    live: 'https://attent.andresrami.com',
     color: '#4f46e5',
   },
   {
