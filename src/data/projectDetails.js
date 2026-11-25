@@ -164,6 +164,8 @@ export const projectDetails = {
   },
 
   12: {
+    video: 'videos/attent.mp4',
+    previa: 'videos/attent-previa.mp4',
     poster: 'images/proyectos/attent.webp',
     galeria: ['images/proyectos/attent-panel.webp', 'images/proyectos/attent-portal.webp', 'images/proyectos/attent-estadisticas.webp'],
     es: {
