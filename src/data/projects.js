@@ -73,6 +73,23 @@ export const featuredProjects = [
     color: '#4f46e5',
   },
   {
+    id: 13,
+    title: 'Foodit',
+    tagline: {
+      es: 'De la receta al tique',
+      en: 'From recipe to receipt',
+    },
+    description: {
+      es: 'Planificador de comidas para una persona con precios reales de Mercadona: cada receta sabe lo que cuesta por ración y sus calorías, la semana se cuadra con tu objetivo y tu presupuesto, y la lista de la compra sale en envases reales ordenados por pasillos. Al registrarte responde cuatro preguntas y te propone tu primera semana.',
+      en: 'Meal planner for one person with real Mercadona prices: every recipe knows its cost and calories per serving, the week is balanced against your goal and budget, and the shopping list comes out in real packages sorted by aisle. When you sign up it asks four questions and proposes your first week.',
+    },
+    technologies: ['Laravel', 'PHP', 'React', 'TypeScript', 'Inertia', 'SQLite', 'Docker'],
+    image: 'images/proyectos/foodit.webp',
+    github: 'https://github.com/Ramizzz8/foodit',
+    live: 'https://foodit.andresrami.com',
+    color: '#7d0c14',
+  },
+  {
     id: 3,
     title: 'Camarón Viviendas',
     tagline: {

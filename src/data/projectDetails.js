@@ -216,6 +216,59 @@ export const projectDetails = {
     },
   },
 
+  13: {
+    video: 'videos/foodit.mp4',
+    previa: 'videos/foodit-previa.mp4',
+    poster: 'images/proyectos/foodit.webp',
+    galeria: ['images/proyectos/foodit-bienvenida.webp', 'images/proyectos/foodit-plan.webp', 'images/proyectos/foodit-lista.webp'],
+    es: {
+      resumen: [
+        'Foodit responde a tres preguntas antes de ir al súper: cuánto va a costar la semana, si estás comiendo lo que necesitas y qué tienes que comprar exactamente. Cada noche copia el catálogo de alimentación de la tienda online de Mercadona (unos 2.800 productos con su envase y su precio) y con él calcula el coste y las calorías de cada receta.',
+        'Al crear la cuenta te hace cuatro preguntas: tus datos para calcular tus calorías, lo que no comes (los 14 alérgenos de la UE, tu dieta y los alimentos que no te gustan), tu presupuesto y tu tiempo para cocinar. Con eso te propone una semana completa que puedes cambiar comida a comida.',
+      ],
+      funciones: [
+        'Recetario con 42 recetas de cocina española y las tuyas propias, con coste y calorías por ración',
+        'Plan semanal con arrastrar y soltar, coste de la semana frente al presupuesto y calorías de cada día frente a tu objetivo',
+        'Lista de la compra en envases reales, agrupada por pasillos, con lo que te sobra de cada paquete y la marca que prefieras',
+        'Alta guiada: calorías con la fórmula de Mifflin-St Jeor, alergias, dieta, presupuesto y tiempo entre semana',
+        'Semana propuesta sin IA: respeta alergias y dieta, ajusta las raciones a tus calorías, no repite platos y busca entrar en tu presupuesto',
+        'Portada interactiva: el tique de la semana se imprime y, al cambiar una cena, el plato gira y entra el nuevo',
+        'Cuenta de ejemplo de un clic para verlo sin registrarse',
+      ],
+      tecnico: [
+        'Sincronización nocturna con la API pública de la tienda online de Mercadona, con historial de precios y sin tocar el catálogo si falla',
+        'Cálculo por gramos de cada ingrediente (cucharadas, unidades, mililitros) con los datos nutricionales del USDA y envases redondeados hacia arriba',
+        'Generador de semanas determinista con semilla y ajuste al presupuesto, cubierto con tests de alergias, repeticiones y casos sin recetas suficientes',
+        'Datos de salud solo con consentimiento explícito, página de privacidad y límite de altas por conexión',
+        'Más de 140 tests con Pest',
+        'Desplegado con Docker (FrankenPHP) y SQLite detrás de Caddy en mi servidor, con fotos con licencia libre y sus créditos',
+      ],
+    },
+    en: {
+      resumen: [
+        'Foodit answers three questions before you go shopping: how much the week will cost, whether you are eating what you need and exactly what you have to buy. Every night it copies the food catalogue of the Mercadona online shop (about 2,800 products with their package and price) and uses it to work out the cost and calories of every recipe.',
+        'When you create your account it asks you four questions: your details to calculate your calories, what you do not eat (the 14 EU allergens, your diet and foods you dislike), your budget and your time to cook. With that it proposes a full week you can change meal by meal.',
+      ],
+      funciones: [
+        'Recipe book with 42 Spanish recipes plus your own, with cost and calories per serving',
+        'Weekly plan with drag and drop, the week’s cost against your budget and each day’s calories against your goal',
+        'Shopping list in real packages, grouped by aisle, with what is left over from each pack and the brand you prefer',
+        'Guided sign-up: calories with the Mifflin-St Jeor formula, allergies, diet, budget and weekday cooking time',
+        'Proposed week without AI: it respects allergies and diet, adjusts servings to your calories, avoids repeats and tries to fit your budget',
+        'Interactive home page: the week’s receipt prints itself and, when you change a dinner, the plate spins and the new one comes in',
+        'One-click sample account to try it without signing up',
+      ],
+      tecnico: [
+        'Nightly sync with the public API of the Mercadona online shop, with price history and the catalogue left untouched if it fails',
+        'Per-gram calculation of every ingredient (spoons, units, millilitres) with USDA nutrition data and packages rounded up',
+        'Deterministic, seeded week generator with budget fitting, covered by tests for allergies, repeats and cases with too few recipes',
+        'Health data only with explicit consent, a privacy page and a sign-up limit per connection',
+        'Over 140 Pest tests',
+        'Deployed with Docker (FrankenPHP) and SQLite behind Caddy on my server, with openly licensed photos and their credits',
+      ],
+    },
+  },
+
   3: {
     video: 'videos/camaron.mp4',
     previa: 'videos/camaron-previa.mp4',

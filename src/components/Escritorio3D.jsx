@@ -11,6 +11,7 @@ const MODELOS = 'modelos/escritorio/'
 
 // Lo que se ve en el monitor: las vistas previas de los proyectos, una tras otra
 const PANTALLA = [
+  { src: 'videos/foodit-previa.mp4', nombre: 'Foodit' },
   { src: 'videos/attent-previa.mp4', nombre: 'ATTENT' },
   { src: 'videos/novacapital-previa.mp4', nombre: 'Novacapital SAS' },
   { src: 'videos/camaron-previa.mp4', nombre: 'Camarón Viviendas' },
