@@ -91,7 +91,7 @@ export const featuredProjects = [
   },
   {
     id: 3,
-    title: 'Camarón Viviendas',
+    title: 'INMOIT',
     tagline: {
       es: 'Portal inmobiliario con panel de gestión',
       en: 'Real estate portal with admin panel',
@@ -123,6 +123,9 @@ export const featuredProjects = [
     live: null,
     color: '#8b5cf6',
   },
+]
+
+export const otherProjects = [
   {
     id: 10,
     title: 'Brújula de temas',
@@ -140,9 +143,6 @@ export const featuredProjects = [
     live: '/demos/brujula-temas/',
     color: '#4a90d9',
   },
-]
-
-export const otherProjects = [
   {
     id: 5,
     title: 'Intérprete Python web',

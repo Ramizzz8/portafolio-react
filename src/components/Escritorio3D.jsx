@@ -14,7 +14,7 @@ const PANTALLA = [
   { src: 'videos/foodit-previa.mp4', nombre: 'Foodit' },
   { src: 'videos/attent-previa.mp4', nombre: 'ATTENT' },
   { src: 'videos/novacapital-previa.mp4', nombre: 'Novacapital SAS' },
-  { src: 'videos/camaron-previa.mp4', nombre: 'Camarón Viviendas' },
+  { src: 'videos/camaron-previa.mp4', nombre: 'INMOIT' },
   { src: 'videos/laboratorio-ia-previa.mp4', nombre: 'Laboratorio de IA local' },
   { src: 'videos/brujula-previa.mp4', nombre: 'Brújula de temas' },
 ]
